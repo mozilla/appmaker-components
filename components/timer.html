@@ -1,0 +1,29 @@
+<element name="app-timer">
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function() {
+        this.period = 1000;
+        this.count = 0;
+        this.tick();
+      },
+      tick: function() {
+        this.count++;
+        this.emit('ding', this.count);
+
+        var t = this;
+        var defer = function(){
+          t.tick();
+        };
+        setTimeout(defer, this.period);
+      },
+      editable: {
+        period: function (val) {
+          // errors?
+          val = parseInt(val);
+          this.setAttribute('period', val);
+          this.emit('period', val);
+        }
+      }
+    });
+  </script>
+</element>

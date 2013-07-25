@@ -1,0 +1,26 @@
+{
+  "name": "appmaker-components",
+  "version": "0.0.0",
+  "description": "appmaker-components ===================",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~3.3.4",
+    "habitat": "~0.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla/appmaker-components"
+  },
+  "author": "",
+  "license": "MPL2",
+  "readmeFilename": "README.md",
+  "gitHead": "5b4c7e797a696d48cabc756b59bd5ec7a2ef1ea2",
+  "bugs": {
+    "url": "https://github.com/mozilla/appmaker-components/issues"
+  }
+}

@@ -1,0 +1,17 @@
+<element name="app-block">
+  <template>
+    <div>Default Text</div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function () {
+      },
+      editable: {
+        text: function (val) {
+          this.querySelector('div').innerHTML = val;
+          this.emit('text', val);
+        }
+      }
+    });
+  </script>
+</element>
