@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/assets', express.static(path.join(__dirname, 'components')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/components', express.static(path.join(__dirname, 'components')));
 
 app.use(express.bodyParser());
