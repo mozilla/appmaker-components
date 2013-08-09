@@ -1,0 +1,23 @@
+<element name="app-input">
+  <template>
+    <input type="text"><button>Submit</button>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.querySelector('input[type="text"]')
+          .setAttribute('placeholder', 'Placeholder Text');
+
+        var that = this;
+        this.querySelector('button').onclick = function (e) {
+          that.emit(that.querySelector('input[type="text"]').value);
+        };
+      },
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('input[type="text"]').value = val.toString();
+        }
+      }
+    });
+  </script>
+</element>

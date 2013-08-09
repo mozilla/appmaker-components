@@ -1,4 +1,4 @@
-<element name="app-timer">
+<element name="app-metronome">
   <script type="text/ceci">
     Ceci(this, {
       init: function() {
@@ -8,7 +8,7 @@
       },
       tick: function() {
         this.count++;
-        this.emit('ding', this.count);
+        this.emit(this.count);
 
         var t = this;
         var defer = function(){
@@ -16,12 +16,13 @@
         };
         setTimeout(defer, this.period);
       },
-      editable: {
-        period: function (val) {
+      listeners: {
+        setPeriod: function (val) {
           // errors?
           val = parseInt(val);
-          this.setAttribute('period', val);
-          this.emit('period', val);
+          if (val > 0) {
+            this.setAttribute('period', val);
+          }
         }
       }
     });

@@ -1,0 +1,23 @@
+<element name="app-button">
+  <template>
+    <button>Default</button>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (element) {
+        var button = this.querySelector('button')
+
+        button.innerText = this._innerText;
+        var t = this;
+      	button.onclick = function (e) {
+          t.emit(e);
+      	}
+      },
+      editable: {
+        text: function (val) {
+          this.querySelector('button').innerHTML = val;
+        }
+      }
+    });
+  </script>
+</element>

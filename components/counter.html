@@ -1,0 +1,36 @@
+<element name="app-counter">
+  <template>
+    <div>0</div>
+  </template>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        console.log(this);
+        this.reset(0);
+      },
+      updateDisplay: function () {
+        this.querySelector('div').innerHTML = this.count.toString();
+      },
+      defaultListener: 'increase',
+      listeners: {
+        increase: function () {
+          this.count++;
+          this.updateDisplay();
+        },
+        decrease: function () {
+          this.count--;
+          this.updateDisplay();
+        },
+        reset: function (value) {
+          this.count = parseInt(value);
+          if (this.count === NaN){
+            this.count = 0;
+          }
+          this.updateDisplay();
+        }
+      }
+    });
+  </script>
+</element>

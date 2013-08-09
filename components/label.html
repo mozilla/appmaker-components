@@ -1,0 +1,17 @@
+<element name="app-label">
+  <template>
+    <div></div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.setValue('Default Text');
+      },
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('div').innerHTML = val.toString();
+        }
+      }
+    });
+  </script>
+</element>
