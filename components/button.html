@@ -4,7 +4,7 @@
   </template>
   <script type="text/ceci">
     Ceci(this, {
-      init: function (element) {
+      init: function (params) {
         var button = this.querySelector('button')
 
         button.innerText = this._innerText;
@@ -13,8 +13,8 @@
           t.emit(e);
       	}
       },
-      editable: {
-        text: function (val) {
+      listeners: {
+        setText: function (val) {
           this.querySelector('button').innerHTML = val;
         }
       }
