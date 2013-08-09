@@ -1,15 +1,23 @@
 <element name="app-label">
   <template>
-    <div></div>
+    <link rel="stylesheet" href="http://localhost:50826/assets/style/util.css">
+    <link rel="stylesheet" href="http://localhost:50826/assets/style/headers.css">
+    <section role="region">
+      <article class="content scrollable header">
+        <header class="fixed">
+          <h2></h2>
+        </header>
+      </article>
+    </section>
   </template>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.setValue('Default Text');
+        this.setValue('Heading');
       },
       listeners: {
         setValue: function (val) {
-          this.querySelector('div').innerHTML = val.toString();
+          this.querySelector('h2').innerHTML = val.toString();
         }
       }
     });
