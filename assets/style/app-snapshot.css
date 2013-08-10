@@ -1,0 +1,17 @@
+/* app-snapshot.css */
+
+app-snapshot .snapshot {
+    margin: 0 auto;
+    height: 100px;
+	padding:1px;
+	border:1px solid #ccc;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+    object-fit: contain;
+}
+
+app-snapshot .blank {
+	background-image: url(../images/snapshot.png);
+}
+

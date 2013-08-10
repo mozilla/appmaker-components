@@ -1,0 +1,871 @@
+app-shutter {
+  /* ----------------------------------------------------------------- */
+
+  /* This CSS file will make your Firefox OS app using Building Blocks */
+
+  /* compatible with: ie 9, Firefox 18, Chrome 24, Safari 5.1          */
+
+  /* By Arnau March - @rnowm                                           */
+
+  /* ----------------------------------------------------------------- */
+
+  /* Action menu */
+
+  /* Buttons */
+
+  /* Confirm */
+
+  /* Edit mode */
+
+  /* headers */
+
+  /* Input areas */
+
+  /* Switches */
+
+  /* Drawer */
+
+  /* Progress and activity */
+
+  /* Seek bars */
+
+  /* Tabs */
+
+  /* Filters */
+
+  /* Collision: This should be added to Gaia */
+
+  /* Switches and List buttons */
+
+  /* Missing in BB */
+
+  /* ----------------------------------
+* Input areas
+* ---------------------------------- */
+
+  /* fix for required inputs with wrong or empty value e.g. [type=email] */
+
+  /* To avoid colission with BB butons */
+
+  /* Fieldset */
+
+  /* Tidy (search/submit) */
+
+  /******************************************************************************
+ * Right-to-Left layout
+ */
+
+  /* ----------------------------------
+ * Buttons
+ * ---------------------------------- */
+
+  /* Press (default & recommend) */
+
+  /* Recommend */
+
+  /* Danger */
+
+  /* Danger Press */
+
+  /* Disabled (default & recommend) */
+
+  /* Danger disabled */
+
+  /* Disabled with dark background */
+
+  /* ----------------------------------
+ * Buttons inside lists
+ * ---------------------------------- */
+
+  /* Hacking box-shadow */
+
+  /* Press */
+
+  /* Disabled */
+
+  /* Icons */
+
+  /* ----------------------------------
+ * Buttons inside lists, compact mode
+ * ---------------------------------- */
+
+  /* Inputs inside of .button */
+
+  /* Hides dropdown arrow until bug #649849 is fixed */
+
+}
+app-shutter form[role="dialog"][data-type="action"],
+app-shutter form[role="dialog"][data-type="object"],
+app-shutter form[role="dialog"][data-type="confirm"] {
+  background: url(style/action_menu/images/ui/pattern.png) repeat left top, url(style/action_menu/images/ui/gradient.png) no-repeat left top;
+  background-size: auto, 100%;
+}
+app-shutter form[role="dialog"][data-type="action"] > header:first-child,
+app-shutter form[role="dialog"][data-type="object"] > header:first-child {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter app-button button,
+app-shutter app-button a[role="button"],
+app-shutter app-button .button {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter button.danger:active,
+app-shutter a[role="button"].danger:active,
+app-shutter .button.danger:active {
+  background-image: none;
+}
+app-shutter form[role="dialog"][data-type="confirm"] > section {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter form[role="dialog"][data-type="confirm"] menu button,
+app-shutter form[role="dialog"][data-type="edit"] menu button {
+  width: 48%;
+  float: left;
+}
+app-shutter form[role="dialog"][data-type="confirm"] menu button:last-child,
+app-shutter form[role="dialog"][data-type="edit"] menu button:last-child {
+  float: right;
+  margin-left: 0;
+}
+app-shutter form[role="dialog"][data-type="confirm"] menu button:first-child:last-child,
+app-shutter form[role="dialog"][data-type="edit"] menu button:first-child:last-child {
+  width: 100%;
+}
+app-shutter form[role="dialog"][data-type="edit"] header menu[type="toolbar"] button {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter section[role="region"] > header:first-child input[type="text"] {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  line-height: 3rem;
+}
+app-shutter section[role="region"] > header:first-child menu[type="toolbar"] a,
+app-shutter section[role="region"] > header:first-child menu[type="toolbar"] button {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter section[role="region"] > header:first-child menu[type="toolbar"] a:last-child,
+app-shutter section[role="region"] > header:first-child menu[type="toolbar"] button:last-child {
+  background: url(style/headers/images/ui/separator.png) no-repeat left center;
+  background-size: auto 3.4rem;
+}
+app-shutter section[role="region"] > header:first-child form button[type="reset"] {
+  background: url(style/headers/images/icons/clear.png) no-repeat center center;
+  background-size: 1.7rem auto;
+}
+app-shutter section[role="region"] > header:first-child > button,
+app-shutter section[role="region"] > header:first-child > a {
+  background: url(style/headers/images/ui/separator-large.png) no-repeat 2rem center;
+  background-size: 0.2rem 5rem;
+}
+app-shutter section[role="region"] > header:first-child .icon {
+  background: transparent no-repeat center center;
+  background-size: 3rem auto;
+}
+app-shutter input[type="text"],
+app-shutter input[type="password"],
+app-shutter input[type="email"],
+app-shutter input[type="tel"],
+app-shutter input[type="search"],
+app-shutter input[type="url"],
+app-shutter input[type="number"],
+app-shutter textarea {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter textarea:focus,
+app-shutter input:focus {
+  outline: none;
+}
+app-shutter fieldset legend {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter form[role="search"] p {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter form[role="search"] p input {
+  line-height: 3rem;
+}
+app-shutter label input[type="checkbox"][data-type="switch"] + span {
+  -moz-transition: background 0.2s ease, border 0.2s ease;
+  -webkit-transition: background 0.2s ease, border 0.2s ease;
+}
+app-shutter label input[type="checkbox"][data-type="switch"].uninit + span {
+  -moz-transform: none;
+  -webkit-transform: none;
+}
+app-shutter section[role="region"]:target {
+  -moz-transform: translateX(80%);
+  -webkit-transform: translateX(80%);
+}
+app-shutter section[data-type="sidebar"] > header menu[type="toolbar"] a,
+app-shutter section[data-type="sidebar"] > header menu[type="toolbar"] button {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter section[data-type="sidebar"] > header {
+  background: url(style_unstable/drawer/images/ui/header.png) repeat-x left bottom;
+  background-size: 100% auto;
+}
+app-shutter section[data-type="sidebar"] + section[role="region"] > header:first-child > button,
+app-shutter section[data-type="sidebar"] + section[role="region"] > header:first-child > a {
+  background-position: 4rem center;
+}
+app-shutter section[data-type="sidebar"] > header menu[type="toolbar"] a:last-child,
+app-shutter section[data-type="sidebar"] > header menu[type="toolbar"] button:last-child {
+  background: url(style_unstable/drawer/images/ui/separator.png) no-repeat left center;
+  background-size: auto 3.1rem;
+}
+app-shutter section[data-type="sidebar"] > header .icon {
+  background: transparent no-repeat center center;
+  background-size: 100% auto;
+}
+app-shutter section[data-type="sidebar"] > nav > ul > li > a {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter progress {
+  -webkit-appearance: none;
+}
+app-shutter progress:not([value]) {
+  -webkit-animation: 0.9s rotate infinite steps(30);
+}
+app-shutter progress:not([value])::-webkit-progress-bar {
+  background-color: transparent;
+}
+app-shutter progress[value]::-webkit-progress-bar {
+  background: #333;
+}
+app-shutter progress[value]::-webkit-progress-value {
+  background: #01c5ed;
+}
+app-shutter progress[value].pack-activity::-webkit-progress-bar {
+  background-image: url(style_unstable/progress_activity/images/ui/activity.png);
+  -webkit-animation: 0.5s move infinite steps(15);
+}
+app-shutter progress[value].pack-activity.light::-webkit-progress-bar {
+  background-color: #f4f4f4;
+}
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(1deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes move {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 1rem 0;
+  }
+}
+app-shutter div[role="slider"] > div {
+  padding: 0 2rem;
+}
+app-shutter div[role="slider"] progress::-webkit-progress-value {
+  height: 0.6rem;
+  top: -0.3rem;
+  position: relative;
+}
+app-shutter div[role="slider"] button {
+  -moz-transition: border 0.15s ease;
+  -webkit-transition: border 0.15s ease;
+  background: url(style_unstable/seekbars/images/ui/handler.png) no-repeat center;
+  background-size: 2.8rem auto;
+}
+app-shutter div[role="slider"] > label,
+app-shutter div[role="slider"] > label:first-of-type {
+  padding: 0;
+}
+app-shutter [role="tablist"][data-items="2"] > [role="tab"] {
+  width: 50%;
+}
+app-shutter [role="tablist"][data-items="3"] > [role="tab"] {
+  width: 33.33%;
+}
+app-shutter [role="tablist"][data-items="4"] > [role="tab"] {
+  width: 25%;
+}
+app-shutter [role="tablist"][data-items="5"] > [role="tab"] {
+  width: 20%;
+}
+app-shutter [role="tablist"].bottom > [role="tab"] > a {
+  margin-top: -4rem;
+  top: 100%;
+}
+app-shutter [role="tablist"][data-type="filter"] > [role="tab"] {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+app-shutter ul.compact li label:not([for]),
+app-shutter ol.compact li label:not([for]) {
+  height: auto;
+  width: auto;
+}
+app-shutter section[data-type="sidebar"] > header a,
+app-shutter section[data-type="sidebar"] > header button {
+  font-weight: normal;
+  text-decoration: none;
+}
+app-shutter input[type="text"],
+app-shutter input[type="password"],
+app-shutter input[type="email"],
+app-shutter input[type="tel"],
+app-shutter input[type="search"],
+app-shutter input[type="url"],
+app-shutter input[type="number"],
+app-shutter textarea {
+  -moz-box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 4rem;
+  resize: none;
+  padding: 0 1.2rem;
+  font-size: 1.8rem;
+  line-height: 4rem;
+  border: 0.1rem solid #ccc;
+  border-radius: 0.3rem;
+  box-shadow: none;
+  /* override the box-shadow from the system (performance issue) */
+
+  background: #ffffff url(input_areas/images/ui/shadow.png) repeat-x;
+}
+app-shutter textarea {
+  height: 10rem;
+  max-height: 10rem;
+  line-height: 2rem;
+  margin: 0;
+}
+app-shutter input:invalid,
+app-shutter textarea:invalid {
+  border: 0.1rem solid #820000;
+  color: #b90000;
+}
+app-shutter input::-moz-placeholder,
+app-shutter textarea::-moz-placeholder {
+  color: #858585;
+  opacity: 1;
+}
+app-shutter input:-moz-placeholder,
+app-shutter textarea:-moz-placeholder {
+  color: #858585;
+  opacity: 1;
+}
+app-shutter form p {
+  position: relative;
+  margin: 0;
+}
+app-shutter form p + p {
+  margin-top: 1rem;
+}
+app-shutter form p input + button[type="reset"],
+app-shutter form p textarea + button[type="reset"] {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 3rem;
+  height: 4rem;
+  padding: 0;
+  border: none;
+  font-size: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: transparent url(input_areas/images/icons/clear.png) no-repeat 50% 29.411764705882355% auto;
+}
+app-shutter form.skin-dark p input + button[type="reset"],
+app-shutter form.skin-dark p textarea + button[type="reset"] {
+  background-image: url(input_areas/images/icons/clear-dark.png);
+}
+app-shutter li input + button[type="reset"]:after,
+app-shutter li textarea + button[type="reset"]:after {
+  background: none;
+}
+app-shutter form p input + button[type="reset"],
+app-shutter form p textarea + button[type="reset"] {
+  top: 0;
+  margin: 0;
+}
+app-shutter textarea {
+  padding: 1.2rem;
+}
+app-shutter form p input:focus {
+  padding-right: 3rem;
+}
+app-shutter form p input:focus + button[type="reset"],
+app-shutter form p textarea:focus + button[type="reset"] {
+  opacity: 1;
+  pointer-events: all;
+}
+app-shutter fieldset {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border-radius: 0.3rem;
+  border: 0.1rem solid rgba(0, 0, 0, 0.2);
+  font-size: 1.8rem;
+  line-height: 1em;
+  background: #ffffff url(input_areas/images/ui/shadow.png) repeat-x left top;
+}
+app-shutter fieldset + fieldset {
+  margin-top: 1.5rem;
+}
+app-shutter fieldset legend {
+  -moz-box-sizing: border-box;
+  position: absolute;
+  width: 9.5rem;
+  height: 100%;
+  padding: 0 0.5rem 0 1.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #333;
+  line-height: 4rem;
+  text-transform: uppercase;
+}
+app-shutter fieldset legend.action {
+  background: url(input_areas/images/icons/arrow.png) no-repeat 100% 83.33333333333334%;
+}
+app-shutter fieldset legend:active {
+  background-color: #008caa;
+  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
+}
+app-shutter fieldset section input[type="text"],
+app-shutter fieldset section input[type="password"],
+app-shutter fieldset section input[type="email"],
+app-shutter fieldset section input[type="tel"],
+app-shutter fieldset section input[type="search"],
+app-shutter fieldset section input[type="number"],
+app-shutter fieldset section textarea {
+  height: 4rem;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+app-shutter fieldset section {
+  display: block;
+  border-left: 0.1rem solid #ddd;
+  border-radius: 0 0.3rem 0.3rem 0;
+  overflow: hidden;
+  margin-left: 9.5rem;
+}
+app-shutter fieldset section p {
+  margin: 0;
+  border-bottom: 0.1rem solid #ddd;
+}
+app-shutter fieldset section p:last-child {
+  border-bottom: none;
+}
+app-shutter form[role="search"] {
+  position: relative;
+  height: 3.7rem;
+  background: #dbe3eb;
+}
+app-shutter form[role="search"].skin-dark {
+  background: url(input_areas/images/ui/background-dark.png) repeat;
+  background-size: 2rem;
+}
+app-shutter form[role="search"].bottom {
+  background: #fff;
+}
+app-shutter form[role="search"]:before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  height: 1.6rem;
+  width: 1.6rem;
+  background: url(input_areas/images/icons/search.png) no-repeat;
+  background-size: 1.6rem;
+}
+app-shutter form[role="search"].bottom:before {
+  display: none;
+}
+app-shutter form[role="search"].skin-dark:before {
+  background-image: url(input_areas/images/icons/search-dark.png);
+}
+app-shutter form[role="search"]:after {
+  content: "";
+  position: absolute;
+  top: 3.6rem;
+  right: 0;
+  left: 0;
+  height: 0.4rem;
+  background: url(input_areas/images/ui/shadow-search.png) repeat-x left top;
+  border-top: 0.1rem solid #fff;
+}
+app-shutter form[role="search"].bottom:after {
+  content: "";
+  position: absolute;
+  top: -0.4rem;
+  background: url(input_areas/images/ui/shadow-invert.png) repeat-x 0 100%;
+  border-color: transparent;
+}
+app-shutter form[role="search"].skin-dark:after {
+  border-color: #2b3538;
+}
+app-shutter section[role="region"] > header:first-child + form[role="search"]:after {
+  background: none;
+}
+app-shutter form[role="search"] p {
+  padding: 0.4rem 1.2rem 0 3.2rem;
+  overflow: hidden;
+}
+app-shutter form[role="search"].bottom p {
+  padding: 0.4rem 1.2rem 0 1.2rem;
+}
+app-shutter form[role="search"] p input,
+app-shutter form[role="search"] p textarea {
+  height: 3rem;
+  border: none;
+  background: none;
+  font-size: 1.8rem;
+  padding: 0.5rem 0;
+}
+app-shutter form[role="search"] p input:focus {
+  padding: 0 2rem 0 0;
+}
+app-shutter form[role="search"] p input:invalid,
+app-shutter form[role="search"] p textarea:invalid {
+  border: none;
+}
+app-shutter form[role="search"].skin-dark p input,
+app-shutter form[role="search"].skin-dark p textarea {
+  color: #fff;
+}
+app-shutter form[role="search"] button.icon {
+  float: left;
+  height: 3.7rem;
+  width: 3rem;
+  border: none;
+  font-size: 0;
+  background: url(input_areas/images/ui/separator.png) no-repeat 100% 50%, url(input_areas/images/ui/background.png) repeat-x 0 100%;
+  background-size: auto 100%;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+app-shutter form[role="search"] button.icon:before {
+  content: "";
+  position: absolute;
+  width: 3rem;
+  height: 3.7rem;
+  background: transparent center no-repeat;
+  top: 0;
+  left: 0;
+}
+app-shutter form[role="search"] p button[type="reset"] {
+  right: 0;
+}
+app-shutter form[role="search"] button[type="submit"] {
+  float: right;
+  min-width: 6rem;
+  height: 3.7rem;
+  padding: 0 1.5rem;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 3.2rem;
+  background: url(input_areas/images/ui/separator.png) no-repeat 0 50%;
+  background-size: auto 100%;
+  width: auto;
+  border-radius: 0;
+  margin: 0;
+}
+app-shutter form[role="search"].bottom button[type="submit"] {
+  color: #333;
+  background: url(input_areas/images/ui/separator.png) no-repeat 0 50%, url(input_areas/images/ui/active.png) repeat-x 0 100%;
+}
+app-shutter form[role="search"].skin-dark button[type="submit"] {
+  color: #fff;
+  background-image: url(input_areas/images/ui/separator-dark.png);
+}
+app-shutter form[role="search"] button[type="submit"] + p > textarea {
+  height: 3rem;
+  line-height: 2rem;
+  font-size: 1.8rem;
+}
+app-shutter form[role="search"] button[type="submit"] + p button {
+  height: 3.7rem;
+}
+app-shutter form[role="search"].full button[type="submit"] {
+  display: none;
+}
+app-shutter form[role="search"] button.icon:active,
+app-shutter form[role="search"] button[type="submit"]:active {
+  background: #008caa;
+  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
+}
+app-shutter form[role="search"] button[type="submit"][disabled] {
+  color: #adadad;
+  background: url(input_areas/images/ui/separator.png) no-repeat 0 50%, url(input_areas/images/ui/background.png) repeat-x 0 100%;
+}
+app-shutter form p button[type="reset"]:focus,
+app-shutter form p button[type="reset"]::-moz-focus-inner {
+  border: none;
+  outline: none;
+}
+app-shutter html[dir="rtl"] form p input:valid,
+app-shutter html[dir="rtl"] form p input:valid:focus {
+  padding: 0 1.2rem 0 3rem;
+}
+app-shutter html[dir="rtl"] form p input + button[type="reset"],
+app-shutter html[dir="rtl"] form p textarea + button[type="reset"] {
+  right: auto;
+  left: 0;
+}
+app-shutter html[dir="rtl"] fieldset legend.action:after {
+  margin: 0 0.5rem 0 0;
+}
+app-shutter html[dir="rtl"] fieldset legend {
+  padding: 0 1.5rem 0 0.5rem;
+}
+app-shutter html[dir="rtl"] form[role="search"] p input {
+  padding: 0;
+}
+app-shutter html[dir="rtl"] form[role="search"] p input:focus {
+  padding: 0 0 0 2rem;
+}
+app-shutter html[dir="rtl"] form[role="search"] button[type="submit"] + p > button {
+  left: 0;
+}
+app-shutter .button::-moz-focus-inner,
+app-shutter a[role="button"]::-moz-focus-inner,
+app-shutter button::-moz-focus-inner {
+  border: none;
+  outline: none;
+}
+app-shutter button,
+app-shutter a[role="button"],
+app-shutter .button {
+  width: 100%;
+  height: 3.8rem;
+  margin: 0 0 1rem;
+  padding: 0 1.5rem;
+  -moz-box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  background: #fafafa url(buttons/images/ui/default.png) repeat-x left bottom / auto 100%;
+  border: 0.1rem solid #a6a6a6;
+  border-radius: 0.2rem;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 3.8rem;
+  color: #333;
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  outline: none;
+}
+app-shutter button:active,
+app-shutter button.active,
+app-shutter a[role="button"]:active,
+app-shutter button.recommend:active,
+app-shutter a.recommend[role="button"]:active {
+  border-color: #008aaa;
+  background: #008aaa;
+  background-size: auto 100%;
+  color: #333;
+}
+app-shutter button.recommend,
+app-shutter a[role="button"].recommend {
+  background-image: url(buttons/images/ui/recommend.png);
+  background-color: #00caf2;
+  border-color: #008eab;
+}
+app-shutter button.danger,
+app-shutter a.danger[role="button"],
+app-shutter span.danger[role="button"] {
+  background-image: url(buttons/images/ui/danger.png);
+  background-color: #b70404;
+  color: #fff;
+  text-shadow: none;
+  border-color: #820000;
+}
+app-shutter button.danger:active,
+app-shutter a[role="button"].danger:active,
+app-shutter .button.danger:active {
+  background-image: url(buttons/images/ui/danger-press.png);
+  background-color: #890707;
+}
+app-shutter button[disabled],
+app-shutter a[role="button"][aria-disabled="true"],
+app-shutter .button[aria-disabled="true"],
+app-shutter button[disabled].recommend,
+app-shutter a[role="button"][aria-disabled="true"].recommend,
+app-shutter .button[aria-disabled="true"].recommend {
+  background: #e7e7e7;
+  border-color: #c7c7c7;
+  color: #c7c7c7;
+  text-shadow: none;
+  pointer-events: none;
+}
+app-shutter button[disabled].danger,
+app-shutter .button[aria-disabled="true"].danger,
+app-shutter a[role="button"][aria-disabled="true"].danger {
+  background: #c68484;
+  border-color: #a56464;
+  color: #a56464;
+  text-shadow: none;
+  pointer-events: none;
+}
+app-shutter .dark button[disabled],
+app-shutter .dark .button[aria-disabled="true"],
+app-shutter .dark a[role="button"][aria-disabled="true"] {
+  background: #5f5f5f;
+  color: #4d4d4d;
+  border-color: #4d4d4d;
+  text-shadow: none;
+  pointer-events: none;
+}
+app-shutter li button,
+app-shutter li a[role="button"],
+app-shutter li .button {
+  position: relative;
+  background: #e7e7e7;
+  text-align: left;
+  /* For hacking box-shadows we need overflow:visible; so we lose text-overflows...*/
+
+  white-space: normal;
+  overflow: visible;
+}
+app-shutter li button:after,
+app-shutter li a[role="button"]:after,
+app-shutter li .button:after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 0.2rem;
+  background: url(buttons/images/ui/shadow.png) repeat-x left bottom / auto 100%;
+}
+app-shutter li a[role="button"]:active:after,
+app-shutter li .button:active:after,
+app-shutter li button:active:after {
+  opacity: 0;
+}
+app-shutter li button[disabled]:after,
+app-shutter li a[role="button"][aria-disabled="true"]:after,
+app-shutter li .button[aria-disabled="true"]:after {
+  background: none;
+}
+app-shutter li button.icon,
+app-shutter li a[role="button"].icon,
+app-shutter li .button.icon {
+  padding-right: 3rem;
+}
+app-shutter li button.icon:before,
+app-shutter li a[role="button"].icon:before,
+app-shutter li .button.icon:before {
+  content: "";
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -1.5rem;
+  background: transparent no-repeat center center / 100% auto;
+  pointer-events: none;
+}
+app-shutter li button.icon-view:before,
+app-shutter li a[role="button"].icon-view:before {
+  background: url(buttons/images/icons/view.png) no-repeat 1.6rem 0rem 9rem;
+}
+app-shutter li button.icon-view:active:before,
+app-shutter li a[role="button"].icon-view:active:before {
+  background-position: 1.6rem -3rem;
+}
+app-shutter li button.icon-view:disabled:before,
+app-shutter li a[role="button"][aria-disabled="true"].icon-view:before {
+  background-position: 1.6rem -6rem;
+}
+app-shutter li button.icon-dialog,
+app-shutter li a[role="button"].icon-dialog,
+app-shutter li .button.icon-dialog {
+  font-size: 1.7rem;
+}
+app-shutter li button.icon-dialog:before,
+app-shutter li a[role="button"].icon-dialog:before,
+app-shutter li .button.icon-dialog:before {
+  background: url(buttons/images/icons/dialog.png) no-repeat 1.6rem 0rem 9rem;
+  top: 100%;
+  margin-top: -2.4rem;
+}
+app-shutter li button.icon-dialog:active:before,
+app-shutter li a[role="button"].icon-dialog:active:before,
+app-shutter li .button.icon-dialog:active:before {
+  background-position: 1.6rem -3rem;
+}
+app-shutter li button.icon-dialog:disabled:before,
+app-shutter li a[role="button"][aria-disabled="true"].icon-dialog:before,
+app-shutter li .button[aria-disabled="true"].icon-dialog:before {
+  background-position: 1.6rem -6rem;
+}
+app-shutter ul.compact,
+app-shutter ol.compact {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+app-shutter ul.compact li,
+app-shutter ol.compact li {
+  padding: 1.5rem 0 0.5rem 0;
+  border-bottom: solid #bdbdbd 0.1rem;
+  display: block;
+  overflow: hidden;
+}
+app-shutter ul.compact li label,
+app-shutter ol.compact li label {
+  padding: 0 1.5rem 1rem 1.5rem;
+  color: #333;
+  font-weight: normal;
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+app-shutter .button input,
+app-shutter body[role="application"] .button input {
+  border: 0;
+  background: none;
+}
+app-shutter .button.icon select {
+  width: 130%;
+}
+app-shutter .modal {
+  height: 100%;
+  width: 100%;
+}
+app-shutter .start {
+  background-image: url(../images/camera.png);
+  height: 40px;
+  width: 110px;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
+}
+app-shutter .snapshot {
+  width: 100%;
+}
+app-shutter .hidden {
+  display: none;
+}
