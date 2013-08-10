@@ -334,6 +334,7 @@ app-button .button {
   outline: none;
 }
 app-button button:active,
+app-button button.active,
 app-button a[role="button"]:active,
 app-button button.recommend:active,
 app-button a.recommend[role="button"]:active {

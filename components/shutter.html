@@ -1,0 +1,95 @@
+<element name="app-shutter">
+  <template>
+    <link rel="stylesheet" href="http://localhost:50826/assets/style/app-shutter.css">
+          <div class="start"></div>
+        <div class="modal hidden">
+          <div class="videoscreen"></div>
+          <button class="looksgood hidden">Looks good!</button> 
+          <button class="freeze">freeze!</button>
+        </div>
+        <img class="snapshot">
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      startVideo: function() {
+        try {
+          var that = this;
+          window.navigator.mozGetUserMedia({video:true}, function(stream) {
+            that.content.appendChild(that.video);
+            that.video.mozSrcObject = stream;
+            that.video.play();
+            that.modal.classList.remove('hidden');
+            that.freeze.classList.remove('hidden');
+            that.looksgood.classList.add('hidden');
+            that.start.classList.add('hidden');
+            that.snapshot.src = '';
+          }, function(err) {
+            console.log(err);
+            that.stopMedia();
+          });
+        } catch(e) {
+          console.log(e);
+          that.stopMedia();
+        }
+      },
+
+      stopMedia: function() {
+        this.video.mozSrcObject.stop();
+        this.video.mozSrcObject = null;
+        this.content.removeChild(this.video);
+      },
+
+      looksGood: function() {
+        this.stopMedia();
+        this.modal.classList.add('hidden');
+        this.start.classList.remove("hidden");
+        this.looksgood.classList.add("hidden");
+        this.freeze.classList.add("hidden");
+        this.snapshot.classList.add("hidden");
+        this.emit(this.snapshot.src);
+      },
+
+      captureImage: function() {
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+
+        canvas.width  = this.video.videoWidth/2;
+        canvas.height = this.video.videoHeight/2;
+        ctx.drawImage(this.video, 0, 0, canvas.width, canvas.height);
+        var dataurl = canvas.toDataURL('image/png');
+        this.setValue(dataurl);
+        this.querySelector(".looksgood").classList.remove("hidden");
+      },
+      init: function (params) {
+        var video_status = false;
+        var video = document.createElement("video");
+        this.video = video;
+        console.log(this.video);
+        video.setAttribute("width", "100%");
+        video.setAttribute("height", "100%");
+        this.content = this.querySelector(".videoscreen");
+        this.snapshot = this.querySelector(".snapshot");
+        this.modal = this.querySelector(".modal");
+        this.start = this.querySelector(".start");
+        this.looksgood = this.querySelector(".looksgood");
+        this.freeze = this.querySelector('.freeze');
+
+        var that = this;
+        this.freeze.onclick = function (e) {
+          that.captureImage();
+        };
+        this.start.onclick = function (e) {
+          that.startVideo();
+        };
+        this.looksgood.onclick = function(e) {
+          that.looksGood();
+        }
+      },      
+      listeners: {
+        setValue: function (val) {
+          this.snapshot.src = val.toString();
+        }
+      }
+    });
+  </script>
+</element>
