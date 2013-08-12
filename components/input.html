@@ -17,6 +17,26 @@
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
+      },
+      editable: {
+        "defaulttext": {
+          label: "Placeholder text",
+          type: "text",
+          description: "The text you want your input field to show by default.",
+          edit: function(v) {
+            console.log("setting " + v);
+            this.querySelector("input").setAttribute("placeholder", v);
+          }
+        },
+        "buttontext": {
+          label: "Button label",
+          type: "text",
+          description: "The text label you want your button to have.",
+          edit: function(v) {
+            console.log("setting " + v);
+            this.querySelector("button").innerHTML = v;
+          }
+        }
       }
     });
   </script>
