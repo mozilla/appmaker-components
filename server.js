@@ -3,9 +3,6 @@ var habitat = require('habitat');
 var path = require('path');
 var fs = require('fs');
 
-habitat.load();
-
-var env = habitat();
 var app = express();
 
 app.use(function(req, res, next) {
@@ -58,6 +55,6 @@ app.get('/package/:components', function (req, res) {
   }
 });
 
-var server = app.listen(env.get('PORT'), function (err) {
+var server = app.listen(process.env.PORT, function (err) {
   console.log('Running on', server.address());
 });
