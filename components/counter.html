@@ -25,7 +25,7 @@
         },
         reset: function (value) {
           this.count = parseInt(value);
-          if (this.count === NaN){
+          if (isNaN(this.count)){
             this.count = 0;
           }
           this.updateDisplay();
