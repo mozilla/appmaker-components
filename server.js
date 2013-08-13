@@ -1,5 +1,4 @@
 var express = require('express');
-var habitat = require('habitat');
 var path = require('path');
 var fs = require('fs');
 
