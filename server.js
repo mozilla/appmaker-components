@@ -5,6 +5,8 @@ var fs = require('fs');
 var app = express();
 
 app.use(function(req, res, next) {
+  // remove for security-by-obscurity for automated attacks
+  res.removeHeader("x-powered-by");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
