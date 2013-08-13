@@ -4,7 +4,8 @@
   "description": "appmaker-components ===================",
   "main": "server.js",
   "dependencies": {
-    "express": "~3.3.4"
+    "express": "~3.3.4",
+    "mu2": "~0.5.19"
   },
   "devDependencies": {},
   "scripts": {

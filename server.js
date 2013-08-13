@@ -1,6 +1,15 @@
-var express = require('express');
-var path = require('path');
-var fs = require('fs');
+var
+express = require('express'),
+path    = require('path'),
+fs      = require('fs'),
+util    = require('util'),
+mu      = require('mu2');
+
+mu.root = path.join(__dirname, 'components');
+
+var view = {
+  ASSET_HOST: process.env.ASSET_HOST ? process.env.ASSET_HOST : "//localhost:" + process.env.PORT
+};
 
 var app = express();
 
@@ -26,13 +35,14 @@ app.get('/package/:components', function (req, res) {
     if (components.length) {
       var todo = components.length;
       components.forEach(function (name) {
-        var componentPath = path.join(__dirname, 'components', name);
-        fs.readFile(componentPath, 'utf-8', function (err, data) {
-          if (!err) {
-            packagedData += '\n' + data;
-          }
+
+        var stream = mu.compileAndRender(name, view);
+
+        stream.pipe(res, {end: false})
+
+        stream.on('end', function () {
           if (--todo === 0) {
-            res.send(packagedData, 200);
+            res.end();
           }
         });
       });
