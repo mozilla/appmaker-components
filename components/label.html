@@ -10,6 +10,16 @@
       init: function (params) {
         this.setValue('Heading');
       },
+      editable: {
+        "labeltext": {
+          title: "Label text",
+          type: "text",
+          description: "A text for your label to show up in your app",
+          edit: function(v) {
+            this.setValue(v);
+          }
+        }
+      },
       listeners: {
         setValue: function (val) {
           this.querySelector('h2').innerHTML = val.toString();
