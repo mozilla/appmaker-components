@@ -1,0 +1,61 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="tests/mocha.css" />
+  <link rel="component" type="text/ceci" href="/package/all">
+  <script src="tests/mocha.js"></script>
+  <script src="tests/expect.js"></script>
+  <script src="tests/require.js"></script>
+  <script>
+    require(['tests/ceci'], function (Ceci) {
+      // expose Ceci to tests
+      window.Ceci = Ceci;
+
+      Ceci.load(function (data) {
+      });
+    });
+  </script>
+  <script>mocha.setup('bdd')</script>
+  <script src="tests/test.button.js"></script>
+</head>
+<body>
+  <element name="appmaker-test-helper">
+    <template>
+    </template>
+    <script type="text/ceci">
+      Ceci(this, {
+        init: function (params) {
+          this.value = 0;
+        },
+        listeners: {
+          setValue: function (val) {
+            this.value++;
+          }
+        }
+      });
+    </script>
+  </element>
+  <div id="mocha"></div>
+  <script>
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+
+    // make sure Ceci is loaded
+    (function () {
+      var i = setInterval(function () {
+        if (window.Ceci) {
+          window._createHelperElement = function () {
+            var element = document.createElement('appmaker-test-helper');
+            document.body.appendChild(element);
+            Ceci.convertElement(element);
+            return element;
+          };
+          clearInterval(i);
+          mocha.run();
+        }
+      }, 100);
+    })();
+  </script>
+</body>
+</html>

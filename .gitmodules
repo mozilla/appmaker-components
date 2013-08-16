@@ -1,0 +1,3 @@
+[submodule "external/ceci"]
+	path = external/ceci
+	url = https://github.com/mozilla/ceci.git
