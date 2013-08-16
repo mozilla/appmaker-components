@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "expect": "~0.0.2",
-    "mocha": "~1.12.0",
+    "mocha": "~1.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
