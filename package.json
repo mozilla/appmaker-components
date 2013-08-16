@@ -1,15 +1,16 @@
 {
   "name": "appmaker-components",
   "version": "0.0.0",
-  "description": "appmaker-components ===================",
+  "description": "They're components, for your app! -- BAM!",
   "main": "server.js",
   "dependencies": {
     "express": "~3.3.4",
-    "expect": "~0.0.2",
-    "mocha": "~1.12.0",
     "mu2": "~0.5.19"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "expect": "~0.0.2",
+    "mocha": "~1.12.0",
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
