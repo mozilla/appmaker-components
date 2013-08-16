@@ -1,0 +1,26 @@
+<element name="app-header">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-header.css">
+    <style type="text/css">
+    </style>
+    <header>Title</header>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+      },
+      editable: {
+        "titletext": {
+          title: "Header Label",
+          type: "text",
+          description: "Text for header label",
+          edit: function(v) {
+            this.querySelector("header").innerHTML = v
+          }
+        }
+      },
+      listeners: {
+      }
+    });
+  </script>
+</element>
