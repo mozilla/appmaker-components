@@ -66,6 +66,13 @@ app.get('/package/:components', function (req, res) {
   }
 });
 
+if (process.env.ENV === 'development') {
+  app.use('/tests', express.static(path.join(__dirname, 'tests')));
+  app.use('/tests', express.static(path.join(__dirname, 'node_modules', 'mocha')));
+  app.use('/tests', express.static(path.join(__dirname, 'node_modules', 'expect')));
+  app.use('/tests', express.static(path.join(__dirname, 'external', 'ceci')));
+}
+
 var server = app.listen(process.env.PORT, function (err) {
   console.log('Running on', server.address());
 });
