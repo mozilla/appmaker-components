@@ -1,0 +1,20 @@
+<element name="app-randomcat">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random_cat.css">
+    <div class="wrapper">
+      <img src="http://placekitten.com/200/200" />
+    </div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {      },
+      listeners: {
+        randomCat: function () {
+          var cat = this.querySelector("img");
+          var random = 600 - Math.floor((Math.random()*500));
+          $(cat).attr("src","http://placekitten.com/"+random+"/"+random);
+        }
+      }
+    });
+  </script>
+</element>

@@ -1,0 +1,8 @@
+app-randomcat .wrapper {
+  text-align: center;
+}
+
+app-randomcat img {
+  width: 50%;
+  display: inline !important;
+}
