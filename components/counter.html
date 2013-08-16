@@ -12,6 +12,7 @@
       },
       updateDisplay: function () {
         this.querySelector('div').innerHTML = this.count.toString();
+        this.emit(this.count);
       },
       defaultListener: 'increase',
       listeners: {
