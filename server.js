@@ -21,6 +21,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+if (process.env.DISABLE_CACHE){
+  app.use(function(req, res, next) {
+    mu.clearCache();
+    next();
+  });
+}
+
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/components', express.static(path.join(__dirname, 'components')));
 
