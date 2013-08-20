@@ -1,14 +1,33 @@
 <element name="app-randomcat">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random_cat.css">
-    <div class="wrapper">
-      <img src="http://placekitten.com/200/200" />
-    </div>
+    <div class="wrapper"><img style="width: 30%" src="http://placekitten.com/200/200" /></div>
   </template>
   <script type="text/ceci">
     Ceci(this, {
-      init: function (params) {      },
+      percent : 0,      
+      init: function (params) {    
+        $(this).on("click",function(){ this.randomCat(); });
+        var cat = this.querySelector("img");
+        var percent = Math.floor($(this).find("img").width()/$(this).find(".wrapper").width() * 100);
+        $(this).attr('catwidth', percent);
+      },
+      editable: {
+        "catwidth": {
+          title: "Cat Width",
+          min : 0,
+          max: 100,
+          type: "number",
+          description: "Set the width of your cat",
+          edit: function(v) {
+            this.setWidth(v);
+          }
+        }
+      },
       listeners: {
+        setWidth: function (val) {
+          this.querySelector('img').style.width = val + "%";
+        },
         randomCat: function () {
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
