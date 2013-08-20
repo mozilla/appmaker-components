@@ -121,7 +121,8 @@ app-label h1 {
 }
 app-label h2 {
   /* Subheader, Dialog title */
-
+  margin: 0px;
+  padding: 0px;
   font-size: 1.6rem;
   font-weight: normal;
 }

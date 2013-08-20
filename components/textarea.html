@@ -1,0 +1,35 @@
+<element name="app-textarea">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-textarea.css">
+    <div class="outer-wrapper">
+      <div class="inner-wrapper">
+        <textarea></textarea>
+      </div>
+    </div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.querySelector('textarea')
+          .setAttribute('placeholder', 'Placeholder Text');
+
+        var that = this;
+      },
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('input[type="text"]').value = val.toString();
+        }
+      },
+      editable: {
+        "defaulttext": {
+          label: "Placeholder text",
+          type: "text",
+          description: "The text you want your input field to show by default.",
+          edit: function(v) {
+            this.querySelector("textarea").setAttribute("placeholder", v);
+          }
+        }
+      }
+    });
+  </script>
+</element>

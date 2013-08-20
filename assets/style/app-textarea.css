@@ -1,0 +1,32 @@
+@import url("../fonts.css");
+
+app-textarea textarea {
+  font-family: "FiraSans", sans-serif;
+  padding: 1.5rem;
+  resize: none;
+  font-size: 1.8rem;
+  height: 10rem;
+  max-height: 10rem;
+  line-height: 2rem;
+  margin: 0px;
+  background: url("../images/shadow.png") repeat-x scroll 0% 0% rgb(255, 255, 255);
+  border: 0.1rem solid rgb(204, 204, 204);
+  border-radius: 0.3rem 0.3rem 0.3rem 0.3rem;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  display: block;
+  width: 100%;
+}
+
+app-textarea textarea:focus {
+
+}
+
+app-textarea .inner-wrapper {
+  position: relative;
+}
+
+app-textarea .outer-wrapper {
+  position: relative;
+  padding: 0 1.5rem;
+}
