@@ -6,7 +6,7 @@
     <button>Default</button>
   </template>
   <description>
-    A user clicks on me and I broadcast a "clicked" message.
+    When clicked I broadcast a "clicked" message.
   </description>
   <script type="text/ceci">
     Ceci(this, {
@@ -15,7 +15,7 @@
 
         var t = this;
         button.onclick = function (e) {
-          t.broadcast(e);
+          t.broadcast('clicked');
         }
       },
       listeners: {
