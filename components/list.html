@@ -1,0 +1,35 @@
+<element name="app-list">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-list.css">
+        <header class="fixed">
+          <h1>List Title</h1>
+          <ul>
+            <li>List Item 1</li>
+            <li>List Item 2</li>
+            <li>List Item 3</li>
+          </ul>
+        </header>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.setValue('List Title');
+      },
+      editable: {
+        "listtitle": {
+          title: "List Title",
+          type: "text",
+          description: "A title for your list",
+          edit: function(v) {
+            this.setValue(v);
+          }
+        }
+      },
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('h1').innerHTML = val.toString();
+        }
+      }
+    });
+  </script>
+</element>
