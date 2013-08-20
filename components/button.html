@@ -5,20 +5,26 @@
     </style>
     <button>Default</button>
   </template>
+  <description>
+    A user clicks on me and I broadcast a "clicked" message.
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
         var button = this.querySelector('button')
 
         var t = this;
-      	button.onclick = function (e) {
-          t.emit(e);
-      	}
+        button.onclick = function (e) {
+          t.broadcast(e);
+        }
       },
       listeners: {
         setText: function (val) {
           this.querySelector('button').innerHTML = val;
         }
+      },
+      broadcast: function (e) {
+        this.emit(e)
       }
     });
   </script>
