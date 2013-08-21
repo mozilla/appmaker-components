@@ -1,0 +1,53 @@
+<element name="app-selector">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-selector.css">
+      <section>
+        <h1>Choose your option(s)</h1>
+        <ul>
+          <li role="option">
+            <label for="option1">
+              <input id="option1" type="radio" name="option">
+              <span>Option 1</span>
+            </label>
+          </li>
+          <li role="option">
+            <label for="option2">
+              <input id="option2" type="radio" name="option">
+              <span>Option 2</span> 
+            </label>
+          </li>
+          <li role="option">
+            <label for="option3">
+              <input id="option3" type="radio" name="option">
+              <span>Option 3</span>
+            </label>
+          </li>
+        </ul>
+      </section>
+      <menu>
+        <button class="recommend full">Ok</button>
+      </menu>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.setValue('Single Select List');
+      },
+      editable: {
+        "listtitle": {
+          title: "List Title",
+          type: "text",
+          description: "A title for your list",
+          edit: function(v) {
+            this.setValue(v);
+          }
+        }
+      },
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('h1').innerHTML = val.toString();
+        }
+      }
+    });
+  </script>
+</element>
