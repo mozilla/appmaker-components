@@ -1,20 +1,23 @@
 <element name="app-snapshot">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-snapshot.css">
-    <img class="snapshot">
+    <div class="imgcenter">
+      <img class="snapshot" src="{{ASSET_HOST}}/assets/images/snapshot.png">
+    </div>
   </template>
+  <description>
+    I listen for pictures, and display them in a handy frame.
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
         this.setValue();
       },
+      defaultListener: 'setValue',
       listeners: {
         setValue: function (val) {
           if (val) {
               this.querySelector('.snapshot').src = val.toString();
-              this.querySelector('.snapshot').classList.remove("blank");
-          } else {
-              this.querySelector('.snapshot').classList.add("blank"); 
           }
         }
       }
