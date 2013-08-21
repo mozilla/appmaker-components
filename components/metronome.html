@@ -26,9 +26,12 @@
         $(metronomeArrow).css("-webkit-animation-duration",animDuration + "s");
         $(metronomeArrow).css("animation-duration",animDuration + "s");
       },
+      broadcast: function (e) {
+        this.emit(e)
+      },
       tick: function() {
         this.count++;
-        this.emit(this.count);
+        this.broadcast(this.count);
 
         // Emitting Animation Beta
         var indicator = this.querySelector('.broadcast-channels');
