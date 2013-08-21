@@ -46,7 +46,7 @@ app-metronome #metronome-shadow {
   transform: scaleY(.5);
   border-radius: 12px;
   position: absolute;
-  top: 60px;
+  top: 62px;
 }
 
 app-metronome #metronome-arrow {
