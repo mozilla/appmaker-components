@@ -1,15 +1,46 @@
 <element name="app-metronome">
+
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-metronome.css">
+    <div id="metronome-wrapper">
+      <div id="metronome-shadow"></div>
+      <div id="metronome-body"> 
+        <div id="metronome-hole"></div>
+        <div id="metronome-arrow"></div>
+      </div>
+    </div>
+
+  </template>
+  <description>I listen for a message and update my label text.</description>
+
   <script type="text/ceci">
     Ceci(this, {
       init: function() {
-        this.period = 1000;
+        this.period = 500;
         this.count = 0;
         this.tick();
+        this.setArrowSpeed();
+        
+      },
+      setArrowSpeed : function(){
+        var animDuration = this.period/1000*2;
+        var metronomeArrow = this.querySelector('#metronome-arrow');
+        $(metronomeArrow).css("-webkit-animation-duration",animDuration + "s");
+        $(metronomeArrow).css("animation-duration",animDuration + "s");
+
       },
       tick: function() {
         this.count++;
         this.emit(this.count);
 
+        // Emitting Animation Beta
+        var indicator = this.querySelector('.broadcast-channels');
+        $(indicator).addClass("emitanim");
+        window.setTimeout(function(){
+          $(indicator).removeClass("emitanim");
+        }, this.period - 50);
+        
+        
         var t = this;
         var defer = function(){
           t.tick();

@@ -1,0 +1,110 @@
+app-metronome {
+  padding: 1rem;
+}
+
+app-metronome #metronome-wrapper {
+  margin: 0 auto;
+  width: 50px;
+  position: relative;
+}
+
+
+app-metronome #metronome-body {
+  background: #85560b;
+  width: 40px;
+  margin: 0 auto;
+  padding: 8px 0 12px 0;
+  -webkit-border-radius: 15px 15px 5px 5px;
+  border-radius: 15px 15px 5px 5px;
+  position: relative;
+
+}
+app-metronome #metronome-hole {
+  background: white;
+  height: 50px;
+  width: 10px;
+  margin: 0 auto;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+app-metronome #metronome-shadow {
+  background: #DDD;
+  width: 50px;
+  height: 24px;
+  margin: 0 auto;
+  -webkit-border-radius: 12px;
+  -webkit-transform: scaleY(.5);
+  border-radius: 12px;
+  transform: scaleY(.5);
+
+  border-radius: 12px;
+  transform: scaleY(.5);
+
+  position: absolute;
+  top: 56px;
+}
+
+
+app-metronome #metronome-arrow {
+  background: black;
+  height: 46px;
+  width: 6px;
+  border: solid 2px white;
+ 
+  -webkit-transform-origin: center 45px;
+  -webkit-border-radius: 0 0 5px 5px;
+  transform-origin: center 45px;
+  border-radius: 0 0 5px 5px;
+
+  position: absolute;
+  top: 8px;
+  left: 15px;
+
+  -webkit-animation-name: metronome;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+
+  animation-name: metronome;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes metronome {
+	0% {-webkit-transform: rotate(0deg); }
+	25% {-webkit-transform: rotate(-30deg); }
+	50% {-webkit-transform: rotate(0deg); }
+	75% {-webkit-transform: rotate(30deg); }
+	100% {-webkit-transform: rotate(0deg); }
+}
+
+@keyframes metronome {
+	0% {transform: rotate(0deg); }
+	25% {transform: rotate(-30deg); }
+	50% {transform: rotate(0deg); }
+	75% {transform: rotate(30deg); }
+	100% {transform: rotate(0deg); }
+}
+
+
+
+.emitanim {
+  -webkit-animation: channelStrobe linear  .2s;
+  animation: channelStrobe linear  .2s;
+}
+
+
+@-webkit-keyframes channelStrobe {
+  0%    { opacity: 1; }
+  50%   { opacity: .3;}
+  100%  { opacity: 1; }
+}
+
+@keyframes channelStrobe {
+ 
+  0%    { opacity: 1; }
+  50%   { opacity: .3;}
+  100%  { opacity: 1; }
+}
