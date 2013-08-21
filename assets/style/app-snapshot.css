@@ -9,9 +9,10 @@ app-snapshot .snapshot {
 	background-repeat: no-repeat;
 	background-position: center;
     object-fit: contain;
+    display: inline-block;
 }
 
-app-snapshot .blank {
-	background-image: url(../images/snapshot.png);
+app-snapshot .imgcenter {
+	text-align: center;
 }
 

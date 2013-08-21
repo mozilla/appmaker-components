@@ -3,24 +3,32 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-shutter.css">
     <div class="start"></div>
     <div class="modal hidden">
-      <div class="videoscreen"></div>
-      <button class="looksgood hidden">Looks good!</button> 
-      <button class="freeze">freeze!</button>
+      <div class="livefeed"></div>
+      <div class="buttonbar hidden">
+        <button class="looksgood">Use this</button> 
+        <button class="startover">Try again</button> 
+        <button class="cancel">Cancel</button> 
+      </div>
     </div>
+    <button class="freeze hidden">freeze!</button>
     <img class="snapshot">
   </template>
+  <description>
+    When clicked I take a picture, and broadcast it if it satisfies the user.
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       startVideo: function() {
         try {
           var that = this;
           window.navigator.mozGetUserMedia({video:true}, function(stream) {
-            that.content.appendChild(that.video);
+            that.livefeed.appendChild(that.video);
             that.video.mozSrcObject = stream;
             that.video.play();
             that.modal.classList.remove('hidden');
+            that.livefeed.classList.remove('hidden');
             that.freeze.classList.remove('hidden');
-            that.looksgood.classList.add('hidden');
+            that.buttonbar.classList.add('hidden');
             that.start.classList.add('hidden');
             that.snapshot.src = '';
           }, function(err) {
@@ -36,16 +44,20 @@
       stopMedia: function() {
         this.video.mozSrcObject.stop();
         this.video.mozSrcObject = null;
-        this.content.removeChild(this.video);
+        this.livefeed.removeChild(this.video);
       },
 
-      looksGood: function() {
+      hideControls: function() {
         this.stopMedia();
         this.modal.classList.add('hidden');
         this.start.classList.remove("hidden");
-        this.looksgood.classList.add("hidden");
-        this.freeze.classList.add("hidden");
+        this.buttonbar.classList.add("hidden");
         this.snapshot.classList.add("hidden");
+      },
+
+      looksGood: function() {
+        this.hideControls();
+        console.log("emitting", this.snapshot.src);
         this.emit(this.snapshot.src);
       },
 
@@ -58,28 +70,39 @@
         ctx.drawImage(this.video, 0, 0, canvas.width, canvas.height);
         var dataurl = canvas.toDataURL('image/png');
         this.setValue(dataurl);
-        this.querySelector(".looksgood").classList.remove("hidden");
+        this.buttonbar.classList.remove("hidden");
+        this.freeze.classList.add("hidden");
+        this.snapshot.classList.remove("hidden");
+        this.livefeed.classList.add('hidden');
       },
       init: function (params) {
         var video_status = false;
         var video = document.createElement("video");
         this.video = video;
-        console.log(this.video);
         video.setAttribute("width", "100%");
         video.setAttribute("height", "100%");
-        this.content = this.querySelector(".videoscreen");
+        this.livefeed = this.querySelector(".livefeed");
         this.snapshot = this.querySelector(".snapshot");
         this.modal = this.querySelector(".modal");
         this.start = this.querySelector(".start");
+        this.buttonbar = this.querySelector(".buttonbar");
         this.looksgood = this.querySelector(".looksgood");
+        this.startover = this.querySelector(".startover");
+        this.cancel = this.querySelector(".cancel");
         this.freeze = this.querySelector('.freeze');
 
         var that = this;
+        this.start.onclick = function (e) {
+          that.startVideo();
+        }
         this.freeze.onclick = function (e) {
           that.captureImage();
         };
-        this.start.onclick = function (e) {
+        this.startover.onclick = function (e) {
           that.startVideo();
+        };
+        this.cancel.onclick = function (e) {
+          that.hideControls();
         };
         this.looksgood.onclick = function(e) {
           that.looksGood();
@@ -89,6 +112,9 @@
         setValue: function (val) {
           this.snapshot.src = val.toString();
         }
+      },
+      broadcast: function(e) {
+        this.emit(e)
       }
     });
   </script>
