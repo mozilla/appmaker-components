@@ -14,7 +14,9 @@
 
         var that = this;
         this.querySelector('button').onclick = function (e) {
-          that.broadcast(that.querySelector('input[type="text"]').value);
+          var input = that.querySelector('input[type="text"]');
+          that.broadcast(input.value);
+          input.value = "";
         };
       },
       listeners: {
