@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-input.css">
     <input type="text"><button>Submit</button>
   </template>
+  <description>
+    I broadcast whatever message a user types.
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
@@ -11,13 +14,16 @@
 
         var that = this;
         this.querySelector('button').onclick = function (e) {
-          that.emit(that.querySelector('input[type="text"]').value);
+          that.broadcast(that.querySelector('input[type="text"]').value);
         };
       },
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
+      },
+      broadcast: function (e) {
+        this.emit(e)
       },
       editable: {
         "defaulttext": {
