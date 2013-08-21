@@ -2,12 +2,12 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-seekbar.css">
     <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> -->
-    <div id="slider"></div>
+    <div class="slider"></div>
   </template>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        var slider = $(this).find("#slider");
+        var slider = $(this).find(".slider");
         var that = this;
         slider.slider({
           range:"min",

@@ -2,7 +2,7 @@ app-seekbar {
   padding: 2rem 3rem;
 }
 
-app-seekbar #slider {
+app-seekbar .slider {
   background: #555;
   position: relative;
   height: .1rem;
