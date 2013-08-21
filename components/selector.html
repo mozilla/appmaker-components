@@ -6,19 +6,19 @@
         <ul>
           <li role="option">
             <label for="option1">
-              <input id="option1" type="radio" name="option">
+              <input id="option1" type="radio" value="Option 1" name="option">
               <span>Option 1</span>
             </label>
           </li>
           <li role="option">
             <label for="option2">
-              <input id="option2" type="radio" name="option">
+              <input id="option2" type="radio" value="Option 2" name="option">
               <span>Option 2</span> 
             </label>
           </li>
           <li role="option">
             <label for="option3">
-              <input id="option3" type="radio" name="option">
+              <input id="option3" type="radio" value="Option 3" name="option">
               <span>Option 3</span>
             </label>
           </li>
@@ -32,6 +32,17 @@
     Ceci(this, {
       init: function (params) {
         this.setValue('Single Select List');
+        var that = this;
+        var b = this.querySelector('button');
+        
+        $(b).on("click",function(){
+          var chosen = that.querySelector('input:checked');
+          if(chosen){
+            that.choose(chosen.value);            
+          }
+
+        })
+        
       },
       editable: {
         "listtitle": {
@@ -42,6 +53,9 @@
             this.setValue(v);
           }
         }
+      },
+      choose : function (val){
+        this.emit(val);
       },
       listeners: {
         setValue: function (val) {
