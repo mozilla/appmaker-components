@@ -10,10 +10,14 @@ app-metronome #metronome-wrapper {
 
 app-metronome #metronome-body {
   background: #85560b;
+  border-top: solid 2px #85560b;
+  background: -webkit-linear-gradient(top, #a87018,#85560b);
+  background: -moz-linear-gradient(top, #a87018,#85560b);
   width: 40px;
   margin: 0 auto;
   padding: 8px 0 12px 0;
   -webkit-border-radius: 15px 15px 5px 5px;
+  
   border-radius: 15px 15px 5px 5px;
   position: relative;
 
@@ -24,28 +28,30 @@ app-metronome #metronome-hole {
   height: 50px;
   width: 10px;
   margin: 0 auto;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+
+  border-radius: 3px 3px 10px  10px;
+  border-top: solid 2px #85560b;
+  border-left: solid 1px #85560b;
+  border-right: solid 1px #85560b;
 }
 
 app-metronome #metronome-shadow {
   background: #DDD;
   width: 50px;
-  height: 24px;
+  height: 20px;
   margin: 0 auto;
   -webkit-border-radius: 12px;
   -webkit-transform: scaleY(.5);
   border-radius: 12px;
   transform: scaleY(.5);
   border-radius: 12px;
-  transform: scaleY(.5);
   position: absolute;
-  top: 56px;
+  top: 60px;
 }
 
 app-metronome #metronome-arrow {
   background: black;
-  height: 46px;
+  height: 45px;
   width: 6px;
   border: solid 2px white;
   -webkit-transform-origin: center 45px;
@@ -53,7 +59,7 @@ app-metronome #metronome-arrow {
   transform-origin: center 45px;
   border-radius: 0 0 5px 5px;
   position: absolute;
-  top: 8px;
+  top: 10px;
   left: 15px;
 
   -webkit-animation-name: metronome;
