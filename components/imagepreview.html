@@ -1,0 +1,20 @@
+<element name="app-imagepreview">
+  <template>
+    <img src="" width="100%" height="200px">
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function () {
+        this.img = this.querySelector("img");
+      },
+      defaultListener: "preview",
+      listeners: {
+        preview: function(data, channel) {
+          if(data.indexOf("data:image/") === 0) {
+            this.img.src = data;
+          }
+        }
+      }
+    });
+  </script>
+</element>
