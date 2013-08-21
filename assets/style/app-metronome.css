@@ -8,7 +8,6 @@ app-metronome #metronome-wrapper {
   position: relative;
 }
 
-
 app-metronome #metronome-body {
   background: #85560b;
   width: 40px;
@@ -19,6 +18,7 @@ app-metronome #metronome-body {
   position: relative;
 
 }
+
 app-metronome #metronome-hole {
   background: white;
   height: 50px;
@@ -37,26 +37,21 @@ app-metronome #metronome-shadow {
   -webkit-transform: scaleY(.5);
   border-radius: 12px;
   transform: scaleY(.5);
-
   border-radius: 12px;
   transform: scaleY(.5);
-
   position: absolute;
   top: 56px;
 }
-
 
 app-metronome #metronome-arrow {
   background: black;
   height: 46px;
   width: 6px;
   border: solid 2px white;
- 
   -webkit-transform-origin: center 45px;
   -webkit-border-radius: 0 0 5px 5px;
   transform-origin: center 45px;
   border-radius: 0 0 5px 5px;
-
   position: absolute;
   top: 8px;
   left: 15px;
@@ -89,12 +84,12 @@ app-metronome #metronome-arrow {
 }
 
 
+/*Emit Strobe Animation*/
 
 .emitanim {
   -webkit-animation: channelStrobe linear  .2s;
   animation: channelStrobe linear  .2s;
 }
-
 
 @-webkit-keyframes channelStrobe {
   0%    { opacity: 1; }

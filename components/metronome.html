@@ -9,7 +9,6 @@
         <div id="metronome-arrow"></div>
       </div>
     </div>
-
   </template>
   <description>I listen for a message and update my label text.</description>
 
@@ -20,14 +19,12 @@
         this.count = 0;
         this.tick();
         this.setArrowSpeed();
-        
       },
       setArrowSpeed : function(){
         var animDuration = this.period/1000*2;
         var metronomeArrow = this.querySelector('#metronome-arrow');
         $(metronomeArrow).css("-webkit-animation-duration",animDuration + "s");
         $(metronomeArrow).css("animation-duration",animDuration + "s");
-
       },
       tick: function() {
         this.count++;
