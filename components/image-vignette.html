@@ -1,0 +1,42 @@
+<element name="app-image-vignette">
+  <template>
+    <div style="height: 15px; background: #EEE"></div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function () {
+      },
+      defaultListener: "filter",
+      listeners: {
+        filter: function(data, channel) {
+          if(data.indexOf("data:image/") === 0) {
+            var element = this,
+                canvas = document.createElement("canvas"),
+                img = new Image();
+            img.onload = function() {
+              var w = parseInt(img.width),
+                  h = parseInt(img.height);
+              canvas.width = w;
+              canvas.height = h;
+              var ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, w, h);
+              ctx.globalCompositeOperation = 'source-atop';
+              var grd = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w);
+              grd.addColorStop(0, 'rgba(0,0,0,0)');
+              grd.addColorStop(1, 'rgba(0,0,0,1)');
+              ctx.fillStyle = grd;
+              ctx.fillRect(0,0,w,h);
+              ctx.getImageData(0,0,w,h);
+              var dataurl = canvas.toDataURL();
+              element.broadcast(dataurl);
+            };
+            img.src = data;
+          }
+        }
+      },
+      broadcast: function(data) {
+        this.emit(data);
+      }
+    });
+  </script>
+</element>
