@@ -2,13 +2,13 @@ app-metronome {
   padding: 1rem;
 }
 
-app-metronome #metronome-wrapper {
+app-metronome .metronome-wrapper {
   margin: 0 auto;
   width: 50px;
   position: relative;
 }
 
-app-metronome #metronome-body {
+app-metronome .metronome-body {
   background: #85560b;
   border-top: solid 2px #85560b;
   background: -webkit-linear-gradient(top, #a87018,#85560b);
@@ -23,7 +23,7 @@ app-metronome #metronome-body {
 
 }
 
-app-metronome #metronome-hole {
+app-metronome .metronome-hole {
   background: white;
   height: 50px;
   width: 10px;
@@ -35,7 +35,7 @@ app-metronome #metronome-hole {
   border-right: solid 1px #85560b;
 }
 
-app-metronome #metronome-shadow {
+app-metronome .metronome-shadow {
   background: #DDD;
   width: 50px;
   height: 20px;
@@ -49,7 +49,7 @@ app-metronome #metronome-shadow {
   top: 60px;
 }
 
-app-metronome #metronome-arrow {
+app-metronome .metronome-arrow {
   background: black;
   height: 45px;
   width: 6px;

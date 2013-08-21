@@ -2,11 +2,11 @@
 
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-metronome.css">
-    <div id="metronome-wrapper">
-      <div id="metronome-shadow"></div>
-      <div id="metronome-body"> 
-        <div id="metronome-hole"></div>
-        <div id="metronome-arrow"></div>
+    <div class="metronome-wrapper">
+      <div class="metronome-shadow"></div>
+      <div class="metronome-body"> 
+        <div class="metronome-hole"></div>
+        <div class="metronome-arrow"></div>
       </div>
     </div>
   </template>
@@ -15,16 +15,21 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function() {
-        this.period = 500;
+        this.period = 1000;
         this.count = 0;
         this.tick();
         this.setArrowSpeed();
       },
       setArrowSpeed : function(){
         var animDuration = this.period/1000*2;
-        var metronomeArrow = this.querySelector('#metronome-arrow');
-        $(metronomeArrow).css("-webkit-animation-duration",animDuration + "s");
-        $(metronomeArrow).css("animation-duration",animDuration + "s");
+        
+        var metronomeArrow = this.querySelector('.metronome-arrow');
+
+        metronomeArrow.setAttribute(
+          'style', 
+          "-webkit-animation-duration", animDuration + "s;" +
+          "animation-duration", animDuration + "s"
+        );
       },
       broadcast: function (e) {
         this.emit(e)
@@ -47,12 +52,26 @@
         };
         setTimeout(defer, this.period);
       },
+      editable: {
+        "period": {
+          title: "Metronome Period",
+          min : 500,
+          max: 10000,
+          type: "number",
+          description: "Set the period between metronome ticks",
+          edit: function(v) {
+            // this.period = parseInt(v);
+            this.setArrowSpeed();
+          }
+        }
+      },
       listeners: {
         setPeriod: function (val) {
           // errors?
           val = parseInt(val);
           if (val > 0) {
-            this.setAttribute('period', val);
+            // this.setAttribute('period', val);
+            this.period = parseInt(val);
           }
         }
       }
