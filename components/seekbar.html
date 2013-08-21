@@ -18,6 +18,9 @@
           }
         });
       }, 
+      broadcast: function(val) {
+        this.emit(val);
+      },
       changeValue: function(val) {
         this.emit(val);
       },
