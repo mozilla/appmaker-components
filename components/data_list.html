@@ -1,0 +1,58 @@
+<element name="app-data-list">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-list.css">
+    <header class="fixed">
+      <h1>List Title</h1>
+      <ul>
+      </ul>
+    </header>
+  </template>
+  <script type="text/ceci">
+    require(['https://cdn.firebase.com/v0/firebase.js'], function(Firebase, $) {
+      console.log(['Firebase', Firebase]);
+      Ceci(this, {
+        init: function (params) {
+          params = params ? params : {};
+          var appId = params.appId || "app123";
+          var io = new Firebase("https://appmaker.firebaseio.com/" + appId + "/data_list/1");
+
+          var t = this;
+
+          t.io = io;
+
+          var addItem = function(item){
+            var li = document.createElement('li');
+            li.innerHTML = item.title;
+            t.querySelector('ul').appendChild(li);
+          };
+
+          this.io.on('child_added', function(snapshot) {
+            var item = snapshot.val();
+            addItem(item);
+          });
+        },
+        sortByCreatedAt: function(a, b) { 
+          return a.createdAt > b.createdAt;
+        },
+        listeners: {
+          createItem: function (v) {
+            this.io.push({title: v.toString()});
+          },
+          setTitle: function (val) {
+            this.querySelector('h1').innerHTML = val.toString();
+          }
+        },
+        editable: {
+          "listtitle": {
+            title: "List Title",
+            type: "text",
+            description: "A title for your list",
+            edit: function(v) {
+              this.setTitle(v);
+            }
+          }
+        }
+      });
+    });
+  </script>
+</element>
