@@ -3,7 +3,10 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-button.css">
     <style type="text/css">
     </style>
-    <button>Default</button>
+    <div id="button">
+      <button>Default</button>
+    </div>
+  </div>
   </template>
   <description>
     When clicked I broadcast a "clicked" message.
@@ -12,14 +15,23 @@
     Ceci(this, {
       init: function (params) {
         var button = this.querySelector('button')
-
         var t = this;
         button.onclick = function (e) {
           t.broadcast('clicked');
         }
       },
+      editable: {
+        "buttontext": {
+          title: "Button Label",
+          type: "text",
+          description: "A text for your label to show up in your app",
+          edit: function(v) {
+            this.setLabel(v);
+          }
+        }
+      },
       listeners: {
-        setText: function (val) {
+        setLabel: function (val) {
           this.querySelector('button').innerHTML = val;
         }
       },
