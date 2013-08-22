@@ -12,6 +12,7 @@
     require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function() {
       Ceci(element, {
         init: function() {
+          this.pin = this.querySelector(".pinbutton");
           var map = L.map($('.map')[0]);
           L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {maxZoom: 18}).addTo(map);
           var t = this;
@@ -19,7 +20,6 @@
 
           map.on('locationfound', t.onLocationFound);
           map.on('locationerror', t.onLocationError);
-          t.pin = this.querySelector(".pinbutton");
           t.pin.onclick = function(e) {
             t.emit(t.map.getCenter());
           }
@@ -45,9 +45,9 @@
         },
         controlPin: function(truefalse) {
           if (truefalse) {
-            this.pinbutton.classList.remove('hidden');
+            this.pin.classList.remove('hidden');
           } else {
-            this.pinbutton.classList.add('hidden');
+            this.pin.classList.add('hidden');
           }
         },
 
@@ -57,7 +57,7 @@
             type: "text",
             description: "Set where the map should be centered (empty means where the phone is)",
             edit: function(v) {
-              this.setLocation(v);
+              this.findLocationByName(v);
             }
           },
           "pin": {
@@ -65,8 +65,18 @@
             type: "boolean",
             description: "Show the button that emits current location",
             edit: function(v) {
-              this.controlPin(v);
+              element.controlPin(v);
             }
+          }
+        },
+        centerOn: function(lat, lng, type) {
+          var location = new L.LatLng(lat, lng);
+          this.map.panTo(location);
+
+          if (type == 'city' || type == 'administrative') {
+            this.map.setZoom(11);
+          } else {
+            this.map.setZoom(13);
           }
         },
         listeners: {
@@ -74,7 +84,17 @@
             this.broadcast(this.map.getCenter());
           },
           centerOnPhone: function(val) {
-            map.locate({setView: true, maxZoom: 16});      
+            this.map.locate({setView: true, maxZoom: 16});
+          },
+          findLocationByName: function(val) {
+            if (!val) {
+              this.centerOnPhone();
+            } else {
+              $.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + val, 
+                function(v){
+                  element.centerOn(v[0].lat, v[0].lon, v[0].osm_type)
+                });
+            }
           }
         }
       });
