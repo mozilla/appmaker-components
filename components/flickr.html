@@ -1,0 +1,73 @@
+<element name="app-flickr">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-flickr.css">
+    <div class="wrapper"><img class="image"/></div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      percent : 0,      
+      init: function (params) {    
+        $(this).on("click",function(){ this.randomImage(); });
+        var img = this.querySelector("img");
+        this.term = "house";
+        var percent = Math.floor($(this).find("img").width()/$(this).find(".wrapper").width() * 100);
+        $(this).attr('imgwidth', percent); // ??
+        this.randomImage();
+      },
+      editable: {
+        "width": {
+          title: "Image Width",
+          min : 0,
+          max: 100,
+          type: "number",
+          description: "Set the width of your image",
+          edit: function(v) {
+            this.setWidth(v);
+          }
+        },
+        "search": { // XXX turn this to term and make an infinite loop. XXX debug
+          title: "Search term",
+          min : 0,
+          max: 100,
+          type: "number",
+          description: "What kind of pictures are we looking for?",
+          edit: function(v) {
+            this.setTerm(v);
+          }
+        }
+      },
+      listeners: {
+        setWidth: function (val) {
+          this.querySelector('img').style.width = val + "%";
+        },
+        setTerm: function(val) {
+          this.term = val;
+          this.randomImage();
+        },
+        setLocation: function(location) {
+          this.lat = location.lat;
+          this.lng = location.lng;
+          this.randomImage();
+        },
+        randomImage: function () {
+          var img = this.querySelector("img");
+          var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
+          var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");
+          if (this.lat && this.lng) {
+            url = url + "&lat="+this.lat + "&lon=" + this.lng;
+          } else {
+            url = url + "&sort=interestingness-desc"; // if not location based, let's make them interesting
+          }
+          var src;
+          $.getJSON(url + "&format=json&jsoncallback=?", function(data){
+            var count = data.photos.photo.length;
+            var randomIndex = Math.floor(Math.random()*count);
+            var item = data.photos.photo[randomIndex];
+            var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
+            $(img).attr("src",src);
+          });
+        }
+      }
+    });
+  </script>
+</element>
