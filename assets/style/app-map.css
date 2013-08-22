@@ -20,6 +20,44 @@ app-map .pinbutton {
 	width: 100%;
 }
 
+@import url("../fonts.css");
+
+app-map .pinbutton:active {
+  background: -moz-linear-gradient(top, #ddd, #ddd);
+  background: -webkit-linear-gradient(top, #ddd, #ddd);
+}
+
+app-map button {
+
+  font-family: "FiraSans", sans-serif;
+  border: none;
+  background: 0;
+  font-weight: 500;
+  font-size: 1.6rem;
+  position: relative;
+}
+app-map .pinbutton {
+  padding: 0 1.5rem;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  background: -moz-linear-gradient(top, #f8f8f8, #ddd);
+  background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
+  display: block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border: 0.1rem solid #a6a6a6;
+  border-radius: 0.2rem;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 3.8rem;
+  color: #333;
+}
+
+
 app-map .hidden {
 	display: none;
 }

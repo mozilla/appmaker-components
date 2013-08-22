@@ -70,6 +70,9 @@
           }
         },
         listeners: {
+          recordLocation: function(val) {
+            this.broadcast(this.map.getCenter());
+          },
           setLocation: function (val) {
             if (val) {
               map.locate({setView: true, maxZoom: 16});      
