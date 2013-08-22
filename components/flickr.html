@@ -5,8 +5,8 @@
   </template>
   <script type="text/ceci">
     Ceci(this, {
-      percent : 0,      
-      init: function (params) {    
+      percent : 0,
+      init: function (params) {
         $(this).on("click",function(){ this.randomImage(); });
         var img = this.querySelector("img");
         this.term = "house";
@@ -21,7 +21,7 @@
           max: 100,
           type: "number",
           description: "Set the width of your image",
-          edit: function(v) {
+          postset: function(v) {
             this.setWidth(v);
           }
         },
@@ -31,7 +31,7 @@
           max: 100,
           type: "number",
           description: "What kind of pictures are we looking for?",
-          edit: function(v) {
+          postset: function(v) {
             this.setTerm(v);
           }
         }
