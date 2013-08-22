@@ -5,8 +5,8 @@
   </template>
   <script type="text/ceci">
     Ceci(this, {
-      percent : 0,      
-      init: function (params) {    
+      percent : 0,
+      init: function (params) {
         $(this).on("click",function(){ this.randomCat(); });
         var cat = this.querySelector("img");
         var percent = Math.floor($(this).find("img").width()/$(this).find(".wrapper").width() * 100);
@@ -19,7 +19,7 @@
           max: 100,
           type: "number",
           description: "Set the width of your cat",
-          edit: function(v) {
+          postset: function(v) {
             this.setWidth(v);
           }
         }

@@ -24,7 +24,7 @@
           label: "Placeholder text",
           type: "text",
           description: "The text you want your input field to show by default.",
-          edit: function(v) {
+          postset: function(v) {
             this.querySelector("textarea").setAttribute("placeholder", v);
           }
         }

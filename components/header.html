@@ -17,7 +17,7 @@
           title: "Header Label",
           type: "text",
           description: "Text for header label",
-          edit: function(v) {
+          postset: function(v) {
             this.querySelector("header").innerHTML = v
           }
         }
