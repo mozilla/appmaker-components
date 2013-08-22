@@ -8,10 +8,11 @@
     </header>
   </template>
   <script type="text/ceci">
-    require(['https://cdn.firebase.com/v0/firebase.js'], function(Firebase) {
-      console.log(['Firebase', Firebase]);
-      Ceci(this, {
+    var element = this;
+    require(['https://cdn.firebase.com/v0/firebase.js'], function() {
+      Ceci(element, {
         init: function (params) {
+          console.log({ininit: this});
           params = params ? params : {};
           var appId = params.appId || "app123";
           var io = new Firebase("https://appmaker.firebaseio.com/" + appId + "/data_list/1");
@@ -53,6 +54,8 @@
           }
         }
       });
+      console.log(callback);
+      callback();
     });
   </script>
 </element>

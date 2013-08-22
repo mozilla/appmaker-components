@@ -1,10 +1,10 @@
 @import url("../fonts.css");
 
-app-list {
+app-list, app-data-list {
   padding: 0 1.5rem;
 }
 
-app-list h1 {
+app-list h1, app-data-list h1 {
   padding: .5rem 1rem;
   color: rgb(255, 78, 0);
   font-size: 16px; font-size: 1.6rem;
@@ -15,19 +15,19 @@ app-list h1 {
   font-weight: 400;
 }
 
-app-list ul, app-list ol {
+app-list ul, app-data-list ul, app-list ol, app-data-list ol {
   margin: 0;
   list-style-type: none;
   padding: 0;
 }
 
-app-list li {
+app-list li, app-data-list li {
   font-size: 18px; font-size: 1.8rem;
   font-family: "FiraSans", sans-serif;
   border-bottom: solid .1rem #d9d9d9;
   padding: 1.5rem 0rem;
 }
 
-app-list li:last-child {
+app-list li:last-child, app-data-list li:last-child {
   border: none;
 }
