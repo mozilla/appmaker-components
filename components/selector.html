@@ -13,7 +13,7 @@
           <li role="option">
             <label for="option2">
               <input id="option2" type="radio" value="Option 2" name="option">
-              <span>Option 2</span> 
+              <span>Option 2</span>
             </label>
           </li>
           <li role="option">
@@ -34,22 +34,22 @@
         this.setValue('Single Select List');
         var that = this;
         var b = this.querySelector('button');
-        
+
         $(b).on("click",function(){
           var chosen = that.querySelector('input:checked');
           if(chosen){
-            that.choose(chosen.value);            
+            that.choose(chosen.value);
           }
 
         })
-        
+
       },
       editable: {
         "listtitle": {
           title: "List Title",
           type: "text",
           description: "A title for your list",
-          edit: function(v) {
+          postset: function(v) {
             this.setValue(v);
           }
         }
