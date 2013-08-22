@@ -1,0 +1,85 @@
+<element name="app-map">
+
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-map.css">
+    <div class="map"></div>
+    <button class="pinbutton">pin this location</button>
+  </template>
+  <description>I display a map centered on where the phone is, and optionally emit locations the user identifies.</description>
+
+  <script type="text/ceci">
+    var element = this;
+    require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function() {
+      Ceci(element, {
+        init: function() {
+          var map = L.map($('.map')[0]);
+          L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {maxZoom: 18}).addTo(map);
+          var t = this;
+          t.map = map;
+
+          map.on('locationfound', t.onLocationFound);
+          map.on('locationerror', t.onLocationError);
+          t.pin = this.querySelector(".pinbutton");
+          t.pin.onclick = function(e) {
+            t.emit(t.map.getCenter());
+          }
+
+          map.locate({setView: true, maxZoom: 16});      
+        },
+
+        onLocationFound: function(e) {
+          var radius = e.accuracy / 2;
+
+          L.marker(e.latlng).addTo(this.map)
+            .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+          L.circle(e.latlng, radius).addTo(this.map);
+        },
+
+        onLocationError: function(e) {
+          alert(e.message);
+        },
+
+        broadcast: function (e) {
+          this.emit(e)
+        },
+        controlPin: function(truefalse) {
+          if (truefalse) {
+            this.pinbutton.classList.remove('hidden');
+          } else {
+            this.pinbutton.classList.add('hidden');
+          }
+        },
+
+        editable: {
+          "location": {
+            title: "Location",
+            type: "text",
+            description: "Set where the map should be centered (empty means where the phone is)",
+            edit: function(v) {
+              this.setLocation(v);
+            }
+          },
+          "pin": {
+            title: "Show pinpoint button",
+            type: "boolean",
+            description: "Show the button that emits current location",
+            edit: function(v) {
+              this.controlPin(v);
+            }
+          }
+        },
+        listeners: {
+          setLocation: function (val) {
+            if (val) {
+              map.locate({setView: true, maxZoom: 16});      
+            } else {
+              map.locate({setView: true, maxZoom: 16});      
+            }
+          }
+        }
+      });
+      callback();
+    });
+  </script>
+</element>
