@@ -3,7 +3,7 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-map.css">
     <div class="map"></div>
-    <button class="pinbutton">pin this location</button>
+    <button class="pin">pin this location</button>
   </template>
   <description>I display a map centered on where the phone is, and optionally emit locations the user identifies.</description>
 
@@ -12,19 +12,21 @@
     require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function() {
       Ceci(element, {
         init: function() {
-          this.pin = this.querySelector(".pinbutton");
-          var map = L.map($('.map')[0]);
+          var map = L.map(element.querySelector('.map'));
           L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {maxZoom: 18}).addTo(map);
-          var t = this;
+          var t = element;
           t.map = map;
 
           map.on('locationfound', t.onLocationFound);
           map.on('locationerror', t.onLocationError);
-          t.pin.onclick = function(e) {
-            t.emit(t.map.getCenter());
-          }
+          map.locate({setView: true, maxZoom: 16});
 
-          map.locate({setView: true, maxZoom: 16});      
+          element._pin = element.querySelector(".pin");
+          element._pin.onclick = function(e) {
+            element.broadcast(element.map.getCenter());
+          }
+          element._pin.onclick();
+
         },
 
         onLocationFound: function(e) {
@@ -45,9 +47,9 @@
         },
         controlPin: function(truefalse) {
           if (truefalse) {
-            this.pin.classList.remove('hidden');
+            this._pin.classList.remove('hidden');
           } else {
-            this.pin.classList.add('hidden');
+            this._pin.classList.add('hidden');
           }
         },
 

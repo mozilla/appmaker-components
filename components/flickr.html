@@ -1,0 +1,74 @@
+<element name="app-flickr">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-flickr.css">
+    <div class="wrapper"><img class="image"/></div>
+  </template>
+  <script type="text/ceci">
+    Ceci(this, {
+      percent : 0,      
+      init: function (params) {    
+        $(this).on("click",function(){ this.randomImage(); });
+        var cat = this.querySelector("img");
+        this.term = "dog";
+        var percent = Math.floor($(this).find("img").width()/$(this).find(".wrapper").width() * 100);
+        $(this).attr('catwidth', percent);
+      },
+      editable: {
+        "width": {
+          title: "Image Width",
+          min : 0,
+          max: 100,
+          type: "number",
+          description: "Set the width of your image",
+          edit: function(v) {
+            this.setWidth(v);
+          }
+        },
+        "search": {
+          title: "Search term",
+          min : 0,
+          max: 100,
+          type: "number",
+          description: "What kind of pictures are we looking for?",
+          edit: function(v) {
+            this.setTerm(v);
+          }
+        }
+      },
+      listeners: {
+        setWidth: function (val) {
+          this.querySelector('img').style.width = val + "%";
+        },
+        setTerm: function(val) {
+          this.term = val;
+          this.randomImage();
+        },
+        setLocation: function(location) {
+          console.log("flickr got a location:", location)
+          this.lat = location.lat;
+          this.lng = location.lng;
+          this.randomImage();
+        },
+        randomImage: function () {
+          var cat = this.querySelector("img");
+          var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
+          var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=20");
+          if (this.lat && this.lng) {
+            console.log("using location to build search", this.lat, this.lng)
+            url = url + "&lat="+this.lat + "&lon=" + this.lng;
+          }
+          var src;
+          console.log(url);
+          $.getJSON(url + "&format=json&jsoncallback=?", function(data){
+            console.log(data);
+            var count = data.photos.photo.length;
+            var randomIndex = Math.floor(Math.random()*count);
+            var item = data.photos.photo[randomIndex];
+            var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
+            $(cat).attr("src",src);
+          });
+        }
+      }
+    });
+  </script>
+</element>

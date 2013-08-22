@@ -1,3 +1,7 @@
+app-map { 
+	display: block;
+}
+
 app-map .map {
 	min-height: 300px;
 	display: block;
@@ -16,13 +20,13 @@ app-map .pinbar {
 
 }
 
-app-map .pinbutton {
+app-map .pin {
 	width: 100%;
 }
 
 @import url("../fonts.css");
 
-app-map .pinbutton:active {
+app-map .pin:active {
   background: -moz-linear-gradient(top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
@@ -36,7 +40,7 @@ app-map button {
   font-size: 1.6rem;
   position: relative;
 }
-app-map .pinbutton {
+app-map .pin {
   padding: 0 1.5rem;
   position: relative;
   text-decoration: none;
