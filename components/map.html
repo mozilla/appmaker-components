@@ -58,7 +58,7 @@
             title: "Location",
             type: "text",
             description: "Set where the map should be centered (empty means where the phone is)",
-            edit: function(v) {
+            postset: function(v) {
               this.findLocationByName(v);
             }
           },
@@ -66,7 +66,7 @@
             title: "Show pinpoint button",
             type: "boolean",
             description: "Show the button that emits current location",
-            edit: function(v) {
+            postset: function(v) {
               element.controlPin(v);
             }
           }
@@ -92,7 +92,7 @@
             if (!val) {
               this.centerOnPhone();
             } else {
-              $.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + val, 
+              $.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + val,
                 function(v){
                   element.centerOn(v[0].lat, v[0].lon, v[0].osm_type)
                 });

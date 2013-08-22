@@ -32,7 +32,7 @@
             addItem(item);
           });
         },
-        sortByCreatedAt: function(a, b) { 
+        sortByCreatedAt: function(a, b) {
           return a.createdAt > b.createdAt;
         },
         listeners: {
@@ -48,7 +48,7 @@
             title: "List Title",
             type: "text",
             description: "A title for your list",
-            edit: function(v) {
+            postset: function(v) {
               this.setTitle(v);
             }
           }
