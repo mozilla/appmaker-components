@@ -2,17 +2,26 @@
 
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-map.css">
-    <div class="map"></div>
-    <button class="pin">pin this location</button>
+    <div>
+      <div class="map"></div>
+      <button class="pin">pin this location</button>
+    </div>
   </template>
   <description>I display a map centered on where the phone is, and optionally emit locations the user identifies.</description>
 
   <script type="text/ceci">
     var element = this;
-    require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function() {
+    require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function(L) {
       Ceci(element, {
         init: function() {
-          var map = L.map(element.querySelector('.map'));
+
+          var map = L.map(
+            element.querySelector('.map'), {
+              center: new L.LatLng(51.2982709,-116.96357390000004), // The O2
+              zoom: 4
+            }
+          );
+
           L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {maxZoom: 18}).addTo(map);
           var t = element;
           t.map = map;
