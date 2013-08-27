@@ -16,7 +16,9 @@
       },
       updateDisplay: function () {
         this.querySelector('div').innerHTML = this.count.toString();
-      },
+        // no broadcast by default: straight call to this.emit
+        this.emit(this.count);
+     },
       defaultListener: 'increase',
       listeners: {
         increase: function () {
