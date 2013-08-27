@@ -4,12 +4,12 @@ app-button {
   padding: 0 1.5rem;
 }
 
-app-button #button:active {
+app-button .button:active {
   background: -moz-linear-gradient(top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
 
-app-button #button {
+app-button .button {
   padding: 0 1.5rem;
   position: relative;
   text-decoration: none;
