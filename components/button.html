@@ -4,7 +4,7 @@
     <style type="text/css">
     </style>
     <div>
-      <button id="button">Default</button>
+      <button class="button">Default</button>
     </div>
   </div>
   </template>
@@ -14,7 +14,7 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        var button = this.querySelector('div#button')
+        var button = this.querySelector('.button')
         var t = this;
         button.onclick = function (e) {
           t.broadcast('clicked');
