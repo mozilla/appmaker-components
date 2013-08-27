@@ -2,9 +2,12 @@
 
 app-counter {
 	height: 3.8rem;
-	line-height: 3.8rem;
+}
+
+app-counter .counter {
+  line-height: 3.8rem;
 	text-align: center;
 	font-size: font-size: 1.6rem;
-  	font-family: "FiraSans", sans-serif;
-  	padding: 0 1.5rem;
+  font-family: "FiraSans", sans-serif;
+  padding: 0 1.5rem;
 }

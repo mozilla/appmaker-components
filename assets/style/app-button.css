@@ -28,6 +28,7 @@ app-button #button {
   font-size: 1.6rem;
   line-height: 3.8rem;
   color: #333;
+  width: 100%;
 }
 
 app-button button {

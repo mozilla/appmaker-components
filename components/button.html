@@ -3,8 +3,8 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-button.css"></link>
     <style type="text/css">
     </style>
-    <div id="button">
-      <button>Default</button>
+    <div>
+      <button id="button">Default</button>
     </div>
   </div>
   </template>
@@ -37,6 +37,7 @@
       },
       broadcast: function (e) {
         this.emit(e)
+
       }
     });
   </script>
