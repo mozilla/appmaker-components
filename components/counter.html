@@ -12,22 +12,23 @@
     Ceci(this, {
       init: function (params) {
         console.log(this);
-        this.reset(0);
+        this.Reset(0);
       },
       updateDisplay: function () {
         this.querySelector('div').innerHTML = this.count.toString();
       },
-      defaultListener: 'increase',
+      defaultListener: 'Count_Up',
       listeners: {
-        increase: function () {
+        Count_Up: function () {
           this.count++;
           this.updateDisplay();
         },
-        decrease: function () {
-          this.count--;
-          this.updateDisplay();
-        },
-        reset: function (value) {
+        // ,
+        // decrease: function () {
+        //         this.count--;
+        //         this.updateDisplay();
+        //       },
+        Reset: function (value) {
           this.count = parseInt(value);
           if (isNaN(this.count)){
             this.count = 0;

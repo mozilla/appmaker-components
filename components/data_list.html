@@ -7,6 +7,9 @@
       </ul>
     </header>
   </template>
+  <description>
+    I'm a list you can add items to.
+  </description>
   <script type="text/ceci">
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
@@ -27,6 +30,15 @@
             t.querySelector('ul').appendChild(li);
           };
 
+          var resetList = function() {
+            console.log("resettting");
+            t.querySelector('ul').innerHTML = "";
+          }
+
+          this.io.on('child_removed', function(snapshot) {
+            resetList();
+          });
+
           this.io.on('child_added', function(snapshot) {
             var item = snapshot.val();
             addItem(item);
@@ -35,13 +47,17 @@
         sortByCreatedAt: function(a, b) {
           return a.createdAt > b.createdAt;
         },
+        defaultListener: 'Add_Item',
         listeners: {
-          createItem: function (v) {
+          Add_Item: function (v) {
             this.io.push({title: v.toString()});
           },
-          setTitle: function (val) {
-            this.querySelector('h1').innerHTML = val.toString();
-          }
+          Clear_List: function (v) {
+            this.io.remove();
+          },
+          // setTitle: function (val) {
+          //   this.querySelector('h1').innerHTML = val.toString();
+          // }
         },
         editable: {
           "listtitle": {

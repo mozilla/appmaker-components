@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random_cat.css">
     <div class="wrapper"><img style="width: 30%" src="http://placekitten.com/200/200" /></div>
   </template>
+  <description>
+    I'm a random cat image.
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       percent : 0,
@@ -24,11 +27,13 @@
           }
         }
       },
+    setWidth : function(val){
+      console.log(val);
+      this.querySelector("img").style.width = val + "%";
+    }, 
+     defaultListener: 'Change_Cat',
       listeners: {
-        setWidth: function (val) {
-          this.querySelector('img').style.width = val + "%";
-        },
-        randomCat: function () {
+        Change_Cat: function () {
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
           $(cat).attr("src","http://placekitten.com/"+random+"/"+random);
