@@ -7,49 +7,54 @@
     Ceci(this, {
       percent : 0,
       init: function (params) {
-        $(this).on("click",function(){ this.randomImage(); });
+        // $(this).on("click",function(){ this.randomImage(); });
+
         var img = this.querySelector("img");
-        this.term = "house";
-        var percent = Math.floor($(this).find("img").width()/$(this).find(".wrapper").width() * 100);
-        $(this).attr('imgwidth', percent); // ??
-        this.randomImage();
+        this.term = "cat";
+        this.setHeight(100);
+        this.New_Image();
+         $(this).attr('height', 100);
+         $(this).attr('search',  'cat');
+        
       },
       editable: {
-        "width": {
-          title: "Image Width",
+        "height": {
+          title: "Image Height",
           min : 0,
-          max: 100,
+          max: 400,
           type: "number",
           description: "Set the width of your image",
           postset: function(v) {
-            this.setWidth(v);
+            this.setHeight(v);
           }
         },
         "search": { // XXX turn this to term and make an infinite loop. XXX debug
           title: "Search term",
           min : 0,
           max: 100,
-          type: "number",
+          type: "text",
           description: "What kind of pictures are we looking for?",
           postset: function(v) {
-            this.setTerm(v);
+            this.Image_Keyword(v);
           }
         }
       },
+      setHeight: function (val) {
+        console.log("set height to " + val);
+        this.querySelector('img').style.height = val + "px";
+      },
+      defaultListener : "New_Image",
       listeners: {
-        setWidth: function (val) {
-          this.querySelector('img').style.width = val + "%";
-        },
-        setTerm: function(val) {
+        Image_Keyword: function(val) {
           this.term = val;
-          this.randomImage();
+          this.New_Image();
         },
-        setLocation: function(location) {
-          this.lat = location.lat;
-          this.lng = location.lng;
-          this.randomImage();
-        },
-        randomImage: function () {
+        // setLocation: function(location) {
+        //   this.lat = location.lat;
+        //   this.lng = location.lng;
+        //   this.randomImage();
+        // },
+        New_Image: function () {
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
           var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");

@@ -1,18 +1,16 @@
 app-flickr {
-    margin: 0 auto;
-    display: block;
-    min-height: 120px;
-	padding:1px;
-	border:1px solid #ccc;
+  margin: 0 auto;
+  display: block;
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
-    object-fit: contain;
-    display: inline-block;
+}
+
+app-flickr .wrapper {
+  line-height: 0rem;
 }
 
 app-flickr .image {
-	width: 100%;
-	min-height: 40px;
-	background: purple;	
+	background: purple;
+  max-width: 100%;	
 }
