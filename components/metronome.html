@@ -10,26 +10,21 @@
       </div>
     </div>
   </template>
-  <description>I listen for a message and update my label text.</description>
+  <description>I count out the beat and send out the beat count.</description>
 
   <script type="text/ceci">
     Ceci(this, {
       init: function() {
-        this.period = 1000;
+        this.period = 1;
         this.count = 0;
         this.tick();
-        this.setArrowSpeed();
+        this.setArrowSpeed(this.period);
       },
-      setArrowSpeed : function(){
-        var animDuration = this.period/1000*2;
-
+      setArrowSpeed : function(v){
+        var animDuration = v*2;
         var metronomeArrow = this.querySelector('.metronome-arrow');
-
-        metronomeArrow.setAttribute(
-          'style',
-          "-webkit-animation-duration", animDuration + "s;" +
-          "animation-duration", animDuration + "s"
-        );
+        $(metronomeArrow).css("-webkit-animation-duration", animDuration + "s");
+        $(metronomeArrow).css("animation-duration", animDuration + "s");
       },
       broadcast: function (e) {
         this.emit(e)
@@ -45,32 +40,28 @@
           $(indicator).removeClass("emitanim");
         }, this.period - 50);
 
-
         var t = this;
         var defer = function(){
           t.tick();
         };
-        setTimeout(defer, this.period);
+        setTimeout(defer, this.period*1000);
       },
       editable: {
         "period": {
           title: "Metronome Period",
-          min : 500,
-          max: 10000,
+          min : .1,
+          max: 100,
           type: "number",
           description: "Set the period between metronome ticks",
           postset: function(v) {
-            // this.period = parseInt(v);
-            this.setArrowSpeed();
+            this.setArrowSpeed(v);
           }
         }
       },
       listeners: {
         setPeriod: function (val) {
-          // errors?
           val = parseInt(val);
           if (val > 0) {
-            // this.setAttribute('period', val);
             this.period = parseInt(val);
           }
         }
