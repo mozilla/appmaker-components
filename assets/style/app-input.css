@@ -29,6 +29,10 @@ app-input input[type=text]{
   font-family: "FiraSans", sans-serif;
 }
 
+app-input.onchange input[type=text]{
+  width: 100%;
+}
+
 app-input button {
   background: -moz-linear-gradient(top, #f8f8f8, #ddd);
   background: -webkit-linear-gradient(top, #f8f8f8, #ddd);

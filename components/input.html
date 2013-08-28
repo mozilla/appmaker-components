@@ -9,10 +9,20 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
+        this.querySelector('input[type="text"]')
+          .setAttribute('placeholder', 'Placeholder Text');
+        // this.setAttribute('fireonchange', false);
 
         var that = this;
-        
-        this.querySelector('button').onclick = function (e) {
+        this.button = this.querySelector('button');
+        this.button.onclick = function (e) {
+          var input = that.querySelector('input[type="text"]');
+          that.broadcast(input.value);
+          input.value = "";
+        };
+        this.button.onchange = function (e) {
+          console.log('got onchange', that._fireonchange);
+          if (! that._fireonchange) return;
           var input = that.querySelector('input[type="text"]');
           that.broadcast(input.value);
           input.value = "";
@@ -28,6 +38,15 @@
       },
       broadcast: function (e) {
         this.emit(e)
+      },
+      updateConfig: function() {
+        if (this._fireonchange) {
+          this.classList.add('onchange');
+          this.button.classList.add('hidden');
+        } else {
+          this.classList.remove('onchange');
+          this.button.classList.remove('hidden');
+        }
       },
       editable: {
         "placeholdertext": {
@@ -46,6 +65,16 @@
           description: "The text label you want your button to have.",
           postset: function(v) {
             this.querySelector("button").innerHTML = v;
+          }
+        },
+        "fireonchange": {
+          title: "Emit on change",
+          type: "boolean",
+          description: "Emit on change",
+          postset: function(v) {
+            console.log(v);
+            this._fireonchange = v == "true" ? true : false;
+            this.updateConfig();
           }
         }
       }
