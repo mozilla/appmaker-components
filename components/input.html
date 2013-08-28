@@ -9,18 +9,20 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.querySelector('input[type="text"]')
-          .setAttribute('placeholder', 'Placeholder Text');
 
         var that = this;
+        
         this.querySelector('button').onclick = function (e) {
           var input = that.querySelector('input[type="text"]');
           that.broadcast(input.value);
           input.value = "";
         };
+        
+        this.setAttribute("placeholdertext","Placeholder");
+        this.setAttribute("buttontext","OK");        
       },
       listeners: {
-        setValue: function (val) {
+        Set_Value: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
       },
@@ -28,8 +30,9 @@
         this.emit(e)
       },
       editable: {
-        "defaulttext": {
+        "placeholdertext": {
           label: "Placeholder text",
+          title :"Placeholder Text",
           type: "text",
           description: "The text you want your input field to show by default.",
           postset: function(v) {
@@ -38,6 +41,7 @@
         },
         "buttontext": {
           label: "Button label",
+          title: "Button Label",
           type: "text",
           description: "The text label you want your button to have.",
           postset: function(v) {

@@ -9,7 +9,7 @@
   </div>
   </template>
   <description>
-    When clicked I broadcast a "clicked" message.
+    When clicked I broadcast a "click" message.
   </description>
   <script type="text/ceci">
     Ceci(this, {
@@ -17,9 +17,9 @@
         var button = this.querySelector('div')
         var t = this;
         button.onclick = function (e) {
-          t.broadcast('clicked');
+          t.broadcast('Click');
         }
-        $(this).attr('buttontext', 'Click Me');
+        this.setAttribute('buttontext', 'Click Me');
       },
       editable: {
         "buttontext": {
@@ -31,10 +31,10 @@
           }
         }
       },
+      setLabel: function (val) {
+        this.querySelector('button').innerHTML = val;
+      },
       listeners: {
-        setLabel: function (val) {
-          this.querySelector('button').innerHTML = val;
-        }
       },
       broadcast: function (e) {
         this.emit(e)
