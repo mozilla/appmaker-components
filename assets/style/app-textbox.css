@@ -1,4 +1,4 @@
-app-label {
+app-textbox {
   font-size: font-size: 2.4rem;
   font-family: "FiraSans", sans-serif;
   padding: .5rem 1.5rem;
@@ -6,8 +6,7 @@ app-label {
   line-height: auto;
 }
 
-
-app-label h2 {
+app-textbox p {
   padding: 0;
   margin: 0;
 }

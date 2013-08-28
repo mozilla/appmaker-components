@@ -1,17 +1,18 @@
-<element name="app-label">
+<element name="app-textbox">
   <template>
-    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-label.css">
-    <h2></h2>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-textbox.css">
+    <p></p>
   </template>
-  <description>I listen for a message and update my label text.</description>
+  <description>I listen for a message and update my text.</description>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
         this.setValue('Heading');
+        this.setAttribute('text',"I'm a text box.")
       },
       editable: {
-        "labeltext": {
-          title: "Label text",
+        "text": {
+          title: "Text",
           type: "text",
           description: "A text for your label to show up in your app",
           postset: function(v) {
@@ -21,7 +22,7 @@
       },
       listeners: {
         setValue: function (val) {
-          this.querySelector('h2').innerHTML = val.toString();
+          this.querySelector('p').innerHTML = val.toString();
         }
       }
     });
