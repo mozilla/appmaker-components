@@ -12,7 +12,7 @@
     Ceci(this, {
       init: function (params) {
         console.log(this);
-        this.Reset(0);
+        this.Reset_Count(0);
       },
       updateDisplay: function () {
         this.querySelector('div').innerHTML = this.count.toString();
@@ -28,7 +28,7 @@
         //         this.count--;
         //         this.updateDisplay();
         //       },
-        Reset: function (value) {
+        Reset_Count: function (value) {
           this.count = parseInt(value);
           if (isNaN(this.count)){
             this.count = 0;
