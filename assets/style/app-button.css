@@ -1,7 +1,7 @@
 @import url("../fonts.css");
 
 app-button {
-  padding: 0 1.5rem;
+  padding: 0;
 }
 
 app-button .button:active {

@@ -1,7 +1,7 @@
 @import url("../fonts.css");
 
 app-submit {
-  padding: 0 1.5rem;
+  padding: 0;
 }
 
 app-submit .button:active {
