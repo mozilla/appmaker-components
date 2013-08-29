@@ -50,7 +50,7 @@
         }
       },
       broadcast: function (e) {
-        this.emit(e)
+        this.emit(e, this.querySelector("input").getAttribute("placeholder"));
       },
       updateConfig: function() {
         if (this._fireonchange) {

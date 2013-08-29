@@ -4,6 +4,7 @@
     <style type="text/css">
     </style>
     <div>
+      <ul class="property-list"></ul>
       <div class='button'>
         <button>Submit</button>
       </div>
@@ -16,30 +17,22 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        var button = this.querySelector('button')
-        var t = this;
+        var _this = this;
         this._data = {};
         this.setAttribute('label', 'Submit');
-        button.onclick = function (e) {
-          var packet = {};
-          packet[t.getAttribute('a')] = t._data['a'];
-          packet[t.getAttribute('b')] = t._data['b'];
-          packet[t.getAttribute('c')] = t._data['c'];
-          packet[t.getAttribute('d')] = t._data['d'];
-          t.broadcast(packet);
+
+        this._list = this.querySelector('.property-list');
+
+        this.querySelector('.button').onclick = function (e) {
+          _this.broadcast(_this._data);
         };
-        if (! this.hasAttribute('a')) {
-          this.setAttribute("a", "foo");
-        }
-        if (! this.hasAttribute('b')) {
-          this.setAttribute("b", "bar");
-        }
-        if (! this.hasAttribute('c')) {
-          this.setAttribute("c", "baz");
-        }
-        if (! this.hasAttribute('d')) {
-          this.setAttribute("d", "bam");
-        }
+
+        Array.prototype.forEach.call(this.attributes, function (attr) {
+          if (attr.name.indexOf('data-') > -1) {
+            _this.data[attr.name] = attr.value;
+            this.syncList(type);
+          }
+        });
       },
       editable: {
         "label": {
@@ -50,52 +43,33 @@
           postset: function(val) {
             this.querySelector('button').innerHTML = val;
           }
-        },
-        "a": {
-          title: "Slot A will receive:",
-          label: "Slot A will receive:",
-          type: "text",
-          description: "aa",
-          postset: function(v) { }
-        },
-        "b": {
-          type: "text",
-          title: "Slot B will receive:",
-          label: "Slot B will receive:",
-          description: "jh",
-          postset: function(v) { }
-        },
-        "c": {
-          type: "text",
-          title: "Slot C will receive:",
-          label: "Slot C will receive:",
-          description: "lkj",
-          postset: function(v) { }
-        },
-        "d": {
-          type: "text",
-          title: "Slot D will receive:",
-          label: "Slot D will receive:",
-          description: "kjh",
-          postset: function(v) { }
-        },
+        }
       },
       listeners: {
-        setSlotA: function (val) {
-          this._data['a'] = val;
-        },
-        setSlotB: function (val) {
-          this._data['b'] = val;
-        },
-        setSlotC: function (val) {
-          this._data['c'] = val;
-        },
-        setSlotD: function (val) {
-          this._data['d'] = val;
-        },
+        setValue: function (val, channel, type) {
+          this._data[type] = val;
+          this.syncList(type);
+        }
+      },
+      syncList: function (property) {
+        var value = this._data[property];
+        var fixedProperty = property.replace(/\s/g, '');
+        var currentListItem = this._list.querySelector('li[data-' + fixedProperty + ']');
+        if (!!value) {
+          if (!currentListItem) {
+            currentListItem = document.createElement('li');
+            this._list.appendChild(currentListItem);
+          }
+          currentListItem.innerHTML = '<div class="name">' + property + ': ' + '</div><div class="value">' + value + '</div>';
+          currentListItem.setAttribute('data-' + fixedProperty, value);
+        } else {
+          if (currentListItem) {
+            this._list.removeChild(currentListItem);
+          }
+        }
       },
       broadcast: function (e) {
-        this.emit(e)
+        this.emit(e);
       }
     });
   </script>
