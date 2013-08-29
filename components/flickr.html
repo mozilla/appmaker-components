@@ -49,11 +49,11 @@
           this.term = val;
           this.New_Image();
         },
-        // setLocation: function(location) {
-        //   this.lat = location.lat;
-        //   this.lng = location.lng;
-        //   this.randomImage();
-        // },
+        setLocation: function(location) {
+          this.lat = location.lat;
+          this.lng = location.lng;
+          this.New_Image();
+        },
         New_Image: function () {
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
