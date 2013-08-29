@@ -3,8 +3,10 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-submit.css"></link>
     <style type="text/css">
     </style>
-    <div id="button">
-      <button>Submit</button>
+    <div>
+      <div class='button'>
+        <button>Submit</button>
+      </div>
     </div>
   </div>
   </template>
@@ -17,13 +19,14 @@
         var button = this.querySelector('button')
         var t = this;
         this._data = {};
+        this.setAttribute('label', 'Submit');
         button.onclick = function (e) {
           var packet = {};
           packet[t.getAttribute('a')] = t._data['a'];
           packet[t.getAttribute('b')] = t._data['b'];
           packet[t.getAttribute('c')] = t._data['c'];
           packet[t.getAttribute('d')] = t._data['d'];
-          t.broadcast(JSON.stringify(packet));
+          t.broadcast(packet);
         };
         this.setAttribute("a", "foo");
         this.setAttribute("b", "bar");
@@ -31,6 +34,15 @@
         this.setAttribute("d", "bam");
       },
       editable: {
+        "label": {
+          title: "Button Label",
+          label: "Button Label:",
+          type: "text",
+          description: "aa",
+          postset: function(val) {
+            this.querySelector('button').innerHTML = val;
+          }
+        },
         "a": {
           title: "Slot A will receive:",
           label: "Slot A will receive:",

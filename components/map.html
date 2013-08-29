@@ -94,6 +94,9 @@
           recordLocation: function(val) {
             this.broadcast(this.map.getCenter());
           },
+          centerOnLocation: function(location) {
+            this.map.panTo({'lat':Number(location.lat), 'lon':Number(location.lon)});
+          },
           centerOnPhone: function(val) {
             this.map.locate({setView: true, maxZoom: 16});
           },

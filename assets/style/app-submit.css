@@ -4,12 +4,12 @@ app-submit {
   padding: 0 1.5rem;
 }
 
-app-submit #button:active {
+app-submit .button:active {
   background: -moz-linear-gradient(top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
 
-app-submit #button {
+app-submit .button {
   padding: 0 1.5rem;
   position: relative;
   text-decoration: none;
