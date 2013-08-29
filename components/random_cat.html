@@ -10,9 +10,9 @@
     Ceci(this, {
       percent : 0,
       init: function (params) {
-        $(this).on("click",function(){ this.randomCat(); });
+        $(this).on("click",function(){ this.changeCat(); });
         var cat = this.querySelector("img");
-        var percent = Math.floor($(this).find("img").width()/$(this).find(".wrapper").width() * 100);
+        var percent = 80;
         $(this).attr('catwidth', percent);
       },
       editable: {
@@ -32,7 +32,7 @@
     }, 
      defaultListener: 'Change_Cat',
       listeners: {
-        Change_Cat: function () {
+        changeCat: function () {
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
           $(cat).attr("src","http://placekitten.com/"+random+"/"+random);
