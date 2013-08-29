@@ -18,19 +18,12 @@
         var t = this;
         this._data = {};
         button.onclick = function (e) {
-          console.log("GOT CLICK");
-          try {
-            var packet = {};
-            packet[t.getAttribute('a')] = t._data['a'];
-            packet[t.getAttribute('b')] = t._data['b'];
-            packet[t.getAttribute('c')] = t._data['c'];
-            packet[t.getAttribute('d')] = t._data['d'];
-            console.log(packet)
-            t.broadcast(JSON.stringify(packet));
-            return true;
-          } catch (e) {
-            console.log(e);
-          }
+          var packet = {};
+          packet[t.getAttribute('a')] = t._data['a'];
+          packet[t.getAttribute('b')] = t._data['b'];
+          packet[t.getAttribute('c')] = t._data['c'];
+          packet[t.getAttribute('d')] = t._data['d'];
+          t.broadcast(JSON.stringify(packet));
         };
         this.setAttribute("a", "foo");
         this.setAttribute("b", "bar");
@@ -43,10 +36,7 @@
           label: "Slot A will receive:",
           type: "text",
           description: "aa",
-          postset: function(v) {
-            console.log('postset', v);
-            // this._A = v;
-          }
+          postset: function(v) { }
         },
         "b": {
           type: "text",
