@@ -14,6 +14,7 @@
     I show fireworks.
   </description>
   <script type="text/ceci">
+    var element = this;
     Ceci(this, {
       init: function (params) {
         // when animating on canvas, it is best to use requestAnimationFrame instead of setTimeout or setInterval
@@ -37,23 +38,26 @@
             fireworks = [],
             // particle collection
             particles = [],
-            // starting hue
-            hue = 120,
             // when launching fireworks with a click, too many get launched at once without a limiter, one launch per 5 loop ticks
             limiterTotal = 5,
             limiterTick = 0,
-            // this will time the auto launches of fireworks, one launch per 80 loop ticks
-            timerTotal = 80,
-            timerTick = 0,
             mousedown = false,
             // mouse x coordinate,
             mx,
             // mouse y coordinate
             my;
          
+        // starting hue
+        this.hue = 120;
+        // this will time the auto launches of fireworks, one launch per 80 loop ticks
+        this.timerTotal = 80,
+        this.timerTick = 0,
         // set canvas dimensions
         canvas.width = cw;
         canvas.height = ch;
+        this.ctx = ctx;
+        this.cw = cw;
+        this.ch = ch;
 
         // now we are going to setup our function placeholders for the entire demo
 
@@ -61,6 +65,7 @@
         function random( min, max ) {
           return Math.random() * ( max - min ) + min;
         }
+        this.random = random;
 
         // calculate the distance between two points
         function calculateDistance( p1x, p1y, p2x, p2y ) {
@@ -70,7 +75,7 @@
         }
 
         // create firework
-        function Firework( sx, sy, tx, ty ) {
+        function Firework( sx, sy, tx, ty, hue ) {
           // actual coordinates
           this.x = sx;
           this.y = sy;
@@ -80,6 +85,7 @@
           // target coordinates
           this.tx = tx;
           this.ty = ty;
+          this.hue = hue;
           // distance from starting point to target
           this.distanceToTarget = calculateDistance( sx, sy, tx, ty );
           this.distanceTraveled = 0;
@@ -95,7 +101,6 @@
           this.acceleration = 1.05;
           this.brightness = random( 50, 70 );
         }
-
         // update firework
         Firework.prototype.update = function( index ) {
           // remove last item in coordinates array
@@ -114,7 +119,8 @@
           
           // if the distance traveled, including velocities, is greater than the initial distance to the target, then the target has been reached
           if( this.distanceTraveled >= this.distanceToTarget ) {
-            createParticles( this.tx, this.ty );
+            element.emit("kapow!");
+            createParticles( this.tx, this.ty, this.hue );
             // remove the firework, use the index passed into the update function to determine which to remove
             fireworks.splice( index, 1 );
           } else {
@@ -123,23 +129,21 @@
             this.y += vy;
           }
         }
-
         // draw firework
         Firework.prototype.draw = function() {
           ctx.beginPath();
           // move to the last tracked coordinate in the set, then draw a line to the current x and y
           ctx.moveTo( this.coordinates[ this.coordinates.length - 1][ 0 ], this.coordinates[ this.coordinates.length - 1][ 1 ] );
           ctx.lineTo( this.x, this.y );
-          ctx.strokeStyle = 'hsl(' + hue + ', 100%, ' + this.brightness + '%)';
+          ctx.strokeStyle = 'hsl(' + this.hue + ', 100%, ' + this.brightness + '%)';
           ctx.stroke();
           
           ctx.beginPath();
           // draw the target for this firework with a pulsing circle
           ctx.arc( this.tx, this.ty, this.targetRadius, 0, Math.PI * 2 );
         }
-
         // create particle
-        function Particle( x, y ) {
+        function Particle( x, y, hue ) {
           this.x = x;
           this.y = y;
           // track the past coordinates of each particle to create a trail effect, increase the coordinate count to create more prominent trails
@@ -162,7 +166,6 @@
           // set how fast the particle fades out
           this.decay = random( 0.015, 0.03 );
         }
-
         // update particle
         Particle.prototype.update = function( index ) {
           // remove last item in coordinates array
@@ -176,107 +179,73 @@
           this.y += Math.sin( this.angle ) * this.speed + this.gravity;
           // fade out the particle
           this.alpha -= this.decay;
-          
           // remove the particle once the alpha is low enough, based on the passed in index
           if( this.alpha <= this.decay ) {
             particles.splice( index, 1 );
           }
         }
-
         // draw particle
         Particle.prototype.draw = function() {
-          ctx. beginPath();
+          ctx.beginPath();
           // move to the last tracked coordinates in the set, then draw a line to the current x and y
           ctx.moveTo( this.coordinates[ this.coordinates.length - 1 ][ 0 ], this.coordinates[ this.coordinates.length - 1 ][ 1 ] );
           ctx.lineTo( this.x, this.y );
           ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, ' + this.alpha + ')';
           ctx.stroke();
         }
-
         // create particle group/explosion
-        function createParticles( x, y ) {
+        function createParticles( x, y, hue ) {
           // increase the particle count for a bigger explosion, beware of the canvas performance hit with the increased particles though
           var particleCount = 30;
           while( particleCount-- ) {
-            particles.push( new Particle( x, y ) );
+            particles.push( new Particle( x, y, hue ) );
           }
         }
-
-        // main demo loop
-        function loop() {
-          // this function will run endlessly with requestAnimationFrame
-          requestAnimFrame( loop );
-          
-          // increase the hue to get different colored fireworks over time
-          hue += 0.5;
-          
-          // normally, clearRect() would be used to clear the canvas
-          // we want to create a trailing effect though
-          // setting the composite operation to destination-out will allow us to clear the canvas at a specific opacity, rather than wiping it entirely
-          ctx.globalCompositeOperation = 'destination-out';
-          // decrease the alpha property to create more prominent trails
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-          ctx.fillRect( 0, 0, cw, ch );
-          // change the composite operation back to our main mode
-          // lighter creates bright highlight points as the fireworks and particles overlap each other
-          ctx.globalCompositeOperation = 'lighter';
-          
-          // loop over each firework, draw it, update it
-          var i = fireworks.length;
-          while( i-- ) {
-            fireworks[ i ].draw();
-            fireworks[ i ].update( i );
-          }
-          
-          // loop over each particle, draw it, update it
-          var i = particles.length;
-          while( i-- ) {
-            particles[ i ].draw();
-            particles[ i ].update( i );
-          }
-          
-          // launch fireworks automatically to random coordinates, when the mouse isn't down
-          if( timerTick >= timerTotal ) {
-            if( !mousedown ) {
-              // start the firework at the bottom middle of the screen, then set the random target coordinates, the random y coordinates will be set within the range of the top half of the screen
-              fireworks.push( new Firework( cw / 2, ch, random( 0, cw ), random( 0, ch / 2 ) ) );
-              timerTick = 0;
-            }
-          } else {
-            timerTick++;
-          }
-          
-          // limit the rate at which fireworks get launched when mouse is down
-          if( limiterTick >= limiterTotal ) {
-            if( mousedown ) {
-              // start the firework at the bottom middle of the screen, then set the current mouse coordinates as the target
-              fireworks.push( new Firework( cw / 2, ch, mx, my ) );
-              limiterTick = 0;
-            }
-          } else {
-            limiterTick++;
-          }
+        this.Firework = Firework;
+        this.Particle = Particle;
+        this.fireworks = fireworks;
+        this.particles = particles;
+        this.loop();
+      },
+      loop: function() {
+        // this function will run endlessly with requestAnimationFrame
+        requestAnimFrame( this.loop );
+        // increase the hue to get different colored fireworks over time
+        this.hue += this.random(0,20)
+        // normally, clearRect() would be used to clear the canvas
+        // we want to create a trailing effect though
+        // setting the composite operation to destination-out will allow us to clear the canvas at a specific opacity, rather than wiping it entirely
+        this.ctx.globalCompositeOperation = 'destination-out';
+        // decrease the alpha property to create more prominent trails
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.fillRect( 0, 0, this.cw, this.ch );
+        // change the composite operation back to our main mode
+        // lighter creates bright highlight points as the fireworks and particles overlap each other
+        this.ctx.globalCompositeOperation = 'lighter';
+        // loop over each firework, draw it, update it
+        var i = this.fireworks.length;
+        while( i-- ) {
+          this.fireworks[ i ].draw();
+          this.fireworks[ i ].update( i );
         }
-
-        loop();
+        // loop over each particle, draw it, update it
+        var i = this.particles.length;
+        while( i-- ) {
+          this.particles[ i ].draw();
+          this.particles[ i ].update( i );
+        }
+      },
+      launchRocket: function() {
+        this.fireworks.push( new this.Firework( this.cw / 2, this.ch, 
+          this.random( 0, this.cw ), this.random( 0, this.ch / 2 ), this.hue));
       },
       editable: {
-        "buttontext": {
-          title: "Button Label",
-          type: "text",
-          description: "A text for your label to show up in your app",
-          postset: function(v) {
-            this.setLabel(v);
-          }
-        }
       },
+      defaultListener: "shootRocket",
       listeners: {
-        setLabel: function (val) {
-          this.querySelector('button').innerHTML = val;
+        shootRocket: function (val) {
+          this.launchRocket();
         }
-      },
-      broadcast: function (e) {
-        this.emit(e)
       }
     });
   </script>
