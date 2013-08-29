@@ -18,8 +18,18 @@
           input.value = "";
         };
         
-        this.setAttribute("placeholdertext","Placeholder");
-        this.setAttribute("buttontext","OK");        
+        if (this.hasAttribute('placeholdertext')) {
+          this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
+        }
+        else {
+          this.setAttribute("placeholdertext", "Placeholder");  
+        }
+        if (this.hasAttribute('buttontext')) {
+          this.querySelector("button").innerHTML = this.getAttribute('buttontext');
+        }
+        else {
+          this.setAttribute("buttontext", "OK");
+        }        
       },
       listeners: {
         Set_Value: function (val) {

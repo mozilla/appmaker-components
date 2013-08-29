@@ -19,8 +19,8 @@
           var _this = this;
 
           _this._settings = {
-            nick: 'Anonyfox' + Math.round(Math.random()*999),
-            room: 'Mozilla'
+            nick: _this.hasAttribute('nickname') ? _this.getAttribute('nickname') : 'Anonyfox' + Math.round(Math.random()*999),
+            room: _this.hasAttribute('room') ? _this.getAttribute('room') : 'Mozilla'
           };
 
           _this._list = this.querySelector('ul');
@@ -62,6 +62,9 @@
             _this._ioConnected.on('value', onConnectionInfo);
           };
 
+          _this.setAttribute('nickname', _this._settings.nick);
+          _this.setAttribute('room', _this._settings.room);
+
           _this._connect();
         },
         sortByCreatedAt: function(a, b) {
@@ -94,7 +97,7 @@
             type: 'text',
             description: 'A nickname for your chatting persona',
             postset: function (v) {
-              this['Set Nickname'](v);
+              this['Set_Nickname'](v);
             }
           },
           'room': {
@@ -102,7 +105,7 @@
             type: 'text',
             description: 'The chat room you want to be in',
             postset: function (v) {
-              this['Set Room'](v);
+              this['Set_Room'](v);
             }
           }
         }
