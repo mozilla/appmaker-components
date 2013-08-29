@@ -9,25 +9,24 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.querySelector('input[type="text"]')
-          .setAttribute('placeholder', 'Placeholder Text');
-        // this.setAttribute('fireonchange', false);
+        this.input = this.querySelector('input');
+        this.input.setAttribute('placeholder', 'Placeholder Text');
 
         var that = this;
         this.button = this.querySelector('button');
         this.button.onclick = function (e) {
+          console.log('got onclick', that._fireonchange);
           var input = that.querySelector('input[type="text"]');
           that.broadcast(input.value);
           input.value = "";
         };
-        this.button.onchange = function (e) {
-          console.log('got onchange', that._fireonchange);
+        this.input.addEventListener("input", function (e) {
+          console.log('got onchange');
           if (! that._fireonchange) return;
-          var input = that.querySelector('input[type="text"]');
-          that.broadcast(input.value);
-          input.value = "";
-        };
-        
+          that.broadcast(that.input.value);
+        }, false);
+
+        this.setAttribute("fireonchange", false);
         this.setAttribute("placeholdertext","Placeholder");
         this.setAttribute("buttontext","OK");        
       },
@@ -72,7 +71,6 @@
           type: "boolean",
           description: "Emit on change",
           postset: function(v) {
-            console.log(v);
             this._fireonchange = v == "true" ? true : false;
             this.updateConfig();
           }

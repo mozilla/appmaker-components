@@ -1,0 +1,92 @@
+<element name="app-submit">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-submit.css"></link>
+    <style type="text/css">
+    </style>
+    <div id="button">
+      <button>Submit</button>
+    </div>
+  </div>
+  </template>
+  <description>
+    When clicked I broadcast an aggregate of all my inputs
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var button = this.querySelector('button')
+        var t = this;
+        this._data = {};
+        button.onclick = function (e) {
+          console.log("GOT CLICK");
+          try {
+            var packet = {};
+            packet[t.getAttribute('a')] = t._data['a'];
+            packet[t.getAttribute('b')] = t._data['b'];
+            packet[t.getAttribute('c')] = t._data['c'];
+            packet[t.getAttribute('d')] = t._data['d'];
+            console.log(packet)
+            t.broadcast(JSON.stringify(packet));
+            return true;
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        this.setAttribute("a", "foo");
+        this.setAttribute("b", "bar");
+        this.setAttribute("c", "baz");
+        this.setAttribute("d", "bam");
+      },
+      editable: {
+        "a": {
+          title: "Slot A will receive:",
+          label: "Slot A will receive:",
+          type: "text",
+          description: "aa",
+          postset: function(v) {
+            console.log('postset', v);
+            // this._A = v;
+          }
+        },
+        "b": {
+          type: "text",
+          title: "Slot B will receive:",
+          label: "Slot B will receive:",
+          description: "jh",
+          postset: function(v) { }
+        },
+        "c": {
+          type: "text",
+          title: "Slot C will receive:",
+          label: "Slot C will receive:",
+          description: "lkj",
+          postset: function(v) { }
+        },
+        "d": {
+          type: "text",
+          title: "Slot D will receive:",
+          label: "Slot D will receive:",
+          description: "kjh",
+          postset: function(v) { }
+        },
+      },
+      listeners: {
+        setSlotA: function (val) {
+          this._data['a'] = val;
+        },
+        setSlotB: function (val) {
+          this._data['b'] = val;
+        },
+        setSlotC: function (val) {
+          this._data['c'] = val;
+        },
+        setSlotD: function (val) {
+          this._data['d'] = val;
+        },
+      },
+      broadcast: function (e) {
+        this.emit(e)
+      }
+    });
+  </script>
+</element>
