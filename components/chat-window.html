@@ -1,0 +1,114 @@
+<element name="app-chat-window">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-chat-window.css">
+    <header class="fixed">
+      <h3>Room: <span class="room-name"></span></h3>
+      <h3>Status: <span class="status">Disconnected</span></h3>
+      <h3>Nickname: <span class="nick-name"></span></h3>
+      <ul></ul>
+    </header>
+  </template>
+  <description>
+    I'm a chat window!
+  </description>
+  <script type="text/ceci">
+    var element = this;
+    require(['https://cdn.firebase.com/v0/firebase.js'], function() {
+      Ceci(element, {
+        init: function () {
+          var _this = this;
+
+          _this._settings = {
+            nick: 'Anonyfox' + Math.round(Math.random()*999),
+            room: 'Mozilla'
+          };
+
+          _this._list = this.querySelector('ul');
+          _this._roomLabel = this.querySelector('.room-name');
+          _this._nickLabel = this.querySelector('.nick-name');
+          _this._statusLabel = this.querySelector('.status');
+
+          var addItem = function (item) {
+            var li = document.createElement('li');
+            li.innerHTML = item.title;
+            _this._list.appendChild(li);
+            _this._list.scrollTop = _this._list.scrollHeight - _this._list.clientHeight;
+          };
+
+          _this._roomLabel.innerHTML = _this._settings.room;
+          _this._nickLabel.innerHTML = _this._settings.nick;
+
+          var _handlers = {
+            'child_added': function (snap) {
+              addItem(snap.val());
+            },
+            'child_removed': function () {
+              // not sure what to do here...
+            }
+          };
+
+          function onConnectionInfo (snap) {
+            _this._statusLabel.innerHTML = snap.val() === true ? 'Connected' : 'Disconnected';
+          }
+
+          _this._connect = function () {
+            if (_this._io) {
+              Object.keys(_handlers).forEach(function (h) {_this._io.off(h, _handlers[h])});
+              _this._ioConnected.off('value', onConnectionInfo);
+            }
+            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this._settings.room + "/chat/1");
+            _this._ioConnected = new Firebase("https://appmaker.firebaseio.com/.info/connected");
+            Object.keys(_handlers).forEach(function (h) {_this._io.on(h, _handlers[h])});
+            _this._ioConnected.on('value', onConnectionInfo);
+          };
+
+          _this._connect();
+        },
+        sortByCreatedAt: function(a, b) {
+          return a.createdAt > b.createdAt;
+        },
+        defaultListener: 'Send Message',
+        listeners: {
+          'Set_Nickname': function (v) {
+            var oldNick = this._settings.nick;
+            this._settings.nick = v.toString();
+            this._nickLabel.innerHTML = this._settings.nick;
+            this._io.push({title: oldNick + ' is now known as ' + this._settings.nick });
+          },
+          'Set_Room': function (v) {
+            this._settings.room = v.toString();
+            this._roomLabel.innerHTML = this._settings.room;
+            this._list.innerHTML = '';
+            this._connect();
+          },
+          'Send_Message': function (v) {
+            this._io.push({title: this._settings.nick + ': ' + v.toString()});
+          },
+          'Clear': function (v) {
+            this._list.innerHTML = '';
+          }
+        },
+        editable: {
+          'nickname': {
+            title: 'Nickname',
+            type: 'text',
+            description: 'A nickname for your chatting persona',
+            postset: function (v) {
+              this['Set Nickname'](v);
+            }
+          },
+          'room': {
+            title: 'Room',
+            type: 'text',
+            description: 'The chat room you want to be in',
+            postset: function (v) {
+              this['Set Room'](v);
+            }
+          }
+        }
+      });
+
+      callback();
+    });
+  </script>
+</element>
