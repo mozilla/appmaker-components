@@ -5,7 +5,7 @@
       background-color: black;
     }
     </style>
-    <canvas id="canvas">
+    <canvas class="fireworks-canvas">
       Canvas is not supported in your browser.
     </canvas>
   </div>
@@ -29,7 +29,7 @@
         })();
 
         // now we will setup our basic variables for the demo
-        var canvas = document.getElementById( 'canvas' ),
+        var canvas = this.querySelector(".fireworks-canvas"),
             ctx = canvas.getContext( '2d' ),
             // full screen dimensions
             cw = 310,
@@ -46,7 +46,7 @@
             mx,
             // mouse y coordinate
             my;
-         
+
         // starting hue
         this.hue = 120;
         // this will time the auto launches of fireworks, one launch per 80 loop ticks
@@ -107,16 +107,16 @@
           this.coordinates.pop();
           // add current coordinates to the start of the array
           this.coordinates.unshift( [ this.x, this.y ] );
-          
+
           // speed up the firework
           this.speed *= this.acceleration;
-          
+
           // get the current velocities based on angle and speed
           var vx = Math.cos( this.angle ) * this.speed,
               vy = Math.sin( this.angle ) * this.speed;
           // how far will the firework have traveled with velocities applied?
           this.distanceTraveled = calculateDistance( this.sx, this.sy, this.x + vx, this.y + vy );
-          
+
           // if the distance traveled, including velocities, is greater than the initial distance to the target, then the target has been reached
           if( this.distanceTraveled >= this.distanceToTarget ) {
             element.emit("kapow!");
@@ -137,7 +137,7 @@
           ctx.lineTo( this.x, this.y );
           ctx.strokeStyle = 'hsl(' + this.hue + ', 100%, ' + this.brightness + '%)';
           ctx.stroke();
-          
+
           ctx.beginPath();
           // draw the target for this firework with a pulsing circle
           ctx.arc( this.tx, this.ty, this.targetRadius, 0, Math.PI * 2 );
@@ -236,7 +236,7 @@
         }
       },
       launchRocket: function() {
-        this.fireworks.push( new this.Firework( this.cw / 2, this.ch, 
+        this.fireworks.push( new this.Firework( this.cw / 2, this.ch,
           this.random( 0, this.cw ), this.random( 0, this.ch / 2 ), this.hue));
       },
       editable: {
