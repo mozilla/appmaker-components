@@ -28,10 +28,18 @@
           packet[t.getAttribute('d')] = t._data['d'];
           t.broadcast(packet);
         };
-        this.setAttribute("a", "foo");
-        this.setAttribute("b", "bar");
-        this.setAttribute("c", "baz");
-        this.setAttribute("d", "bam");
+        if (! this.hasAttribute('a')) {
+          this.setAttribute("a", "foo");
+        }
+        if (! this.hasAttribute('b')) {
+          this.setAttribute("b", "bar");
+        }
+        if (! this.hasAttribute('c')) {
+          this.setAttribute("c", "baz");
+        }
+        if (! this.hasAttribute('d')) {
+          this.setAttribute("d", "bam");
+        }
       },
       editable: {
         "label": {
