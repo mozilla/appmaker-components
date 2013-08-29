@@ -14,6 +14,7 @@
     I show fireworks.
   </description>
   <script type="text/ceci">
+    var element = this;
     Ceci(this, {
       init: function (params) {
         // when animating on canvas, it is best to use requestAnimationFrame instead of setTimeout or setInterval
@@ -118,6 +119,7 @@
           
           // if the distance traveled, including velocities, is greater than the initial distance to the target, then the target has been reached
           if( this.distanceTraveled >= this.distanceToTarget ) {
+            element.emit("kapow!");
             createParticles( this.tx, this.ty, this.hue );
             // remove the firework, use the index passed into the update function to determine which to remove
             fireworks.splice( index, 1 );
@@ -209,7 +211,7 @@
         // this function will run endlessly with requestAnimationFrame
         requestAnimFrame( this.loop );
         // increase the hue to get different colored fireworks over time
-        this.hue += 0.5;
+        this.hue += this.random(0,20)
         // normally, clearRect() would be used to clear the canvas
         // we want to create a trailing effect though
         // setting the composite operation to destination-out will allow us to clear the canvas at a specific opacity, rather than wiping it entirely
@@ -244,10 +246,10 @@
         shootRocket: function (val) {
           this.launchRocket();
         }
-      },
-      broadcast: function (e) {
-        this.emit(e)
       }
+      // broadcast: function (e) {
+      //   this.emit(e)
+      // }
     });
   </script>
 </element>
