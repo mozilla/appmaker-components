@@ -10,15 +10,12 @@
     Ceci(this, {
       percent : 0,
       init: function (params) {
-        // $(this).on("click",function(){ this.randomImage(); });
-
         var img = this.querySelector("img");
         this.term = "cat";
         this.setHeight(100);
-        this.New_Image();
+        this.newImage();
          $(this).attr('height', 100);
          $(this).attr('search',  'cat');
-        
       },
       editable: {
         "height": {
@@ -38,7 +35,7 @@
           type: "text",
           description: "What kind of pictures are we looking for?",
           postset: function(v) {
-            this.Image_Keyword(v);
+            this.setImageKeyword(v);
           }
         }
       },
@@ -46,18 +43,18 @@
         console.log("set height to " + val);
         this.querySelector('img').style.height = val + "px";
       },
-      defaultListener : "New_Image",
+      defaultListener : "newImage",
       listeners: {
-        Image_Keyword: function(val) {
+        setImageKeyword: function(val) {
           this.term = val;
-          this.New_Image();
+          this.newImage();
         },
         setLocation: function(location) {
           this.lat = location.lat;
           this.lng = location.lng;
           this.New_Image();
         },
-        New_Image: function () {
+        newImage: function () {
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
           var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");
@@ -73,6 +70,8 @@
             var item = data.photos.photo[randomIndex];
             var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
             $(img).attr("src",src);
+            // straight emit, will only broadcast if a channel has been chosen
+            this.emit(src);
           });
         }
       }
