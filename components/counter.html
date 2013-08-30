@@ -12,23 +12,21 @@
     Ceci(this, {
       init: function (params) {
         console.log(this);
-        this.Reset_Count(0);
+        this.resetCount(0);
       },
       updateDisplay: function () {
-        this.querySelector('div').innerHTML = this.count.toString();
+        this.querySelector('div').innerHTML = this.count;
+        // bypasses default broadcasting, so that the value
+        // is only sent along after a broadcast channel has been chosen
+        this.emit(this.count);
       },
-      defaultListener: 'Count_Up',
+      defaultListener: 'countUp',
       listeners: {
-        Count_Up: function () {
+        countUp: function () {
           this.count++;
           this.updateDisplay();
         },
-        // ,
-        // decrease: function () {
-        //         this.count--;
-        //         this.updateDisplay();
-        //       },
-        Reset_Count: function (value) {
+        resetCount: function (value) {
           this.count = parseInt(value);
           if (isNaN(this.count)){
             this.count = 0;

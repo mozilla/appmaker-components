@@ -9,30 +9,27 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-
         var that = this;
-        
         this.querySelector('button').onclick = function (e) {
           var input = that.querySelector('input[type="text"]');
           that.broadcast(input.value);
           input.value = "";
         };
-        
         if (this.hasAttribute('placeholdertext')) {
           this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
         }
         else {
-          this.setAttribute("placeholdertext", "Placeholder");  
+          this.setAttribute("placeholdertext", "Placeholder");
         }
         if (this.hasAttribute('buttontext')) {
           this.querySelector("button").innerHTML = this.getAttribute('buttontext');
         }
         else {
           this.setAttribute("buttontext", "OK");
-        }        
+        }
       },
       listeners: {
-        Set_Value: function (val) {
+        setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
       },
@@ -41,7 +38,6 @@
       },
       editable: {
         "placeholdertext": {
-          label: "Placeholder text",
           title :"Placeholder Text",
           type: "text",
           description: "The text you want your input field to show by default.",
@@ -50,7 +46,6 @@
           }
         },
         "buttontext": {
-          label: "Button label",
           title: "Button Label",
           type: "text",
           description: "The text label you want your button to have.",
