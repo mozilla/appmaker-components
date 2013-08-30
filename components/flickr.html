@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-flickr.css">
     <div class="wrapper"><img class="image"/></div>
   </template>
+  <description>
+    Shows images from Flickr
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       percent : 0,
@@ -49,11 +52,11 @@
           this.term = val;
           this.New_Image();
         },
-        // setLocation: function(location) {
-        //   this.lat = location.lat;
-        //   this.lng = location.lng;
-        //   this.randomImage();
-        // },
+        setLocation: function(location) {
+          this.lat = location.lat;
+          this.lng = location.lng;
+          this.New_Image();
+        },
         New_Image: function () {
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";

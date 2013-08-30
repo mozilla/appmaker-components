@@ -7,6 +7,9 @@
       </div>
     </div>
   </template>
+  <description>
+    A basic textarea
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
@@ -16,7 +19,7 @@
       },
       listeners: {
         setValue: function (val) {
-          this.querySelector('input[type="text"]').value = val.toString();
+          this.querySelector('textarea').value = val.toString();
         }
       },
       editable: {
