@@ -10,21 +10,19 @@
   </script>
   <script type="text/ceci">
     Ceci(this, {
-      init: function (params) {
-        console.log(this);
-        this.resetCount(0);
+      init: function () {
+        this.count = 0;
       },
       updateDisplay: function () {
         this.querySelector('div').innerHTML = this.count;
-        // bypasses default broadcasting, so that the value
-        // is only sent along after a broadcast channel has been chosen
-        this.emit(this.count);
+        this.sendCount(this.count);
       },
-      defaultListener: 'countUp',
+
       listeners: {
         countUp: function () {
           this.count++;
           this.updateDisplay();
+          this.sendIncreased();
         },
         resetCount: function (value) {
           this.count = parseInt(value);
@@ -33,7 +31,15 @@
           }
           this.updateDisplay();
         }
-      }
+      },
+      defaultListener: 'countUp',
+
+      broadcast: [
+        "sendCount",
+        "sendIncreased"
+      ],
+      defaultBroadcast: false
+
     });
   </script>
 </element>
