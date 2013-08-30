@@ -47,17 +47,14 @@
         sortByCreatedAt: function(a, b) {
           return a.createdAt > b.createdAt;
         },
-        defaultListener: 'Add_Item',
+        defaultListener: 'addItem',
         listeners: {
-          Add_Item: function (v) {
+          addItem: function (v) {
             this.io.push({title: v.toString()});
           },
-          Clear_List: function (v) {
+          clearList: function (v) {
             this.io.remove();
-          },
-          // setTitle: function (val) {
-          //   this.querySelector('h1').innerHTML = val.toString();
-          // }
+          }
         },
         editable: {
           "listtitle": {

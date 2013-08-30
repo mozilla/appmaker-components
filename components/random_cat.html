@@ -27,15 +27,18 @@
           }
         }
       },
-    setWidth : function(val){
-      this.querySelector("img").style.width = val + "%";
-    }, 
-     defaultListener: 'Change_Cat',
+      setWidth : function(val){
+       this.querySelector("img").style.width = val + "%";
+      },
+      defaultListener: 'changeCat',
       listeners: {
         changeCat: function () {
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
-          $(cat).attr("src","http://placekitten.com/"+random+"/"+random);
+          var src = "http://placekitten.com/"+random+"/"+random;
+          $(cat).attr("src",src);
+          // only broadcast after a broadcast channel has been chosen
+          this.emit(src);
         }
       }
     });
