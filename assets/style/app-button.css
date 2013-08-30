@@ -5,12 +5,13 @@ app-button {
 }
 
 app-button .button:active {
-  background: -moz-linear-gradient(top, #ddd, #ddd);
-  background: -webkit-linear-gradient(top, #ddd, #ddd);
+  background: -moz-linear-gradient(top, #ddd, #f8f8f8);
+  background: -webkit-linear-gradient(top, #ddd, #f8f8f8);
+  padding-top: 6px;
+  padding-bottom: 2px;
 }
 
 app-button .button {
-  padding: 0 1.5rem;
   position: relative;
   text-decoration: none;
   outline: none;
@@ -19,7 +20,8 @@ app-button .button {
   text-align: center;
   text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
   display: block;
-  vertical-align: middle;
+  padding-top: 5px;
+  padding-bottom: 3px;
   text-overflow: ellipsis;
   overflow: hidden;
   border: 0.1rem solid #a6a6a6;
