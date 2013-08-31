@@ -9,7 +9,7 @@
     Ceci(this, {
       init: function () {
       },
-
+      defaultListener: "filter",
       listeners: {
         filter: function(data, channel) {
           if(data.indexOf("data:image/") === 0) {
@@ -31,16 +31,15 @@
               ctx.fillRect(0,0,w,h);
               ctx.getImageData(0,0,w,h);
               var dataurl = canvas.toDataURL();
-              element.sendImageData(dataurl);
+              element.broadcast(dataurl);
             };
             img.src = data;
           }
         }
       },
-      defaultListener: "filter",
-
-      broadcast: [ "sendImageData" ],
-      defaultBroadcast: "sendImageData"
+      broadcast: function(data) {
+        this.emit(data);
+      }
     });
   </script>
 </element>
