@@ -30,20 +30,17 @@
       setWidth : function(val){
        this.querySelector("img").style.width = val + "%";
       },
-
+      defaultListener: 'changeCat',
       listeners: {
         changeCat: function () {
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
           var src = "http://placekitten.com/"+random+"/"+random;
           $(cat).attr("src",src);
-          this.sendCat(src);
+          // only broadcast after a broadcast channel has been chosen
+          this.emit(src);
         }
-      },
-      defaultListener: 'changeCat',
-
-      broadcast: [ "sendCat" ],
-      defaultBroadcast: "sendCat"
+      }
     });
   </script>
 </element>

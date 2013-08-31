@@ -119,7 +119,7 @@
 
           // if the distance traveled, including velocities, is greater than the initial distance to the target, then the target has been reached
           if( this.distanceTraveled >= this.distanceToTarget ) {
-            element.sendKapow("kapow!");
+            element.emit("kapow!");
             createParticles( this.tx, this.ty, this.hue );
             // remove the firework, use the index passed into the update function to determine which to remove
             fireworks.splice( index, 1 );
@@ -239,16 +239,14 @@
         this.fireworks.push( new this.Firework( this.cw / 2, this.ch,
           this.random( 0, this.cw ), this.random( 0, this.ch / 2 ), this.hue));
       },
-
+      editable: {
+      },
+      defaultListener: "shootRocket",
       listeners: {
         shootRocket: function (val) {
           this.launchRocket();
         }
-      },
-      defaultListener: "shootRocket",
-
-      broadcast: [ "sendKapow" ],
-      defaultBroadcast: "sendKapow"
+      }
     });
   </script>
 </element>
