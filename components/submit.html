@@ -1,0 +1,91 @@
+<element name="app-submit">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-submit.css"></link>
+    <style type="text/css">
+    </style>
+    <div>
+      <ul class="property-list"></ul>
+      <div class='button'>
+        <button>Submit</button>
+      </div>
+    </div>
+  </div>
+  </template>
+  <description>
+    When clicked I broadcast an aggregate of all my inputs
+  </description>
+  <script type="text/ceci">
+    function FormData(hash) {
+      // Turn the hash into a sequence (which should be in the right order, but we'll assume the current order)
+      console.log("this =", this);
+      this.seq = [];
+      var that = this;
+      Object.keys(hash).forEach(function (key) {
+        console.log("pushing", key, hash[key]);
+        that.seq.push(hash[key]);
+      });
+    };
+    FormData.prototype.toString = function() {
+      return JSON.stringify(this.seq);
+    }
+
+    Ceci(this, {
+      init: function (params) {
+        var _this = this;
+        this._data = {};
+        this.setAttribute('label', 'Submit');
+
+        this._list = this.querySelector('.property-list');
+
+        this.querySelector('.button').onclick = function (e) {
+          _this.broadcast(_this._data);
+        };
+
+        Array.prototype.forEach.call(this.attributes, function (attr) {
+          if (attr.name.indexOf('data-') > -1) {
+            _this.data[attr.name] = attr.value;
+            this.syncList(type);
+          }
+        });
+      },
+      editable: {
+        "label": {
+          title: "Button Label",
+          label: "Button Label:",
+          type: "text",
+          description: "aa",
+          postset: function(val) {
+            this.querySelector('button').innerHTML = val;
+          }
+        }
+      },
+      listeners: {
+        setValue: function (val, channel, type) {
+          this._data[type] = val;
+          this.syncList(type);
+        }
+      },
+      syncList: function (property) {
+        var value = this._data[property];
+        var fixedProperty = property.replace(/\s/g, '');
+        var currentListItem = this._list.querySelector('li[data-' + fixedProperty + ']');
+        if (!!value) {
+          if (!currentListItem) {
+            currentListItem = document.createElement('li');
+            this._list.appendChild(currentListItem);
+          }
+          currentListItem.innerHTML = '<div class="name">' + property + ': ' + '</div><div class="value">' + value + '</div>';
+          currentListItem.setAttribute('data-' + fixedProperty, value);
+        } else {
+          if (currentListItem) {
+            this._list.removeChild(currentListItem);
+          }
+        }
+      },
+      broadcast: function (hash) {
+        var v = new FormData(hash);
+        this.emit(v);
+      }
+    });
+  </script>
+</element>
