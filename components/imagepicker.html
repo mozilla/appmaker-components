@@ -20,14 +20,14 @@
         if (file) {
             var reader = new FileReader();
             reader.onload = function(e) {
-              element.broadcast(reader.result);
+              element.sendImageData(reader.result);
             };
             reader.readAsDataURL(file);
         }
       },
-      broadcast: function(e) {
-        this.emit(e);
-      }
+
+      broadcast: [ "sendImageData" ],
+      defaultBroadcast: "sendImageData"
     });
   </script>
 </element>

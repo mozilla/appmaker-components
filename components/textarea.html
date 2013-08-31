@@ -13,15 +13,15 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.querySelector('textarea')
-          .setAttribute('placeholder', 'Placeholder Text');
-          var that = this;
+        this.querySelector('textarea').setAttribute('placeholder', 'Placeholder Text');
       },
+
       listeners: {
         setValue: function (val) {
           this.querySelector('textarea').value = val.toString();
         }
       },
+
       editable: {
         "defaulttext": {
           label: "Placeholder text",
