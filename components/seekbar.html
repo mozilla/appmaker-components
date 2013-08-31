@@ -29,7 +29,6 @@
             element.changeValue($(this).slider("value"));
           }
         });
-
       },
       getCurrentValue: function() {
         return this.getAttribute("value");
@@ -37,7 +36,7 @@
       changeValue: function(val) {
         this.setAttribute("value", String(val));
         this.emit(new Scalar(val));
-      }
+      },
       broadcast: [ "changeValue" ],
       defaultBroadcast: "changeValue"
     });
