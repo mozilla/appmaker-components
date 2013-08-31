@@ -5,9 +5,9 @@
     <div class="modal hidden">
       <div class="livefeed"></div>
       <div class="buttonbar hidden">
-        <button class="looksgood">Use this</button> 
-        <button class="startover">Try again</button> 
-        <button class="cancel">Cancel</button> 
+        <button class="looksgood">Use this</button>
+        <button class="startover">Try again</button>
+        <button class="cancel">Cancel</button>
       </div>
     </div>
     <button class="freeze hidden">freeze!</button>
@@ -58,7 +58,7 @@
       looksGood: function() {
         this.hideControls();
         console.log("emitting", this.snapshot.src);
-        this.emit(this.snapshot.src);
+        this.sendSnapshot(this.snapshot.src);
       },
 
       captureImage: function() {
@@ -107,15 +107,14 @@
         this.looksgood.onclick = function(e) {
           that.looksGood();
         }
-      },      
+      },
       listeners: {
         setValue: function (val) {
           this.snapshot.src = val.toString();
         }
       },
-      broadcast: function(e) {
-        this.emit(e)
-      }
+
+      broadcast: [ "sendSnapshot" ]
     });
   </script>
 </element>

@@ -9,10 +9,10 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        var that = this;
+        var element = this;
         this.querySelector('button').onclick = function (e) {
-          var input = that.querySelector('input[type="text"]');
-          that.broadcast(input.value);
+          var input = element.querySelector('input[type="text"]');
+          element.sendText(input.value);
           input.value = "";
         };
         if (this.hasAttribute('placeholdertext')) {
@@ -28,14 +28,16 @@
           this.setAttribute("buttontext", "OK");
         }
       },
+
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
       },
-      broadcast: function (e) {
-        this.emit(e)
-      },
+
+      broadcast: [ "sendText" ],
+      defaultBroadcast: "sendText",
+
       editable: {
         "placeholdertext": {
           title :"Placeholder Text",

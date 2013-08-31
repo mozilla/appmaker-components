@@ -15,15 +15,14 @@
       },
       updateDisplay: function () {
         this.querySelector('div').innerHTML = this.count;
-        // bypasses default broadcasting, so that the value
-        // is only sent along after a broadcast channel has been chosen
-        this.emit(this.count);
+        this.sendCount(this.count);
       },
-      defaultListener: 'countUp',
+
       listeners: {
         countUp: function () {
           this.count++;
           this.updateDisplay();
+          this.sendIncreased();
         },
         countDown: function () {
           this.count--;
@@ -36,7 +35,15 @@
           }
           this.updateDisplay();
         }
-      }
+      },
+      defaultListener: 'countUp',
+
+      broadcast: [
+        "sendCount",
+        "sendIncreased"
+      ],
+      defaultBroadcast: false
+
     });
   </script>
 </element>
