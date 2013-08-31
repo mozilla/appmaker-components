@@ -1,7 +1,7 @@
 @import url("../fonts.css");
 
 app-input {
-  padding: 0 1.5rem;
+  padding: 0;
   height: 3.8rem;
 }  
 
@@ -27,6 +27,10 @@ app-input input[type=text]{
   font-weight: 400;
   font-size: 1.6rem;
   font-family: "FiraSans", sans-serif;
+}
+
+app-input.onchange input[type=text]{
+  width: 100%;
 }
 
 app-input button {
