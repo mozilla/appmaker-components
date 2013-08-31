@@ -7,9 +7,19 @@
     Broadcasts whatever message a user types
   </description>
   <script type="text/ceci">
+    function Text(value) {
+      this.value = value;
+      this.editor = 'app-input';
+    };
+    Text.prototype.toString = function() {
+      return String(this.value);
+    };
+
     Ceci(this, {
       init: function (params) {
         var that = this;
+        var value = this.getAttribute('value');
+        this.querySelector("input").value = value;
         this.querySelector('button').onclick = function (e) {
           var input = that.querySelector('input[type="text"]');
           that.broadcast(input.value);
@@ -27,14 +37,18 @@
         else {
           this.setAttribute("buttontext", "OK");
         }
+
       },
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
       },
+      getCurrentValue: function() {
+        return this.querySelector('input[type="text"]').value;
+      },
       broadcast: function (e) {
-        this.emit(e)
+        this.emit(new Text(e));
       },
       editable: {
         "placeholdertext": {

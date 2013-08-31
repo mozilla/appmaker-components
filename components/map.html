@@ -10,14 +10,33 @@
   <description>Displays a map centered on where the phone is, and optionally emits locations the user identifies.</description>
 
   <script type="text/ceci">
+
+    function Location(value) {
+      this.value = value;
+      this.editor = 'app-map';
+    };
+    Location.prototype.toString = function() {
+      return String(this.value);
+    }
+
+
     var element = this;
     require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function(L) {
       Ceci(element, {
         init: function() {
 
+          var locateAtStart = false;
+          var lat = this.getAttribute('lat');
+          var lng = this.getAttribute('lng');
+          if (! this.hasAttribute('lat')) {
+            lat = "51.2982709";
+            lng = "-116.96357390000004";
+            locateAtStart = true;
+          }
+
           var map = L.map(
             element.querySelector('.map'), {
-              center: new L.LatLng(51.2982709,-116.96357390000004), // The O2
+              center: new L.LatLng(lat,lng),
               zoom: 4
             }
           );
@@ -28,14 +47,33 @@
 
           map.on('locationfound', t.onLocationFound);
           map.on('locationerror', t.onLocationError);
-          map.locate({setView: true, maxZoom: 16});
+          map.on('moveend', t.noteLocationChange);
+          if (locateAtStart) {
+            map.locate({setView: true, maxZoom: 16});
+          } else {
+            this.centerOn(lat, lng);
+          }
 
           element._pin = element.querySelector(".pin");
           element._pin.onclick = function(e) {
             element.broadcast(element.map.getCenter());
           }
           element._pin.onclick();
+          if (! this.hasAttribute('pin')) {
+            this.setAttribute("pin", "false");
+          }
+          this.controlPin(this.getAttribute('placeholdertext') == "true");
+        },
 
+        noteLocationChange: function(e) {
+          var center = this.map.getCenter();
+          this.currentCenter = center;
+          element.setAttribute('lat', center.lat);
+          element.setAttribute('lng', center.lng);
+        },
+
+        getCurrentValue: function() {
+          return this.currentCenter.toString();
         },
 
         onLocationFound: function(e) {
@@ -52,8 +90,9 @@
         },
 
         broadcast: function (e) {
-          this.emit(e)
+          this.emit(new Location(e));
         },
+
         controlPin: function(truefalse) {
           if (truefalse) {
             this._pin.classList.remove('hidden');
