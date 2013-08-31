@@ -26,6 +26,10 @@
           this.count++;
           this.updateDisplay();
         },
+        countDown: function () {
+          this.count--;
+          this.updateDisplay();
+        },
         resetCount: function (value) {
           this.count = parseInt(value);
           if (isNaN(this.count)){
