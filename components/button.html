@@ -16,7 +16,7 @@
         var button = this.querySelector('div')
         var t = this;
         button.onclick = function (e) {
-          t.sendClick('Click');
+          t.broadcast('Click');
         }
         this.setAttribute('buttontext', 'Click Me');
       },
@@ -33,8 +33,10 @@
       setLabel: function (val) {
         this.querySelector('button').innerHTML = val;
       },
-      broadcast: [ "sendClick" ],
-      defaultBroadcast: "sendClick"
+      broadcast: function (e) {
+        this.emit(e)
+
+      }
     });
   </script>
 </element>

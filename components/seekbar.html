@@ -10,19 +10,22 @@
     Ceci(this, {
       init: function (params) {
         var slider = $(this).find(".slider");
-        var element = this;
+        var that = this;
         slider.slider({
           range:"min",
           max : 100,
           min: 0,
           slide : function(event,ui){
-            element.changeValue($(this).slider("value"));
+            that.changeValue($(this).slider("value"));
           }
         });
       },
-
-      broadcast: [ "changeValue" ],
-      defaultBroadcast: "changeValue"
+      broadcast: function(val) {
+        this.emit(val);
+      },
+      changeValue: function(val) {
+        this.emit(val);
+      }
     });
   </script>
 </element>
