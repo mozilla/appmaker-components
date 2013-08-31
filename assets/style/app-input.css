@@ -34,7 +34,7 @@ app-input.onchange input[type=text]{
 }
 
 app-input button {
-  background: -moz-linear-gradient(top, #f8f8f8, #ddd);
+  background: linear-gradient(to top, #f8f8f8, #ddd);
   background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
   border: 0.1rem solid #a6a6a6;
   border-radius: 0 0.2rem 0.2rem 0;
@@ -48,7 +48,7 @@ app-input button {
 }
 
 app-input button:active {
-  background: -moz-linear-gradient(top, #ddd, #ddd);
+  background: linear-gradient(to top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
 
