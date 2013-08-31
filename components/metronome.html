@@ -26,12 +26,9 @@
         $(metronomeArrow).css("-webkit-animation-duration", animDuration + "s");
         $(metronomeArrow).css("animation-duration", animDuration + "s");
       },
-      broadcast: function (e) {
-        this.emit(e)
-      },
       tick: function() {
         this.count++;
-        this.broadcast(this.count);
+        this.sendCount(this.count);
 
         // Emitting Animation Beta
         var indicator = this.querySelector('.broadcast-channels');
@@ -58,6 +55,7 @@
           }
         }
       },
+
       listeners: {
         setPeriod: function (val) {
           val = parseInt(val);
@@ -65,7 +63,10 @@
             this.period = parseInt(val);
           }
         }
-      }
+      },
+
+      broadcast: [ "sendCount" ],
+      defaultBroadcast: "sendCount"
     });
   </script>
 </element>

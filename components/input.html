@@ -17,12 +17,12 @@
 
     Ceci(this, {
       init: function (params) {
-        var that = this;
         var value = this.getAttribute('value');
         this.querySelector("input").value = value;
+        var element = this;
         this.querySelector('button').onclick = function (e) {
-          var input = that.querySelector('input[type="text"]');
-          that.broadcast(input.value);
+          var input = element.querySelector('input[type="text"]');
+          element.sendText(input.value);
           input.value = "";
         };
         if (this.hasAttribute('placeholdertext')) {
@@ -39,6 +39,7 @@
         }
 
       },
+
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
@@ -47,9 +48,13 @@
       getCurrentValue: function() {
         return this.querySelector('input[type="text"]').value;
       },
-      broadcast: function (e) {
+      sendText: function (e) {
         this.emit(new Text(e));
       },
+
+      broadcast: [ "sendText" ],
+      defaultBroadcast: "sendText",
+
       editable: {
         "placeholdertext": {
           title :"Placeholder Text",

@@ -13,21 +13,23 @@
       init: function (params) {
         this.setValue();
       },
-      defaultListener: 'setValue',
+
       listeners: {
         setValue: function (val) {
           if (val && val.substring) {
             try {
               this.querySelector('.snapshot').src = val;
-              // broadcast will happen only if a broadcast channel has been chosen
-              this.emit(val);
+              this.sendSnapshot(val);
             } catch (e) {
               console.error("there was a problem with bind the snapshot input (["+val+"] not a URL?)");
               throw e;
             }
           }
         }
-      }
+      },
+      defaultListener: 'setValue',
+
+      broadcast: [ "sendSnapshot" ]
     });
   </script>
 </element>

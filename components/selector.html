@@ -32,17 +32,14 @@
     Ceci(this, {
       init: function (params) {
         this.setValue('Single Select List');
-        var that = this;
+        var element = this;
         var b = this.querySelector('button');
-
         $(b).on("click",function(){
-          var chosen = that.querySelector('input:checked');
+          var chosen = element.querySelector('input:checked');
           if(chosen){
-            that.choose(chosen.value);
+            element.sendChoice(chosen.value);
           }
-
-        })
-
+        });
       },
       editable: {
         "listtitle": {
@@ -54,14 +51,15 @@
           }
         }
       },
-      choose : function (val){
-        this.emit(val);
-      },
+
       listeners: {
         setValue: function (val) {
           this.querySelector('h1').innerHTML = val.toString();
         }
-      }
+      },
+
+      broadcast: [ "sendChoice" ],
+      defaultBroadcast: "sendChoice"
     });
   </script>
 </element>

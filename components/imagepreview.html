@@ -10,14 +10,15 @@
       init: function () {
         this.img = this.querySelector("img");
       },
-      defaultListener: "preview",
+
       listeners: {
         preview: function(data, channel) {
           if(data.indexOf("data:image/") === 0) {
             this.img.src = data;
           }
         }
-      }
+      },
+      defaultListener: "preview"
     });
   </script>
 </element>

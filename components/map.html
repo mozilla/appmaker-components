@@ -56,7 +56,7 @@
 
           element._pin = element.querySelector(".pin");
           element._pin.onclick = function(e) {
-            element.broadcast(element.map.getCenter());
+            element.sendCenter(element.map.getCenter());
           }
           element._pin.onclick();
           if (! this.hasAttribute('pin')) {
@@ -89,7 +89,7 @@
           alert(e.message);
         },
 
-        broadcast: function (e) {
+        sendCenter: function (e) {
           this.emit(new Location(e));
         },
 
@@ -129,9 +129,10 @@
             this.map.setZoom(13);
           }
         },
+
         listeners: {
           recordLocation: function(val) {
-            this.broadcast(this.map.getCenter());
+            this.sendCenter(this.map.getCenter());
           },
           centerOnPhone: function(val) {
             this.map.locate({setView: true, maxZoom: 16});
@@ -146,7 +147,9 @@
                 });
             }
           }
-        }
+        },
+
+        broadcast: [ "sendCenter" ]
       });
       callback();
     });
