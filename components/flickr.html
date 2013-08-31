@@ -40,10 +40,9 @@
         }
       },
       setHeight: function (val) {
-        console.log("set height to " + val);
         this.querySelector('img').style.height = val + "px";
       },
-
+      defaultListener : "newImage",
       listeners: {
         setImageKeyword: function(val) {
           this.term = val;
@@ -63,21 +62,19 @@
           } else {
             url = url + "&sort=interestingness-desc"; // if not location based, let's make them interesting
           }
-          var element = this,
-              src;
+          var src;
+          var element = this;
           $.getJSON(url + "&format=json&jsoncallback=?", function(data){
             var count = data.photos.photo.length;
             var randomIndex = Math.floor(Math.random()*count);
             var item = data.photos.photo[randomIndex];
             var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
             $(img).attr("src",src);
-            element.sendImage(src);
+            // straight emit, will only broadcast if a channel has been chosen
+            element.emit(src);
           });
         }
-      },
-      defaultListener : "newImage",
-
-      broadcast: [ "sendImage" ]
+      }
     });
   </script>
 </element>

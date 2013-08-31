@@ -1,7 +1,7 @@
 <element name="app-input">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-input.css">
-    <input type="text"><button>Submit</button>
+    <input type="text"/><button>Submit</button>
   </template>
   <description>
     Broadcasts whatever message a user types
@@ -20,11 +20,27 @@
         var value = this.getAttribute('value');
         this.querySelector("input").value = value;
         var element = this;
+        this.button = this.querySelector('button');
+        this.input = this.querySelector('input');
+        this.input.setAttribute('placeholder', 'Placeholder Text');
         this.querySelector('button').onclick = function (e) {
           var input = element.querySelector('input[type="text"]');
           element.sendText(input.value);
           input.value = "";
         };
+        this.input.addEventListener("input", function (e) {
+          if (! that._fireonchange) return;
+          that.broadcast(that.input.value);
+        }, false);
+
+        if (this.hasAttribute('fireonchange')) {
+          this._fireonchange = this.getAttribute('fireonchange') == "true";
+          this.updateConfig();
+        }
+        else {
+          this.setAttribute("fireonchange", "false");
+        }
+
         if (this.hasAttribute('placeholdertext')) {
           this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
         }
@@ -39,7 +55,6 @@
         }
 
       },
-
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
@@ -55,6 +70,15 @@
       broadcast: [ "sendText" ],
       defaultBroadcast: "sendText",
 
+      updateConfig: function() {
+        if (this._fireonchange) {
+          this.classList.add('onchange');
+          this.button.classList.add('hidden');
+        } else {
+          this.classList.remove('onchange');
+          this.button.classList.remove('hidden');
+        }
+      },
       editable: {
         "placeholdertext": {
           title :"Placeholder Text",
@@ -70,6 +94,15 @@
           description: "The text label you want your button to have.",
           postset: function(v) {
             this.querySelector("button").innerHTML = v;
+          }
+        },
+        "fireonchange": {
+          title: "Emit on change",
+          type: "boolean",
+          description: "Emit on change",
+          postset: function(v) {
+            this._fireonchange = v == "true";
+            this.updateConfig();
           }
         }
       }

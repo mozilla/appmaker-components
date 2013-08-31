@@ -39,6 +39,9 @@
       },
       broadcast: [ "changeValue" ],
       defaultBroadcast: "changeValue"
+      changeValue: function(val) {
+        this.emit(val);
+      }
     });
   </script>
 </element>
