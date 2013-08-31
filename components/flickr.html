@@ -40,7 +40,6 @@
         }
       },
       setHeight: function (val) {
-        console.log("set height to " + val);
         this.querySelector('img').style.height = val + "px";
       },
       defaultListener : "newImage",
@@ -64,6 +63,7 @@
             url = url + "&sort=interestingness-desc"; // if not location based, let's make them interesting
           }
           var src;
+          var element = this;
           $.getJSON(url + "&format=json&jsoncallback=?", function(data){
             var count = data.photos.photo.length;
             var randomIndex = Math.floor(Math.random()*count);
@@ -71,7 +71,7 @@
             var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
             $(img).attr("src",src);
             // straight emit, will only broadcast if a channel has been chosen
-            this.emit(src);
+            element.emit(src);
           });
         }
       }
