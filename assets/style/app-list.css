@@ -19,6 +19,9 @@ app-list ul, app-data-list ul, app-list ol, app-data-list ol {
   margin: 0;
   list-style-type: none;
   padding: 0;
+  display: block;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 app-list li, app-data-list li {

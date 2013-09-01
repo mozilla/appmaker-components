@@ -7,22 +7,38 @@
     A slider that broadcasts a value
   </description>
   <script type="text/ceci">
+    function Scalar(value) {
+      this.value = value;
+      this.editor = 'app-seekbar';
+    };
+    Scalar.prototype.toString = function() {
+      return String(this.value);
+    }
+
     Ceci(this, {
       init: function (params) {
         var slider = $(this).find(".slider");
-        var that = this;
+        var value = Number(this.getAttribute('value'));
+        var element = this;
         slider.slider({
           range:"min",
+          value: value,
           max : 100,
           min: 0,
           slide : function(event,ui){
-            that.changeValue($(this).slider("value"));
+            element.changeValue($(this).slider("value"));
           }
         });
       },
-      broadcast: function(val) {
-        this.emit(val);
+      getCurrentValue: function() {
+        return this.getAttribute("value");
       },
+      changeValue: function(val) {
+        this.setAttribute("value", String(val));
+        this.emit(new Scalar(val));
+      },
+      broadcast: [ "changeValue" ],
+      defaultBroadcast: "changeValue"
       changeValue: function(val) {
         this.emit(val);
       }
