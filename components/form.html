@@ -1,0 +1,81 @@
+<element name="app-form">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form.css">
+    <div class="fields">
+      asdasdsadas
+      asd
+      as
+      d
+    </div>
+    <div class="buttonrow">
+      <button class="save">Save</button>
+      <button class="cancel">Cancel</button>
+    </div>
+  </template>
+  <description>
+    A full-screen form editor
+  </description>
+  <script type="text/ceci">
+
+      function Editable(value, name, editor) {
+        this.value = value;
+        this.name = name;
+        this.editor = editor;
+      }
+      Editable.prototype.toString = function(v) {
+        return this.value;
+      }
+
+      Ceci(this, {
+      init: function (params) {
+        var that = this;
+        this.fields = this.querySelector('.fields');
+        this.querySelector('.cancel').onclick = function (e) {
+        // navigate _back_ XXX
+        };
+        this.querySelector('.save').onclick = function (e) {
+          var field = that.fields.querySelector("*");
+          var nval = field.getCurrentValue();
+          var newValue = new Editable(nval, that.objectName, field.localName); // XXX is localName robust?
+          that.emit(newValue);
+        };
+      },
+      defaultListener: "openForm",
+      listeners: {
+        openForm: function (val) {
+          this.fields.innerHTML = ''; // clear old stuff
+          if (typeof(val) == typeof('')) {
+            val = {'value': val};
+          }
+          this.objectName = val.name;
+          try {
+            if (val.editor) {
+              this.addField(val)
+            } else if (val.length) {
+              for (v in val) {
+                this.addField(v);
+              }
+            }
+          } catch (e) {
+            console.log(e.message);
+            console.log(e.fileName);
+            console.log(e.lineNumber);
+            console.log(e.stack);
+          }
+          // claim focus
+        },
+        addField: function(val) {
+          var editor = document.createElement(val.editor);
+          // Iterate over all the values to create attributes on the element
+          Object.getOwnPropertyNames(val).forEach(function(name, idx, array) {
+            if (name != 'editor') {
+              editor.setAttribute(name, String(val[name]));
+            }
+          });
+          Ceci.convertElement(editor, function(){}, true);
+          this.fields.appendChild(editor);
+        }
+      },
+    });
+  </script>
+</element>
