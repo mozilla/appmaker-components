@@ -42,20 +42,23 @@
       },
       defaultListener: "openForm",
       listeners: {
-        openForm: function (val) {
+        openForm: function (val, channel) {
+          this.log("opening a form for: " + val.toString(), channel)
           this.fields.innerHTML = ''; // clear old stuff
           if (typeof(val) == typeof('')) {
             val = {'value': val};
           }
           this.objectName = val.name;
+          var element = this;
           try {
             if (val.editor) {
               this.addField(val)
             } else if (val.length) {
-              for (v in val) {
-                this.addField(v);
-              }
+              Array.prototype.forEach.call(val, function(v) {
+                element.addField(v);
+              });
             }
+            this.lookAtMe();
           } catch (e) {
             console.log(e.message);
             console.log(e.fileName);
