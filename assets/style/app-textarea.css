@@ -2,7 +2,6 @@
 
 app-textarea textarea {
   font-family: "FiraSans", sans-serif;
-  padding: 1.5rem;
   resize: none;
   font-size: 1.8rem;
   height: 10rem;
@@ -28,5 +27,4 @@ app-textarea .inner-wrapper {
 
 app-textarea .outer-wrapper {
   position: relative;
-  padding: 0 1.5rem;
 }
