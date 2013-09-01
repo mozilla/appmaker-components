@@ -1,0 +1,74 @@
+@import url("../fonts.css");
+
+app-submit {
+  padding: 0;
+}
+
+app-submit .button:active {
+  background: -moz-linear-gradient(top, #ddd, #ddd);
+  background: -webkit-linear-gradient(top, #ddd, #ddd);
+}
+
+app-submit .button {
+  padding: 0 1.5rem;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  background: -moz-linear-gradient(top, #f8f8f8, #ddd);
+  background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
+  text-align: center;
+  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
+  display: block;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border: 0.1rem solid #a6a6a6;
+  border-radius: 0.2rem;
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 3.8rem;
+  color: #333;
+}
+
+app-submit button {
+  font-family: "FiraSans", sans-serif;
+  border: none;
+  background: 0;
+  font-weight: 500;
+  font-size: 1.6rem;
+  position: relative;
+}
+
+app-submit .property-list {
+  list-style: none;
+  margin: 0;
+  padding: 3px;
+  padding-right: 6px;
+  font-size: .8em;
+  border-top: 1px solid #c0c0c0;
+  border-left: 1px solid #c0c0c0;
+  border-right: 1px solid #c0c0c0;
+}
+
+app-submit .property-list li {
+  position: relative;
+  height: 1em;
+}
+
+app-submit .property-list li .name {
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+app-submit .property-list li .value {
+  position: absolute;
+  width: 60%;
+  height: 100%;
+  right: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

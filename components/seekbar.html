@@ -1,12 +1,11 @@
 <element name="app-seekbar">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-seekbar.css">
-    <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> -->
     <div class="slider"></div>
   </template>
   <description>
     A slider that broadcasts a value
-  </decription>
+  </description>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
@@ -20,18 +19,12 @@
             that.changeValue($(this).slider("value"));
           }
         });
-      }, 
+      },
       broadcast: function(val) {
         this.emit(val);
       },
       changeValue: function(val) {
         this.emit(val);
-      },
-      listeners: {
-  
-      },
-      editable: {
-        
       }
     });
   </script>

@@ -1,11 +1,11 @@
 @import url("../fonts.css");
 
 app-button {
-  padding: 0 1.5rem;
+  padding: 0;
 }
 
 app-button .button:active {
-  background: -moz-linear-gradient(top, #ddd, #f8f8f8);
+  background: linear-gradient(to top, #ddd, #f8f8f8);
   background: -webkit-linear-gradient(top, #ddd, #f8f8f8);
   padding-top: 6px;
   padding-bottom: 2px;
@@ -17,7 +17,7 @@ app-button .button {
   position: relative;
   text-decoration: none;
   outline: none;
-  background: -moz-linear-gradient(top, #f8f8f8, #ddd);
+  background: linear-gradient(to top, #f8f8f8, #ddd);
   background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
   text-align: center;
   text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
