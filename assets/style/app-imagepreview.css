@@ -1,0 +1,12 @@
+app-imagepreview {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 200px;
+}
+
+app-imagepreview img {
+  max-width: 100%;  
+}

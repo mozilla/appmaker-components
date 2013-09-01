@@ -75,10 +75,12 @@
         defaultListener: 'addItem',
         listeners: {
           addItem: function (v) {
-            // XXX check the v.toString() logic here.
+            this.log("adding: " + v.toString());
+            this.lookAtMe();
             this.io.push({value: v.toString(), editor: v.editor});
           },
           clearList: function (v) {
+            this.log("clearing list");
             this.io.remove();
           },
           updateItem: function(v) {
