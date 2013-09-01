@@ -17,7 +17,7 @@
         this.querySelector('div').innerHTML = this.count;
         // bypasses default broadcasting, so that the value
         // is only sent along after a broadcast channel has been chosen
-        Ceci.elementWantsAttention(this);
+        this.lookAtMe();
         this.emit(this.count);
       },
       defaultListener: 'countUp',

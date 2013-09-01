@@ -51,6 +51,7 @@
         listeners: {
           addItem: function (v) {
             this.log("adding: " + v.toString());
+            this.lookAtMe();
             this.io.push({title: v.toString()});
           },
           clearList: function (v) {
