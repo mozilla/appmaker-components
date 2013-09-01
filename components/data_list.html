@@ -50,9 +50,11 @@
         defaultListener: 'addItem',
         listeners: {
           addItem: function (v) {
+            this.log("adding: " + v.toString());
             this.io.push({title: v.toString()});
           },
           clearList: function (v) {
+            this.log("clearing list");
             this.io.remove();
           }
         },

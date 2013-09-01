@@ -243,7 +243,8 @@
       },
       defaultListener: "shootRocket",
       listeners: {
-        shootRocket: function (val) {
+        shootRocket: function (listener, channel) {
+          this.log("launching rocket", channel);
           this.launchRocket();
         }
       }

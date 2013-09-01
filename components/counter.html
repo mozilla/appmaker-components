@@ -17,23 +17,29 @@
         this.querySelector('div').innerHTML = this.count;
         // bypasses default broadcasting, so that the value
         // is only sent along after a broadcast channel has been chosen
+        Ceci.elementWantsAttention(this);
         this.emit(this.count);
       },
       defaultListener: 'countUp',
       listeners: {
-        countUp: function () {
+        countUp: function (listener,channel) {
+          console.log("channel is", channel);
+          console.log("listener is", listener);
           this.count++;
+          this.log("counting up to " + this.count, channel);
           this.updateDisplay();
         },
-        countDown: function () {
+        countDown: function (listener,channel) {
           this.count--;
+          this.log("counting down to " + this.count, channel);
           this.updateDisplay();
         },
-        resetCount: function (value) {
+        resetCount: function (value, channel) {
           this.count = parseInt(value);
           if (isNaN(this.count)){
             this.count = 0;
           }
+          this.log("resetting counter to " + this.count, channel);
           this.updateDisplay();
         }
       }
