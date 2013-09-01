@@ -92,16 +92,14 @@
           }
         },
         editable: {
-          'nickname': {
-            title: 'Nickname',
+          nickname: {
             type: 'text',
             description: 'A nickname for your chatting persona',
             postset: function (v) {
               this['Set_Nickname'](v);
             }
           },
-          'room': {
-            title: 'Room',
+          room: {
             type: 'text',
             description: 'The chat room you want to be in',
             postset: function (v) {
