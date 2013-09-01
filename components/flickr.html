@@ -44,16 +44,19 @@
       },
       defaultListener : "newImage",
       listeners: {
-        setImageKeyword: function(val) {
+        setImageKeyword: function(val, channel) {
+          this.log("setting image keyword to: "+ val, channel);
           this.term = val;
           this.newImage();
         },
-        setLocation: function(location) {
+        setLocation: function(location, channel) {
+          this.log("setting location to: "+ location.lat + ',' + lotation.lng, channel);
           this.lat = location.lat;
           this.lng = location.lng;
           this.New_Image();
         },
-        newImage: function () {
+        newImage: function (listener, channel) {
+          this.log("gets a new image", channel);
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
           var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");
