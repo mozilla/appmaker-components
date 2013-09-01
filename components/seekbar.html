@@ -13,7 +13,7 @@
     };
     Scalar.prototype.toString = function() {
       return String(this.value);
-    }
+    };
 
     Ceci(this, {
       init: function (params) {
@@ -38,7 +38,7 @@
         this.emit(new Scalar(val));
       },
       broadcast: [ "changeValue" ],
-      defaultBroadcast: "changeValue"
+      defaultBroadcast: "changeValue",
       changeValue: function(val) {
         this.emit(val);
       }
