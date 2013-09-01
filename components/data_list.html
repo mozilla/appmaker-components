@@ -13,25 +13,46 @@
   <script type="text/ceci">
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
+
+      function Editable(value, name, editor) {
+        this.value = value;
+        this.name = name;
+        this.editor = editor;
+      }
+      Editable.prototype.toString = function(v) {
+        return this.value;
+      }
+
       Ceci(element, {
         init: function (params) {
-          console.log({ininit: this});
           params = params ? params : {};
           var appId = params.appId || "app123";
-          var io = new Firebase("https://appmaker.firebaseio.com/" + appId + "/data_list/1");
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_list/1");
 
           var t = this;
 
           t.io = io;
 
-          var addItem = function(item){
-            var li = document.createElement('li');
-            li.innerHTML = item.title;
-            t.querySelector('ul').appendChild(li);
+          var addItem = function(item, name){
+            try {
+              var li = document.createElement('li');
+              li.innerHTML = item.value;
+              li.setAttribute('firebasename', name);
+              $(li).on('click', function(evt) {
+                var elt = evt.currentTarget
+                var fireId = elt.getAttribute('firebasename');
+                var fireElt = t.io.child(fireId);
+                fireElt.once('value', function(snapshot) {
+                  t.broadcast(snapshot);
+                })
+              })
+              t.querySelector('ul').appendChild(li);
+            } catch (e) {
+              console.log(e);
+            }
           };
 
           var resetList = function() {
-            console.log("resettting");
             t.querySelector('ul').innerHTML = "";
           }
 
@@ -40,8 +61,12 @@
           });
 
           this.io.on('child_added', function(snapshot) {
-            var item = snapshot.val();
-            addItem(item);
+            addItem(snapshot.val(), snapshot.name());
+          });
+
+          this.io.on('child_changed', function(snapshot) {
+            child = t.querySelector('[firebasename="' + snapshot.name() + '"]');
+            child.innerHTML = snapshot.val().value;
           });
         },
         sortByCreatedAt: function(a, b) {
@@ -52,12 +77,21 @@
           addItem: function (v) {
             this.log("adding: " + v.toString());
             this.lookAtMe();
-            this.io.push({title: v.toString()});
+            this.io.push({value: v.toString(), editor: v.editor});
           },
           clearList: function (v) {
             this.log("clearing list");
             this.io.remove();
+          },
+          updateItem: function(v) {
+            var child = this.io.child(v.name);
+            delete v.name;
+            child.update({value: v.value.toString(), editor: v.editor});
           }
+        },
+        broadcast: function (snapshot) {
+          var val = snapshot.val();
+          this.emit(new Editable(val.value, snapshot.name(), val.editor));
         },
         editable: {
           "listtitle": {
@@ -70,7 +104,6 @@
           }
         }
       });
-      console.log(callback);
       callback();
     });
   </script>
