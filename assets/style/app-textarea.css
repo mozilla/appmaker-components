@@ -2,6 +2,7 @@
 
 app-textarea textarea {
   font-family: "FiraSans", sans-serif;
+  padding: .2rem;
   resize: none;
   font-size: 1.8rem;
   height: 10rem;
