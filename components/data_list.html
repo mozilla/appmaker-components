@@ -74,17 +74,19 @@
         },
         defaultListener: 'addItem',
         listeners: {
-          addItem: function (v) {
-            this.log("adding: " + v.toString());
+          addItem: function (v, channel) {
+            this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
             this.io.push({value: v.toString(), editor: v.editor});
           },
-          clearList: function (v) {
-            this.log("clearing list");
+          clearList: function (v, channel) {
+            this.log("clearing list", channel);
             this.io.remove();
           },
-          updateItem: function(v) {
+          updateItem: function(v, channel) {
             var child = this.io.child(v.name);
+            this.log("updating item: " + v.toString(), channel)
+            this.lookAtMe();
             delete v.name;
             child.update({value: v.value.toString(), editor: v.editor});
           }
