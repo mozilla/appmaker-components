@@ -243,9 +243,16 @@
       },
       defaultListener: "shootRocket",
       listeners: {
-        shootRocket: function (listener, channel) {
+        shootRocket: function (count, channel) {
           this.log("launching rocket", channel);
-          this.launchRocket();
+          var intRegex = /^\d+$/;
+          if (intRegex.test(count)) {
+            for (var i=0; i < Number(count); i++) {
+              this.launchRocket();
+            }
+          } else {
+            this.launchRocket();
+          }
         }
       }
     });

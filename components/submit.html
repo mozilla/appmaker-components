@@ -37,7 +37,7 @@
       init: function (params) {
         var _this = this;
         this._data = {};
-        this.setAttribute('label', 'Submit');
+
 
         this._list = this.querySelector('.property-list');
 
@@ -53,9 +53,7 @@
         });
       },
       editable: {
-        "label": {
-          title: "Button Label",
-          label: "Button Label:",
+        buttonLabel: {
           type: "text",
           description: "aa",
           postset: function(val) {

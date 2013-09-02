@@ -1,0 +1,33 @@
+app-rating {
+  padding: 1rem 1.5rem;
+}
+
+app-rating .wrapper {
+  text-align: center;
+}
+
+app-rating .rating-bar {
+  margin: 0 auto;
+  text-align: center;
+  line-height: 0px;
+  background: #EFEFEF;
+  padding: .5rem 1.2rem .8rem 1.2rem;
+  border-top: solid 2px #DDD;
+  border-left: solid 1px #DDD;
+  border-right: solid 1px #DDD;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+app-rating .rating-icon {
+  width: 30px;
+  height: 30px;
+  background-image: url(../images/star_rating_off.png?3);
+  background-size: 30px;
+  display:inline-block;
+  margin-right: 4px;
+}
+
+app-rating .icon-enabled {
+  background-image: url(../images/star_rating_on.png?3);
+}

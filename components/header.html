@@ -11,11 +11,10 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.setAttribute("titletext","Title");
+        this.setAttribute("headerLabel", "Title");
       },
       editable: {
-        "titletext": {
-          title: "Header Label",
+        headerLabel: {
           type: "text",
           description: "Text for header label",
           postset: function(v) {

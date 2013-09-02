@@ -5,11 +5,7 @@ app-button {
 }
 
 app-button .button:active {
-  background: linear-gradient(to top, #ddd, #f8f8f8);
-  background: -webkit-linear-gradient(top, #ddd, #f8f8f8);
-  padding-top: 6px;
-  padding-bottom: 2px;
-  
+  background: #008AAA;
 }
 
 app-button .button {
@@ -17,7 +13,7 @@ app-button .button {
   position: relative;
   text-decoration: none;
   outline: none;
-  background: linear-gradient(to top, #f8f8f8, #ddd);
+  background: -moz-linear-gradient(top, #f8f8f8, #ddd);
   background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
   text-align: center;
   text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
