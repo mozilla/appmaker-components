@@ -80,24 +80,21 @@
         }
       },
       editable: {
-        "placeholdertext": {
-          title :"Placeholder Text",
+        placeholderText: {
           type: "text",
           description: "The text you want your input field to show by default.",
           postset: function(v) {
             this.querySelector("input").setAttribute("placeholder", v);
           }
         },
-        "buttontext": {
-          title: "Button Label",
+        buttonLabel: {
           type: "text",
           description: "The text label you want your button to have.",
           postset: function(v) {
             this.querySelector("button").innerHTML = v;
           }
         },
-        "fireonchange": {
-          title: "Emit on change",
+        emitOnChange: {
           type: "boolean",
           description: "Emit on change",
           postset: function(v) {

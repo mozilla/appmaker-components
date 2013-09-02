@@ -13,10 +13,10 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        if (! this.hasAttribute('defaulttext')) {
-          this.setAttribute('defaulttext', 'Enter some text');
+        if (! this.hasAttribute('placeholderText')) {
+          this.setAttribute('placeholderText', 'Enter some text');
         } else {
-          this.querySelector("textarea").setAttribute('placeholder', this.getAttribute('defaulttext'));
+          this.querySelector("textarea").setAttribute('placeholder', this.getAttribute('placeholderText'));
         }
       },
       listeners: {
@@ -25,8 +25,7 @@
         }
       },
       editable: {
-        "defaulttext": {
-          title: "Placeholder text",
+        placeholderText: {
           type: "text",
           description: "The text you want your input field to show by default.",
           postset: function(v) {
