@@ -24,7 +24,7 @@
     require(['http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js'], function(L) {
       Ceci(element, {
         init: function() {
-
+          element = this;
           var locateAtStart = false;
           var lat = this.getAttribute('lat');
           var lng = this.getAttribute('lng');
@@ -48,10 +48,12 @@
           map.on('locationfound', t.onLocationFound);
           map.on('locationerror', t.onLocationError);
           map.on('moveend', t.noteLocationChange);
+          console.log("locateAtStart", locateAtStart);
           if (locateAtStart) {
             map.locate({setView: true, maxZoom: 16});
           } else {
             this.centerOn(lat, lng);
+            this.setZoom(5);
           }
 
           element._pin = element.querySelector(".pin");
@@ -101,6 +103,10 @@
           }
         },
 
+        broadcast: function(e) {
+          this.sendCenter(e);
+        },
+
         editable: {
           "location": {
             title: "Location",
@@ -129,6 +135,7 @@
             this.map.setZoom(13);
           }
         },
+        defaultListener: "findLocationByName",
         listeners: {
           recordLocation: function(val) {
             this.broadcast(this.map.getCenter());
