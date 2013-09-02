@@ -17,7 +17,7 @@
         this.button.onclick = function (e) {
           var input = that.querySelector('input[type="text"]');
           that.broadcast(input.value);
-          // input.value = ""; this feels wrong.
+          input.value = "";
         };
         this.input.addEventListener("input", function (e) {
           if (! that._fireonchange) return;
