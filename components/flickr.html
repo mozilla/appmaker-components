@@ -19,8 +19,7 @@
          $(this).attr('search',  'cat');
       },
       editable: {
-        "height": {
-          title: "Image Height",
+        "imageHeight": {
           min : 0,
           max: 400,
           type: "number",
@@ -29,8 +28,7 @@
             this.setHeight(v);
           }
         },
-        "search": { // XXX turn this to term and make an infinite loop. XXX debug
-          title: "Search term",
+        searchTerm: { // XXX turn this to term and make an infinite loop. XXX debug
           min : 0,
           max: 100,
           type: "text",

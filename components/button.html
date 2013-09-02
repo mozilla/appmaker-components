@@ -19,11 +19,10 @@
         button.onclick = function (e) {
           t.broadcast('Click');
         }
-        this.setAttribute('buttontext', 'Click Me');
+        this.setAttribute('buttonLabel', 'Click Me');
       },
       editable: {
-        "buttontext": {
-          title: "Button Label",
+        buttonLabel: {
           type: "text",
           description: "A text for your label to show up in your app",
           postset: function(v) {
