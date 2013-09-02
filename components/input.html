@@ -7,21 +7,30 @@
     Broadcasts whatever message a user types
   </description>
   <script type="text/ceci">
+    function Text(value) {
+      this.value = value;
+      this.editor = 'app-input';
+    };
+    Text.prototype.toString = function() {
+      return String(this.value);
+    };
+
     Ceci(this, {
       init: function (params) {
+        var value = this.getAttribute('value');
+        this.querySelector("input").value = value;
+        var element = this;
+        this.button = this.querySelector('button');
         this.input = this.querySelector('input');
         this.input.setAttribute('placeholder', 'Placeholder Text');
-
-        var that = this;
-        this.button = this.querySelector('button');
-        this.button.onclick = function (e) {
-          var input = that.querySelector('input[type="text"]');
-          that.broadcast(input.value);
+        this.querySelector('button').onclick = function (e) {
+          var input = element.querySelector('input[type="text"]');
+          element.broadcast(input.value);
           input.value = "";
         };
         this.input.addEventListener("input", function (e) {
-          if (! that._fireonchange) return;
-          that.broadcast(that.input.value);
+          if (! element._fireonchange) return;
+          element.broadcast(element.input.value);
         }, false);
 
         if (this.hasAttribute('fireonchange')) {
@@ -44,15 +53,20 @@
         else {
           this.setAttribute("buttontext", "OK");
         }
+
       },
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
         }
       },
-      broadcast: function (e) {
-        this.emit(e, this.querySelector("input").getAttribute("placeholder"));
+      getCurrentValue: function() {
+        return this.querySelector('input[type="text"]').value;
       },
+      broadcast: function (e) {
+        this.emit(new Text(e));
+      },
+
       updateConfig: function() {
         if (this._fireonchange) {
           this.classList.add('onchange');

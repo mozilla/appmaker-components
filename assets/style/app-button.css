@@ -9,9 +9,11 @@ app-button .button:active {
   background: -webkit-linear-gradient(top, #ddd, #f8f8f8);
   padding-top: 6px;
   padding-bottom: 2px;
+  
 }
 
 app-button .button {
+  cursor: pointer;
   position: relative;
   text-decoration: none;
   outline: none;
