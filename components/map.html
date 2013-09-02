@@ -53,6 +53,7 @@
             map.locate({setView: true, maxZoom: 16});
           } else {
             this.centerOn(lat, lng);
+            this.setZoom(5);
           }
 
           element._pin = element.querySelector(".pin");
