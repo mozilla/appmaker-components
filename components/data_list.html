@@ -37,6 +37,7 @@
           var addItem = function(item, name){
             try {
               var li = document.createElement('li');
+              console.log("ITEM", item);
               li.innerHTML = item.value;
               li.setAttribute('firebasename', name);
               $(li).on('click', function(evt) {

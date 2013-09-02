@@ -19,6 +19,7 @@
       // Turn the hash into a sequence (which should be in the right order, but we'll assume the current order)
       console.log("this =", this);
       this.seq = [];
+      this.editor = 'sequence';
       var that = this;
       Object.keys(hash).forEach(function (key) {
         console.log("pushing", key, hash[key]);
@@ -27,6 +28,9 @@
     };
     FormData.prototype.toString = function() {
       return JSON.stringify(this.seq);
+    }
+    FormData.prototype.toPrettyString = function() {
+      return JSON.stringify(this.seq.keys);
     }
 
     Ceci(this, {
