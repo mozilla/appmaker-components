@@ -1,0 +1,99 @@
+<element name="app-rating">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-rating.css">
+    <div class="wrapper">
+      <div class="rating-bar"></div>
+    </div>
+  </template>
+  <description>
+    A rating bar you can rate items with.
+  </description>
+    
+  <script type="text/ceci">
+    function Scalar(value) {
+      this.value = value;
+      this.editor = 'app-rating';
+    };
+    Ceci(this, {
+      init: function (params) {
+        this.ratingBar = $(this).find(".rating-bar");
+        
+        var starCount = this.getAttribute('starNumber') || 5;
+
+        this.setAttribute('starNumber', starCount);          
+
+        var rating = 0;
+
+
+        this.ratingBar.on("click",".rating-icon",function(){
+          var index = $(this).index();
+          that.updateBar(index);
+          that.setRating();
+        });
+
+        var that = this;
+
+        //Load in external script
+        $.ajax({
+          type: "GET",
+          url : "{{ASSET_HOST}}/assets/js/jquery.hammer.min.js",
+          dataType: "script",
+          success: function(){
+            var rBar = that.ratingBar.hammer();
+            
+            rBar.on("touch",function(ev){
+              if($(ev.target).hasClass("rating-icon")){
+                index = $(ev.target).index();
+                that.updateBar(index);
+              }
+            });
+
+            rBar.on("drag",function(ev){
+              if($(ev.target).hasClass("rating-icon")){
+                index = $(ev.target).index();
+                that.updateBar(index);
+              }
+            });
+            
+            rBar.on("dragend",function(ev){
+              that.setRating();
+            });
+            
+          }
+        });
+
+      },
+      editable: {
+        starNumber: {
+          type: "number",
+          description: "Pick how many stars the rating can be",
+          postset: function(count) {
+            this.buildStars(count);
+          }
+        }
+      },
+      buildStars: function (count) {
+        this.ratingBar.html("");
+        for(var i = 1; i <= count; i++){
+        this.ratingBar.append("<div class='rating-icon'></div>");          
+        }
+      },
+      updateBar : function(index){
+        this.clearBar();
+        ratingIcons = this.ratingBar.find(".rating-icon");
+        ratingIcons.each(function(){
+          if($(this).index() <= index){$(this).addClass("icon-enabled")}
+        });
+        this.rating = index + 1;
+      },
+      clearBar: function(){
+        this.ratingBar.find(".rating-icon").removeClass("icon-enabled");
+      },
+      setRating : function(){
+        this.emit(this.rating);
+      },
+      broadcast: [ "setRating" ],
+      defaultBroadcast: "setRating"
+    });
+  </script>
+</element>
