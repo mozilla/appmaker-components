@@ -20,7 +20,7 @@
         this.name = name;
         this.editor = editor;
       }
-      Editable.prototype.toString = function(v) {
+      Editable.prototype.toString = function() {
         return this.value;
       }
 
@@ -38,7 +38,7 @@
             try {
               var li = document.createElement('li');
               console.log("ITEM", item);
-              li.innerHTML = item.value;
+              li.innerHTML = item.pretty;
               li.setAttribute('firebasename', name);
               $(li).on('click', function(evt) {
                 var elt = evt.currentTarget
@@ -79,7 +79,7 @@
           addItem: function (v, channel) {
             this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
-            this.io.push({value: v.toString(), editor: v.editor});
+            this.io.push({value: v.toString(), pretty: v.toString(true), editor: v.editor});
           },
           clearList: function (v, channel) {
             this.log("clearing list", channel);

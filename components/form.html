@@ -2,10 +2,6 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form.css">
     <div class="fields">
-      asdasdsadas
-      asd
-      as
-      d
     </div>
     <div class="buttonrow">
       <button class="save">Save</button>
@@ -75,6 +71,7 @@
               editor.setAttribute(name, String(val[name]));
             }
           });
+          console.log("CONVERTING", editor);
           Ceci.convertElement(editor, function(){}, true);
           this.fields.appendChild(editor);
         }

@@ -17,17 +17,25 @@
   <script type="text/ceci">
     function FormData(hash) {
       // Turn the hash into a sequence (which should be in the right order, but we'll assume the current order)
-      console.log("this =", this);
       this.seq = [];
       this.editor = 'sequence';
       var that = this;
       Object.keys(hash).forEach(function (key) {
         console.log("pushing", key, hash[key]);
-        that.seq.push(hash[key]);
+        that.seq.push([key,hash[key]]);
       });
     };
-    FormData.prototype.toString = function() {
-      return JSON.stringify(this.seq);
+    FormData.prototype.toString = function(pretty) {
+      if (pretty) {
+        var seq = this.seq;
+        console.log ('DOING PRETTY', this.seq);
+        var parts = seq.map(function(cb, key) {
+          return seq[key][0]+': ' + seq[key][1];
+        })
+        return parts.join(', ');
+      } else {
+        return JSON.stringify(this.seq);
+      }
     }
     FormData.prototype.toPrettyString = function() {
       return JSON.stringify(this.seq.keys);
@@ -48,7 +56,7 @@
         Array.prototype.forEach.call(this.attributes, function (attr) {
           if (attr.name.indexOf('data-') > -1) {
             _this.data[attr.name] = attr.value;
-            this.syncList(type);
+            this.syncList(attr.name);
           }
         });
       },
@@ -64,6 +72,7 @@
       defaultListener: "setValue",
       listeners: {
         setValue: function (val, channel, type) {
+          console.log("setValue", val, channel, type);
           this._data[type] = val;
           this.syncList(type);
         }

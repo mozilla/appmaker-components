@@ -64,7 +64,7 @@
         return this.querySelector('input[type="text"]').value;
       },
       broadcast: function (e) {
-        this.emit(new Text(e));
+        this.emit(new Text(e), this.querySelector("input").getAttribute("placeholder"));
       },
 
       updateConfig: function() {
