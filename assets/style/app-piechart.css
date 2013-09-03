@@ -1,0 +1,21 @@
+app-piechart {
+  padding: 1rem 0rem;
+}
+
+app-piechart canvas {
+  margin: 0 auto;
+  display: block;
+  background: transparent;
+  border-radius: 200px;
+  background: #EFEFEF;
+}
+
+app-piechart .sheen {
+  position: absolute;
+  border-radius: 200px;
+  width: 200px;
+  height: 190px;
+  left:55px;
+  top: 10px;
+  border-bottom: solid 10px rgba(0,0,0,.1);
+}

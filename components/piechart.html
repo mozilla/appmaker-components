@@ -1,0 +1,78 @@
+<element name="app-piechart">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-piechart.css">
+    <div class="sheen"></div>
+    <canvas id="canvas" width="200" height="200" />
+  </template>
+  <description>
+    Listens for a message and counts
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.colors = {
+          "blue" : "#2f8bd1",
+          "green" : "#6fba00",
+          "yellow" : "#e6d400",
+          "orange" : "#ff7b00",
+          "red" : "#eb1900",
+          "pink" : "#ff4fa7",
+          "purple" : "#a016d2"
+        }
+        this.myColor = ["DDD","DDD","DDD"];
+        this.myData = [0,0,0];
+      },
+      updatePie : function(){
+
+        var myTotal = 0;
+        for (var j = 0; j < this.myData.length; j++) {
+          myTotal += (typeof this.myData[j] == 'number') ? this.myData[j] : 0;
+        }
+
+        var canvas;
+        var ctx;
+        var lastend = 0;
+
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0; i < this.myData.length; i++) {
+          ctx.fillStyle = this.colors[this.myColor[i]];
+          ctx.beginPath();
+          ctx.moveTo(100,100);
+          ctx.arc(100,100,100,lastend,lastend+
+          (Math.PI*2*(this.myData[i]/myTotal)),false);
+          ctx.lineTo(100,100);
+          ctx.fill();
+          lastend += Math.PI*2*(this.myData[i]/myTotal);
+        }
+
+      },
+    defaultListener: 'optionOne',
+      listeners: {
+        optionOne: function (listener,channel) {
+          this.myData[0] = this.myData[0] +1;
+          this.myColor[0] = channel;
+          this.updatePie();
+        },
+        optionTwo: function (listener,channel) {
+          this.myData[1] = this.myData[1] +1;
+          this.myColor[1] = channel;
+          this.updatePie();
+        },
+        optionThree: function (listener,channel) {
+          this.myData[2] = this.myData[2] +2;
+          this.myColor[2] = channel;
+          this.updatePie();
+        },
+        resetCount: function (value, channel) {
+          this.myData = [0,0,0];
+          this.updatePie();
+        }
+      }
+    });
+  </script>
+</element>
