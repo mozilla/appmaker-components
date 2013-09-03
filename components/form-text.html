@@ -1,0 +1,108 @@
+<element name="app-form-text">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-input.css">
+    <input type="text"/><button>Submit</button>
+  </template>
+  <description>
+    Broadcasts whatever message a user types
+  </description>
+  <script type="text/ceci">
+    function Text(value) {
+      this.value = value;
+      this.editor = 'app-input';
+    };
+    Text.prototype.toString = function() {
+      return String(this.value);
+    };
+
+    Ceci(this, {
+      init: function (params) {
+        var value = this.getAttribute('value');
+        this.querySelector("input").value = value;
+        var element = this;
+        this.button = this.querySelector('button');
+        this.input = this.querySelector('input');
+        this.input.setAttribute('placeholder', 'Placeholder Text');
+        this.querySelector('button').onclick = function (e) {
+          var input = element.querySelector('input[type="text"]');
+          element.broadcast(input.value);
+          input.value = "";
+        };
+
+        if (this.hasAttribute('fireonchange')) {
+          this._fireonchange = this.getAttribute('fireonchange') == "true";
+          this.updateConfig();
+        }
+        else {
+          this.setAttribute("fireonchange", true);
+          this._fireonchange = true;
+          this.updateConfig();
+        }
+
+        this.input.addEventListener("input", function (e) {
+          if (! element._fireonchange) return;
+          element.broadcast(element.input.value);
+        }, false);
+
+        if (this.hasAttribute('placeholdertext')) {
+          this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
+        }
+        else {
+          this.setAttribute("placeholdertext", "Placeholder");
+        }
+        if (this.hasAttribute('buttontext')) {
+          this.querySelector("button").innerHTML = this.getAttribute('buttontext');
+        }
+        else {
+          this.setAttribute("buttontext", "OK");
+        }
+
+      },
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('input[type="text"]').value = val.toString();
+        }
+      },
+      getCurrentValue: function() {
+        return new Text(this.querySelector('input').value);
+      },
+      broadcast: function (e) {
+        this.emit(new Text(e), this.querySelector("input").getAttribute("placeholder"));
+      },
+
+      updateConfig: function() {
+        if (this._fireonchange) {
+          this.classList.add('onchange');
+          this.button.classList.add('hidden');
+        } else {
+          this.classList.remove('onchange');
+          this.button.classList.remove('hidden');
+        }
+      },
+      editable: {
+        placeholderText: {
+          type: "text",
+          description: "The text you want your input field to show by default.",
+          postset: function(v) {
+            this.querySelector("input").setAttribute("placeholder", v);
+          }
+        },
+        buttonLabel: {
+          type: "text",
+          description: "The text label you want your button to have.",
+          postset: function(v) {
+            this.querySelector("button").innerHTML = v;
+          }
+        },
+        emitOnChange: {
+          type: "boolean",
+          description: "Emit on change",
+          postset: function(v) {
+            this._fireonchange = v == "true";
+            this.updateConfig();
+          }
+        }
+      }
+    });
+  </script>
+</element>
