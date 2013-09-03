@@ -2,6 +2,7 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random_cat.css">
     <div class="wrapper"><img style="width: 30%" src="http://placekitten.com/200/200" /></div>
+    <canvas />
   </template>
   <description>
     Shows a random cat
@@ -10,10 +11,24 @@
     Ceci(this, {
       percent : 0,
       init: function (params) {
-        $(this).on("click",function(){ this.changeCat(); });
+
         var cat = this.querySelector("img");
+        var t = this;
+
+        cat.onclick = function(){
+          t.changeCat();
+        };
+
+        cat.onload = function(){
+          var c = t.querySelector("canvas");
+          var ctx = c.getContext("2d");
+          var img = t.querySelector("img");
+          ctx.drawImage(img, 10, 10);
+          alert(c.toDataURL());
+          t.emit(c.toDataURL());
+        };
         var percent = 80;
-        $(this).attr('catwidth', percent);
+        this.setAttribute('catwidth', percent);
       },
       editable: {
         catWidth: {
@@ -26,18 +41,16 @@
           }
         }
       },
-      setWidth : function(val){
-       this.querySelector("img").style.width = val + "%";
-      },
       defaultListener: 'changeCat',
       listeners: {
         changeCat: function () {
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
           var src = "http://placekitten.com/"+random+"/"+random;
-          $(cat).attr("src",src);
-          // only broadcast after a broadcast channel has been chosen
-          this.emit(src);
+          cat.setAttribute("src", src);
+        },
+        setWidth : function(val){
+         this.querySelector("img").style.width = val + "%";
         }
       }
     });
