@@ -10,6 +10,7 @@
   <script type="text/ceci">
     Ceci(this, {
       percent : 0,
+      _channel: null,
       init: function (params) {
         var img = this.querySelector("img");
         this.term = "cat";
@@ -33,8 +34,9 @@
           max: 100,
           type: "text",
           description: "What kind of pictures are we looking for?",
-          postset: function(v) {
-            this.setImageKeyword(v);
+          postset: function(val) {
+            this.term = val;
+            this.newImage(val, this._channel);
           }
         }
       },
@@ -44,15 +46,15 @@
       defaultListener : "newImage",
       listeners: {
         setImageKeyword: function(val, channel) {
+          this._channel = channel;
           this.log("setting image keyword to: "+ val, channel);
-          this.term = val;
-          this.newImage();
+          this.setAttribute("searchTerm", val); // causes recursion
         },
         setLocation: function(location, channel) {
           this.log("setting location to: "+ location.lat + ',' + lotation.lng, channel);
           this.lat = location.lat;
           this.lng = location.lng;
-          this.New_Image();
+          this.newImage(val, channel);
         },
         newImage: function (listener, channel) {
           this.log("gets a new image", channel);
@@ -62,7 +64,7 @@
           if (this.lat && this.lng) {
             url = url + "&lat="+this.lat + "&lon=" + this.lng;
           } else {
-            url = url + "&sort=interestingness-desc"; // if not location based, let's make them interesting
+            url = url + "&sort=relevance"; // if not location based, let's make them relevant
           }
           var src;
           var element = this;
