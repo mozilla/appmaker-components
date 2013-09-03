@@ -16,14 +16,11 @@
     };
     Ceci(this, {
       init: function (params) {
-        this.ratingBar = $(this).find(".rating-bar");
-        
-        var starCount = this.getAttribute('starNumber') || 5;
-
-        this.setAttribute('starNumber', starCount);
 
         var rating = 0;
 
+        this.ratingBar = $(this).find(".rating-bar");
+        this.setAttribute('starNumber', this.getAttribute('starNumber') || 5);
         this.ratingBar.on("click",".rating-icon",function(){
           var index = $(this).index();
           that.updateBar(index + 1);
