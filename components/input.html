@@ -28,6 +28,12 @@
           element.broadcast(input.value);
           input.value = "";
         };
+        this.input.addEventListener("keypress", function(e) {
+          console.log(e.keyCode);
+          if (e.keyCode === 13) {
+            element.broadcast(element.input.value);
+          }
+        });
         this.input.addEventListener("input", function (e) {
           if (! element._fireonchange) return;
           element.broadcast(element.input.value);
