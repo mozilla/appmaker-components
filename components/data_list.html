@@ -68,7 +68,7 @@
 
           this.io.on('child_changed', function(snapshot) {
             child = t.querySelector('[firebasename="' + snapshot.name() + '"]');
-            child.innerHTML = snapshot.val().value;
+            child.innerHTML = snapshot.val().pretty;
           });
         },
         sortByCreatedAt: function(a, b) {
@@ -86,11 +86,14 @@
             this.io.remove();
           },
           updateItem: function(v, channel) {
-            var child = this.io.child(v.name);
-            this.log("updating item: " + v.toString(), channel)
+            console.log("in updateItem", v);
+            var child = this.io.child(v._id);
+            console.log(child);
+            // this.log("updating item: " + v.toString(), channel)
             this.lookAtMe();
-            delete v.name;
-            child.update({value: v.value.toString(), editor: v.editor});
+            delete v._id;
+            console.log("v.toString(pretty)", v.toString(true));
+            child.update({value: v.toString(), pretty: v.toString(true), editor: v.editor});
           }
         },
         broadcast: function (snapshot) {

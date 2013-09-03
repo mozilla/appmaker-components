@@ -18,19 +18,23 @@
     function FormData(hash) {
       // Turn the hash into a sequence (which should be in the right order, but we'll assume the current order)
       this.seq = [];
+      this.hash = hash;
       this.editor = 'sequence';
       var that = this;
       Object.keys(hash).forEach(function (key) {
-        console.log("pushing", key, hash[key]);
-        that.seq.push([key,hash[key]]);
+        var obj = {};
+        obj.name = key;
+        obj.value = hash[key].value;
+        obj.editor = hash[key].editor;
+        that.seq.push(obj);
       });
     };
     FormData.prototype.toString = function(pretty) {
       if (pretty) {
         var seq = this.seq;
-        console.log ('DOING PRETTY', this.seq);
-        var parts = seq.map(function(cb, key) {
-          return seq[key][0]+': ' + seq[key][1];
+        var parts = seq.map(function(cb, index) {
+          var obj = seq[index];
+          return obj.name+': ' + obj.value;
         })
         return parts.join(', ');
       } else {
@@ -72,7 +76,6 @@
       defaultListener: "setValue",
       listeners: {
         setValue: function (val, channel, type) {
-          console.log("setValue", val, channel, type);
           this._data[type] = val;
           this.syncList(type);
         }

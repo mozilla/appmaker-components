@@ -28,18 +28,21 @@
           element.broadcast(input.value);
           input.value = "";
         };
-        this.input.addEventListener("input", function (e) {
-          if (! element._fireonchange) return;
-          element.broadcast(element.input.value);
-        }, false);
 
         if (this.hasAttribute('fireonchange')) {
           this._fireonchange = this.getAttribute('fireonchange') == "true";
           this.updateConfig();
         }
         else {
-          this.setAttribute("fireonchange", "false");
+          this.setAttribute("fireonchange", true);
+          this._fireonchange = true;
+          this.updateConfig();
         }
+
+        this.input.addEventListener("input", function (e) {
+          if (! element._fireonchange) return;
+          element.broadcast(element.input.value);
+        }, false);
 
         if (this.hasAttribute('placeholdertext')) {
           this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
@@ -61,7 +64,7 @@
         }
       },
       getCurrentValue: function() {
-        return this.querySelector('input[type="text"]').value;
+        return new Text(this.querySelector('input').value);
       },
       broadcast: function (e) {
         this.emit(new Text(e), this.querySelector("input").getAttribute("placeholder"));

@@ -3,7 +3,7 @@
 app-input {
   padding: 0;
   height: 3.8rem;
-}  
+}
 
 app-input input[type=text]{
   padding: 0;
@@ -51,4 +51,3 @@ app-input button:active {
   background: linear-gradient(to top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
-
