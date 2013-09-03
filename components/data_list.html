@@ -37,7 +37,6 @@
           var addItem = function(item, name){
             try {
               var li = document.createElement('li');
-              console.log("ITEM", item);
               li.innerHTML = item.pretty;
               li.setAttribute('firebasename', name);
               $(li).on('click', function(evt) {
@@ -86,13 +85,9 @@
             this.io.remove();
           },
           updateItem: function(v, channel) {
-            console.log("in updateItem", v);
             var child = this.io.child(v._id);
-            console.log(child);
-            // this.log("updating item: " + v.toString(), channel)
             this.lookAtMe();
             delete v._id;
-            console.log("v.toString(pretty)", v.toString(true));
             child.update({value: v.toString(), pretty: v.toString(true), editor: v.editor});
           }
         },

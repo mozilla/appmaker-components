@@ -63,22 +63,15 @@
         };
         this.querySelector('.save').onclick = function (e) {
           var fields = that.fields.childNodes;
-          if (fields.length > 1) {
-            var hash = {};
-            for (var i=0; i<fields.length; i++) {
-              var field = fields.item(i);
-              var nval = field.getCurrentValue.call(field);
-              hash[that.fieldnames[i]] = nval;
-            }
-            var retval = new FormData(hash);
-            retval._id = that.objectName;
-            that.emit(retval);
-          } else if (fields.length == 1) {
-            var field = fields.item(0);
+          var hash = {};
+          for (var i=0; i<fields.length; i++) {
+            var field = fields.item(i);
             var nval = field.getCurrentValue.call(field);
-            var newValue = new Editable(nval, that.fieldnames[0], field.localName);
-            that.emit(newValue);
+            hash[that.fieldnames[i]] = nval;
           }
+          var retval = new FormData(hash);
+          retval._id = that._id;
+          that.emit(retval);
         };
       },
       defaultListener: "openForm",
@@ -88,7 +81,7 @@
           if (typeof(val) == typeof('')) {
             val = {'value': val};
           }
-          this.objectName = val.name;
+          this._id = val.name;
           var element = this;
           try {
             if (val.editor == 'sequence') {
