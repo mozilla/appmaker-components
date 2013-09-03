@@ -1,15 +1,15 @@
 @import url("../fonts.css");
 
-app-submit {
+app-form-submit {
   padding: 0;
 }
 
-app-submit .button:active {
+app-form-submit .button:active {
   background: linear-gradient(to top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
 
-app-submit .button {
+app-form-submit .button {
   padding: 0 1.5rem;
   position: relative;
   text-decoration: none;
@@ -30,7 +30,7 @@ app-submit .button {
   color: #333;
 }
 
-app-submit button {
+app-form-submit button {
   font-family: "FiraSans", sans-serif;
   border: none;
   background: 0;
@@ -39,7 +39,7 @@ app-submit button {
   position: relative;
 }
 
-app-submit .property-list {
+app-form-submit .property-list {
   list-style: none;
   margin: 0;
   padding: 3px;
@@ -50,12 +50,12 @@ app-submit .property-list {
   border-right: 1px solid #c0c0c0;
 }
 
-app-submit .property-list li {
+app-form-submit .property-list li {
   position: relative;
   height: 1em;
 }
 
-app-submit .property-list li .name {
+app-form-submit .property-list li .name {
   position: absolute;
   width: 40%;
   height: 100%;
@@ -64,7 +64,7 @@ app-submit .property-list li .name {
   text-overflow: ellipsis;
 }
 
-app-submit .property-list li .value {
+app-form-submit .property-list li .value {
   position: absolute;
   width: 60%;
   height: 100%;
