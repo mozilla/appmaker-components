@@ -1,6 +1,6 @@
-<element name="app-input">
+<element name="app-form-text">
   <template>
-    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-input.css">
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form-text.css">
     <input type="text"/><button>Submit</button>
   </template>
   <description>
@@ -28,24 +28,21 @@
           element.broadcast(input.value);
           input.value = "";
         };
-        this.input.addEventListener("keypress", function(e) {
-          console.log(e.keyCode);
-          if (e.keyCode === 13) {
-            element.broadcast(element.input.value);
-          }
-        });
-        this.input.addEventListener("input", function (e) {
-          if (! element._fireonchange) return;
-          element.broadcast(element.input.value);
-        }, false);
 
         if (this.hasAttribute('fireonchange')) {
           this._fireonchange = this.getAttribute('fireonchange') == "true";
           this.updateConfig();
         }
         else {
-          this.setAttribute("fireonchange", "false");
+          this.setAttribute("fireonchange", true);
+          this._fireonchange = true;
+          this.updateConfig();
         }
+
+        this.input.addEventListener("input", function (e) {
+          if (! element._fireonchange) return;
+          element.broadcast(element.input.value);
+        }, false);
 
         if (this.hasAttribute('placeholdertext')) {
           this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));

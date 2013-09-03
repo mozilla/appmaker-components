@@ -245,13 +245,19 @@
       listeners: {
         shootRocket: function (count, channel) {
           this.log("launching rocket", channel);
+          this.launchRocket();
+        },
+        shootThisManyRockets: function (count, channel) {
           var intRegex = /^\d+$/;
           if (intRegex.test(count)) {
+            this.log("launching" + count + "rockets", channel);
             for (var i=0; i < Number(count); i++) {
               this.launchRocket();
+
             }
           } else {
             this.launchRocket();
+            this.log("launching rocket", channel);
           }
         }
       }

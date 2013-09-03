@@ -18,6 +18,7 @@
         this.period = 1;
         this.count = 0;
         this.tick();
+        this.timeout = null;
         this.setArrowSpeed(this.period);
       },
       setArrowSpeed : function(v){
@@ -29,7 +30,14 @@
       broadcast: function (e) {
         this.emit(e)
       },
+      onUnload: function (e) {
+        clearTimeout(this.timeout);
+      },
       tick: function() {
+        if (this.unloaded){
+          // This stops the setting of the next setTimeout
+          return;
+        }
         this.count++;
         this.broadcast(this.count);
 
@@ -44,7 +52,7 @@
         var defer = function(){
           t.tick();
         };
-        setTimeout(defer, this.period*1000);
+        this.timeout = setTimeout(defer, this.period*1000);
       },
       editable: {
         "period": {

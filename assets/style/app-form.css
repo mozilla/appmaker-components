@@ -1,15 +1,13 @@
-@import url("../fonts.css");
 
-app-button {
+app-form {
   padding: 0;
 }
 
-app-button .button:active {
-  background: linear-gradient(to top, #ddd, #ddd);
-  background: -webkit-linear-gradient(top, #ddd, #ddd);
+app-form .button:active {
+  background: #008AAA;
 }
 
-app-button .button {
+app-form .button {
   cursor: pointer;
   position: relative;
   text-decoration: none;
@@ -32,7 +30,17 @@ app-button .button {
   width: 100%;
 }
 
-app-button button {
+app-form .buttonrow {
+  display: inline-block;
+  width: 100%
+}
+
+app-form .button.half {
+  display: inline;
+  width: 49%;
+}
+
+app-form button {
   font-family: "FiraSans", sans-serif;
   border: none;
   background: 0;
