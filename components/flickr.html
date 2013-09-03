@@ -61,7 +61,7 @@
           this.newImage(val, channel);
         },
         newImage: function (listener, channel) {
-          this.log("gets a new image", listener, channel);
+          this.log("gets a new image", channel);
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
           var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");
