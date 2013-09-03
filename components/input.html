@@ -28,15 +28,17 @@
           element.broadcast(input.value);
           input.value = "";
         };
+        this.input.addEventListener("input", function (e) {
+          if (! element._fireonchange) return;
+          element.broadcast(element.input.value);
+        }, false);
 
         if (this.hasAttribute('fireonchange')) {
           this._fireonchange = this.getAttribute('fireonchange') == "true";
           this.updateConfig();
         }
         else {
-          this.setAttribute("fireonchange", true);
-          this._fireonchange = true;
-          this.updateConfig();
+          this.setAttribute("fireonchange", "false");
         }
 
         this.input.addEventListener("input", function (e) {
