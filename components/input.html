@@ -41,11 +41,6 @@
           this.setAttribute("fireonchange", "false");
         }
 
-        this.input.addEventListener("input", function (e) {
-          if (! element._fireonchange) return;
-          element.broadcast(element.input.value);
-        }, false);
-
         if (this.hasAttribute('placeholdertext')) {
           this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
         }
