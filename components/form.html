@@ -2,20 +2,47 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form.css">
     <div class="fields">
-      asdasdsadas
-      asd
-      as
-      d
     </div>
     <div class="buttonrow">
-      <button class="save">Save</button>
-      <button class="cancel">Cancel</button>
+      <button class="half button save">Save</button>
+      <button class="half button cancel">Cancel</button>
     </div>
   </template>
   <description>
-    A full-screen form editor
+    A form editor
   </description>
   <script type="text/ceci">
+
+      // copy of the code in form.
+      function FormData(hash) {
+        // Turn the hash into a sequence (which should be in the right order, but we'll assume the current order)
+        this.seq = [];
+        this.hash = hash;
+        this.editor = 'sequence';
+        var that = this;
+        Object.keys(hash).forEach(function (key) {
+          var obj = {};
+          obj.name = key;
+          obj.value = hash[key].value;
+          obj.editor = hash[key].editor;
+          that.seq.push(obj);
+        });
+      };
+      FormData.prototype.toString = function(pretty) {
+        if (pretty) {
+          var seq = this.seq;
+          var parts = seq.map(function(cb, index) {
+            var obj = seq[index];
+            return obj.name+': ' + obj.value;
+          })
+          return parts.join(', ');
+        } else {
+          return JSON.stringify(this.seq);
+        }
+      }
+      FormData.prototype.toPrettyString = function() {
+        return JSON.stringify(this.seq.keys);
+      }
 
       function Editable(value, name, editor) {
         this.value = value;
@@ -29,34 +56,41 @@
       Ceci(this, {
       init: function (params) {
         var that = this;
+        this.fieldnames = {};
         this.fields = this.querySelector('.fields');
         this.querySelector('.cancel').onclick = function (e) {
         // navigate _back_ XXX
         };
         this.querySelector('.save').onclick = function (e) {
-          var field = that.fields.querySelector("*");
-          var nval = field.getCurrentValue();
-          var newValue = new Editable(nval, that.objectName, field.localName); // XXX is localName robust?
-          that.emit(newValue);
+          var fields = that.fields.childNodes;
+          var hash = {};
+          for (var i=0; i<fields.length; i++) {
+            var field = fields.item(i);
+            var nval = field.getCurrentValue.call(field);
+            hash[that.fieldnames[i]] = nval;
+          }
+          var retval = new FormData(hash);
+          retval._id = that._id;
+          that.emit(retval);
         };
       },
       defaultListener: "openForm",
       listeners: {
         openForm: function (val, channel) {
-          this.log("opening a form for: " + val.toString(), channel)
           this.fields.innerHTML = ''; // clear old stuff
           if (typeof(val) == typeof('')) {
             val = {'value': val};
           }
-          this.objectName = val.name;
+          this._id = val.name;
           var element = this;
           try {
-            if (val.editor) {
-              this.addField(val)
-            } else if (val.length) {
-              Array.prototype.forEach.call(val, function(v) {
-                element.addField(v);
-              });
+            if (val.editor == 'sequence') {
+              var bits = JSON.parse(val);
+              for (var i=0; i<bits.length; i++) {
+                element.fieldnames[i] = element.addField(bits[i]);
+              };
+            } else if (val.editor) {
+              element.fieldnames[0] = this.addField(val);
             }
             this.lookAtMe();
           } catch (e) {
@@ -77,6 +111,7 @@
           });
           Ceci.convertElement(editor, function(){}, true);
           this.fields.appendChild(editor);
+          return val.name;
         }
       },
     });
