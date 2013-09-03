@@ -54,17 +54,17 @@
     defaultListener: 'optionOne',
       listeners: {
         optionOne: function (listener,channel) {
-          this.myData[0] = this.myData[0] +1;
+          this.myData[0] = listener;
           this.myColor[0] = channel;
           this.updatePie();
         },
         optionTwo: function (listener,channel) {
-          this.myData[1] = this.myData[1] +1;
+          this.myData[1] = listener;
           this.myColor[1] = channel;
           this.updatePie();
         },
         optionThree: function (listener,channel) {
-          this.myData[2] = this.myData[2] +2;
+          this.myData[2] = listener;
           this.myColor[2] = channel;
           this.updatePie();
         },
