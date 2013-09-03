@@ -13,11 +13,15 @@
       _channel: null,
       init: function (params) {
         var img = this.querySelector("img");
-        this.term = "cat";
-        this.setHeight(100);
+        if (! this.hasAttribute('searchTerm')) {
+          this.setAttribute('searchTerm', 'cat');
+        }
+        this.term = this.getAttribute('searchTerm');
+
+        if (! this.hasAttribute('imageHeight')) {
+          this.setAttribute('imageHeight', '200');
+        }
         this.newImage();
-         $(this).attr('height', 100);
-         $(this).attr('search',  'cat');
       },
       editable: {
         "imageHeight": {
@@ -43,11 +47,11 @@
       setHeight: function (val) {
         this.querySelector('img').style.height = val + "px";
       },
-      defaultListener : "newImage",
+      defaultListener : "setImageKeyword",
       listeners: {
         setImageKeyword: function(val, channel) {
-          this._channel = channel;
           this.log("setting image keyword to: "+ val, channel);
+          this._channel = channel;
           this.setAttribute("searchTerm", val); // causes recursion
         },
         setLocation: function(location, channel) {
@@ -57,7 +61,7 @@
           this.newImage(val, channel);
         },
         newImage: function (listener, channel) {
-          this.log("gets a new image", channel);
+          this.log("gets a new image", listener, channel);
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
           var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");
