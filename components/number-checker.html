@@ -35,9 +35,14 @@
 
         this.indicator = this.querySelector(".check-indicator");
 
+        this.querySelector("input").onchange = function(e){
+          that.checkAgainst = e.target.value;
+        }
+
         var checkOptions = this.querySelector("select");
-        this.checkFor = checkOptions.options[checkOptions.selectedIndex].value;
         
+        this.checkFor = checkOptions.options[checkOptions.selectedIndex].value;
+
         checkOptions.onchange = function(e){
           if (!e)
           var e = window.event;
@@ -50,6 +55,8 @@
         that = this;
         var ok = false;
 
+
+
         switch (this.checkFor) {
           case 'greater':
             if(this.incomingNumber > this.checkAgainst){ ok = true; }
@@ -61,7 +68,7 @@
             if(this.incomingNumber < this.checkAgainst){ ok = true; }
           break;
           case 'lessEqual':
-            if(this.incomingNumber < this.checkAgainst){ ok = true; }
+            if(this.incomingNumber <= this.checkAgainst){ ok = true; }
           break;
           case 'equal':
             if(this.incomingNumber == this.checkAgainst){ ok = true; }
