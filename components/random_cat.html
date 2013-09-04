@@ -2,10 +2,9 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random_cat.css">
     <div class="wrapper"><img style="width: 30%" src="http://placekitten.com/200/200" /></div>
-    <canvas />
   </template>
   <description>
-    Shows a random cat
+    Shows a super random cat
   </description>
   <script type="text/ceci">
     Ceci(this, {
@@ -16,19 +15,14 @@
         var t = this;
 
         cat.onclick = function(){
-          t.changeCat();
-        };
-
-        cat.onload = function(){
-          var c = t.querySelector("canvas");
-          var ctx = c.getContext("2d");
           var img = t.querySelector("img");
-          ctx.drawImage(img, 10, 10);
-          alert(c.toDataURL());
-          t.emit(c.toDataURL());
+          t.broadcast(img.src);
         };
         var percent = 80;
         this.setAttribute('catwidth', percent);
+      },
+      broadcast: function (e) {
+        this.emit(e)
       },
       editable: {
         catWidth: {
