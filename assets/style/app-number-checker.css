@@ -1,5 +1,5 @@
 app-number-checker {
-  padding: 1rem 1.5rem;
+  padding: .5rem;
 }
 
 app-number-checker .checker {
@@ -8,12 +8,11 @@ app-number-checker .checker {
   text-align: left;
   font-size: font-size: 1.6rem;
   font-family: "FiraSans", sans-serif;
-  border-bottom: solid 2px #BBB;
-  border-radius: 5px;
   background: #DDD;
-  background-image: -webkit-linear-gradient(top, #EEE, #CCC);
-  background-image: -moz-linear-gradient(top, #EEE, #CCC);
+  background-image: -webkit-linear-gradient(top, #222, #444);
+  background-image: -moz-linear-gradient(top, #222, #444);
   position: relative;
+  border-radius: 4px;
 }
 
 app-number-checker select {
@@ -38,8 +37,7 @@ app-number-checker .check-indicator {
   right:10px;
   top: 15px;
   border-radius: 10px;
-  border-top: solid 1px #BBB;
-  border-bottom: solid 1px white;
+  border-bottom: solid 1px #777;
   background-image: -webkit-radial-gradient( #BBB 0% ,#BBB 30%, #BBB  31% ,   #555 100%);
   background-image: -moz-radial-gradient( #BBB 0% ,#BBB 30%, #BBB  31% ,   #555 100%);
 }
