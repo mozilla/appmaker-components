@@ -1,0 +1,111 @@
+<element name="app-timer">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-timer.css">
+    <div class="timer">
+      <div class="current-time"></div>
+      <div class="count-to">Blahs</div>      
+      
+    </div>
+  </template>
+  <description>
+    Listens for a message and counts
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var that = this;
+        this.hasAlert = false;
+        this.alertTime;
+        this.mS = 0;
+        this.mode = "up"
+        this.updateDisplay();
+      },
+      updateTime : function(){
+        //Get time difference between ticks
+        this.elapsedTime = new Date().getTime() - this.startTime;
+        this.startTime = new Date().getTime();
+        //Add it up in milliseonds
+      
+        if(this.mode == "up"){
+          this.mS = this.mS + this.elapsedTime;          
+        } else {
+          this.mS = this.mS - this.elapsedTime;
+        }
+
+        this.updateDisplay();
+
+        if(this.mode == "down"){
+           this.checkAlert();  
+        }
+      },
+      checkAlert : function(){
+        // var sec = Math.round(this.mS/1000 * 10)/10;
+        if(this.mS <= 0) {
+          this.mS = 0;
+          this.mode == "up";
+          this.emit("Ping");
+          this.stopTheTimer(); 
+          this.updateDisplay();
+        }
+
+      },
+      updateDisplay : function(){
+        var hour  = Math.round((this.mS/1000/60/60)) % 60;
+        var min   = Math.round((this.mS/1000/60)) % 60;
+        var sec   = (this.mS/1000) % 60;
+        sec = Math.round(sec * 10)/10;
+        if(Math.round(sec) == sec) { sec += '.0'; };
+        if(min < 10) { min = "0" + min;}
+        if(sec < 10) { sec="0" + sec;}
+        if(hour > 0) { hour = hour + ":"; } else {  hour = "";}
+        this.currentTime = hour + min + ":" + sec;
+        this.querySelector('.current-time').innerText = this.currentTime;
+      },
+      startTheTimer : function(){
+        this.startTime = new Date().getTime();
+        that = this;        
+        if(!this.timerInterval){
+          this.timerInterval = window.setInterval(function(){
+            that.updateTime();
+          },50);
+        }
+      },
+      stopTheTimer : function(){
+        clearInterval(that.timerInterval);
+        this.timerInterval = false;
+      },
+      updateAlert : function(){
+        if(this.hasAlert) {
+          this.querySelector(".count-to").innerText = "Counting to " + this.alertTime + " seconds";  
+          this.querySelector(".count-to").style.display = "block";
+        } else {
+          this.querySelector(".count-to").style.display = "none";
+        }
+      },
+      resetTheTimer : function(){
+        this.mS = 0;
+        this.updateDisplay();
+      },   
+    defaultListener : "start",
+      listeners: {
+        setTimer : function(listener, channel){
+          this.mode = "down";
+          this.resetTheTimer();
+          this.mS = 1000 * parseInt(listener.value) || 10000;
+          this.startTheTimer();
+        },   
+        stop: function (listener,channel) {
+          this.stopTheTimer();
+        },
+        start: function (listener,channel) {
+          this.startTheTimer();
+        },
+        reset: function (value, channel) {
+          this.resetTheTimer();
+        }
+      }
+    });
+  </script>
+</element>
