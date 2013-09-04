@@ -1,7 +1,7 @@
 <element name="app-counter">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-counter.css">
-    <div class="counter">0</div>
+    <div class="counter"><span class="count">0</span><span class="count-label"><span></div>
   </template>
   <description>
     Listens for a message and counts
@@ -12,15 +12,42 @@
     Ceci(this, {
       init: function (params) {
         this.count = 0;
+        this.setAttribute('countItem', this.getAttribute('countItem') || "times");
       },
       updateDisplay: function () {
-        this.querySelector('div').innerHTML = this.count;
+        this.querySelector('.count').innerHTML = this.count;
         // bypasses default broadcasting, so that the value
         // is only sent along after a broadcast channel has been chosen
+
+        if(this.count > 1){
+          var countLabel = this.getAttribute('countItem');
+          var countLabel = countLabel.trim();
+          var lastChar = countLabel.charAt(countLabel.length-1);
+          if(lastChar.toLowerCase() != "s"){
+            var addChar = "s";
+            if(lastChar == lastChar.toUpperCase()){
+              addChar = addChar.toUpperCase();
+            }
+            this.setLabel(this.getAttribute('countItem') + addChar);            
+          } 
+        }
+                    
         this.lookAtMe();
         this.emit(this.count);
       },
-      defaultListener: 'countUp',
+      editable: {
+        countItem: {
+          type: "text",
+          description: "Name for what you're counting",
+          postset: function(v) {
+            this.setLabel(v);
+          }
+        }
+      }, 
+      setLabel: function (value){
+        this.querySelector('.count-label').innerHTML = " " + value;          
+      },
+    defaultListener: 'countUp',
       listeners: {
         countUp: function (listener,channel) {
           console.log("channel is", channel);
@@ -28,6 +55,7 @@
           this.count++;
           this.log("counting up to " + this.count, channel);
           this.updateDisplay();
+          
         },
         countDown: function (listener,channel) {
           this.count--;

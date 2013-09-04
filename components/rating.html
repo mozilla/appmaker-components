@@ -16,19 +16,15 @@
     };
     Ceci(this, {
       init: function (params) {
-        this.ratingBar = $(this).find(".rating-bar");
-        
-        var starCount = this.getAttribute('starNumber') || 5;
-
-        this.setAttribute('starNumber', starCount);          
 
         var rating = 0;
 
-
+        this.ratingBar = $(this).find(".rating-bar");
+        this.setAttribute('starNumber', this.getAttribute('starNumber') || 5);
         this.ratingBar.on("click",".rating-icon",function(){
           var index = $(this).index();
-          that.updateBar(index);
-          that.setRating();
+          that.updateBar(index + 1);
+          that.setRating(); 
         });
 
         var that = this;
@@ -44,21 +40,20 @@
             rBar.on("touch",function(ev){
               if($(ev.target).hasClass("rating-icon")){
                 index = $(ev.target).index();
-                that.updateBar(index);
+                that.updateBar(index + 1);
               }
             });
 
             rBar.on("drag",function(ev){
               if($(ev.target).hasClass("rating-icon")){
                 index = $(ev.target).index();
-                that.updateBar(index);
+                that.updateBar(index + 1);
               }
             });
             
             rBar.on("dragend",function(ev){
               that.setRating();
             });
-            
           }
         });
 
@@ -78,13 +73,13 @@
         this.ratingBar.append("<div class='rating-icon'></div>");          
         }
       },
-      updateBar : function(index){
+      updateBar : function(rating){
         this.clearBar();
         ratingIcons = this.ratingBar.find(".rating-icon");
         ratingIcons.each(function(){
-          if($(this).index() <= index){$(this).addClass("icon-enabled")}
+          if($(this).index() <= rating -1){$(this).addClass("icon-enabled")}
         });
-        this.rating = index + 1;
+        this.rating = rating;
       },
       clearBar: function(){
         this.ratingBar.find(".rating-icon").removeClass("icon-enabled");
@@ -93,7 +88,14 @@
         this.emit(this.rating);
       },
       broadcast: [ "setRating" ],
-      defaultBroadcast: "setRating"
+      defaultBroadcast: "setRating",
+      listeners: {
+        getRating : function (val) {
+          var value = parseInt(val);
+          this.updateBar(value);
+          this.setRating(value);
+        }
+      }
     });
   </script>
 </element>
