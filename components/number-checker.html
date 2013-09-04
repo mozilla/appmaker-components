@@ -1,0 +1,118 @@
+<element name="app-number-checker">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-number-checker.css">
+    <div class="checker">
+      <select id="blah">
+        <option selected="selected" value="greater">Greater than</option>
+        <option value="greaterEqual">Greater than or equal to</option>
+        <option value="equal">Equal to</option>      
+        <option value="lessEqual">Less than or equal to</option>      
+        <option value="less">Less than </option>      
+        <option value="notEqual">Not equal to</option>      
+      </select>
+      <input type="number" value="3" />
+      <div class="check-indicator">
+        <div class="check-light"></div>
+        <div class="indicator-sheen"></div>
+      </div>
+    </div>
+  </template>
+
+  <description>
+    Listens for a number and checks if it meets certain criteria
+  </description>
+
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.count = 0;
+
+        this.incomingNumber;
+        this.checkAgainst = 3;
+        that = this;
+
+        this.indicator = this.querySelector(".check-indicator");
+
+        var checkOptions = this.querySelector("select");
+        this.checkFor = checkOptions.options[checkOptions.selectedIndex].value;
+        
+        checkOptions.onchange = function(e){
+          if (!e)
+          var e = window.event;
+          that.checkFor = this.options[this.selectedIndex].value;
+        }
+      },
+
+      checkTheNumber: function () {
+
+        that = this;
+        var ok = false;
+
+        switch (this.checkFor) {
+          case 'greater':
+            if(this.incomingNumber > this.checkAgainst){ ok = true; }
+          break;
+          case 'greaterEqual':
+            if(this.incomingNumber >= this.checkAgainst){ ok = true; }
+          break;
+          case 'less':
+            if(this.incomingNumber < this.checkAgainst){ ok = true; }
+          break;
+          case 'lessEqual':
+            if(this.incomingNumber < this.checkAgainst){ ok = true; }
+          break;
+          case 'equal':
+            if(this.incomingNumber == this.checkAgainst){ ok = true; }
+          break;
+          case 'notEqual':
+            if(this.incomingNumber != this.checkAgainst){ ok = true; }
+          break;
+        }
+        
+        if(this.incomingNumber == false){
+          ok = false;
+        }
+
+        if(ok == true){
+          this.indicator.setAttribute("light","good");
+          this.emit(this.incomingNumber);  
+        } else {
+          this.indicator.setAttribute("light","bad");          
+        }
+        
+        el = this.querySelector(".check-light");
+
+        el.classList.remove("check-strobe");
+        el.offsetWidth = el.offsetWidth;
+
+        el.addEventListener('webkitAnimationEnd', function(){
+          el.classList.remove("check-strobe");
+        });
+        el.addEventListener('animationend', function(){
+          el.classList.remove("check-strobe");
+        });
+
+        el.classList.add("check-strobe");
+        
+      },
+      editable: {
+        countItem: {
+          type: "text",
+          description: "Name for what you're counting",
+          postset: function(v) {
+
+          }
+        }
+      }, 
+    defaultListener: 'checkNumber',
+      listeners: {
+        checkNumber: function (listener,channel) {
+          this.incomingNumber = parseInt(listener) || false;
+          this.checkTheNumber();            
+        }
+      }
+    });
+  </script>
+</element>

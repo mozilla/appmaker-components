@@ -1,0 +1,105 @@
+app-number-checker {
+  padding: 1rem 1.5rem;
+}
+
+app-number-checker .checker {
+  line-height: 3rem;
+  padding: 1rem 0 1rem 1rem;
+  text-align: left;
+  font-size: font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+  border-bottom: solid 2px #BBB;
+  border-radius: 5px;
+  background: #DDD;
+  background-image: -webkit-linear-gradient(top, #EEE, #CCC);
+  background-image: -moz-linear-gradient(top, #EEE, #CCC);
+  position: relative;
+}
+
+app-number-checker select {
+  background: #FFFFFE;
+  font-size: 1.2rem;
+  color: #333 ;
+}
+
+app-number-checker input {
+	text-align: center;
+	font-size: font-size: 1.4rem;
+  font-family: "FiraSans", sans-serif;
+  font-size: 1.5rem;
+  width: 45px;
+}
+
+app-number-checker .check-indicator {
+  width:  16px;
+  height: 16px;
+  background: #888;
+  position: absolute;
+  right:10px;
+  top: 15px;
+  border-radius: 10px;
+  border-top: solid 1px #BBB;
+  border-bottom: solid 1px white;
+  background-image: -webkit-radial-gradient( #BBB 0% ,#BBB 30%, #BBB  31% ,   #555 100%);
+  background-image: -moz-radial-gradient( #BBB 0% ,#BBB 30%, #BBB  31% ,   #555 100%);
+}
+
+app-number-checker .check-indicator .indicator-sheen {
+  position: absolute;
+  top: 1px;
+  height: 8px;
+  width: 8px;
+  background: white;
+  border-radius: 5px;
+  left: 4px;
+  opacity: .35;
+}
+
+app-number-checker .check-light {
+  width:  16px;
+  height: 16px;
+  position: absolute;
+  opacity: 0;
+  border-radius: 10px;
+}
+
+app-number-checker [light=bad] .check-light {
+  background-image: -webkit-radial-gradient(#ed3e2c 0%,#ed3e2c 30%, #ed3e2c 31%,#701107 100%);
+  background-image: -moz-radial-gradient(#ed3e2c 0%,#ed3e2c 30%,#ed3e2c 31%,#701107 100%);
+}
+
+app-number-checker [light=good] .check-light {
+  background-image: -webkit-radial-gradient(#79c40f 0%,#79c40f 30%,#79c40f 31%,#52830c 100%);
+  background-image: -moz-radial-gradient(#79c40f 0%,#79c40f 30%,#79c40f 31%,#52830c 100%);
+}
+
+app-number-checker .check-strobe {
+  -webkit-animation-name: check-strobe;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: once;
+  -webkit-animation-duration: 1s;
+  -moz-animation-name: check-strobe;
+  -moz-animation-timing-function: linear;
+  -moz-animation-iteration-count: once;
+  -moz-animation-duration: 1s;
+}
+
+@-webkit-keyframes check-strobe {
+	0% {opacity: 1; }
+	5% {opacity: .2; }
+	10% {opacity: 1; }
+	15% {opacity: .2; }
+	20% {opacity: 1; }
+  96% {opacity: 1; }
+	100% {opacity: 0; }
+}
+
+@-moz-keyframes check-strobe {
+	0% {opacity: 1; }
+	5% {opacity: .2; }
+	10% {opacity: 1; }
+	15% {opacity: .2; }
+	20% {opacity: 1; }
+  96% {opacity: 1; }
+	100% {opacity: 0; }
+}
