@@ -1,0 +1,130 @@
+<element name="app-data-list-hoodie">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-list-hoodie.css" />
+    <header class="fixed">
+      <h1>List Title</h1>
+      <ul>
+      </ul>
+    </header>
+  </template>
+  <description>
+    Lists items in order it receives them
+  </description>
+  <friends>app-form</friends>
+  <script type="text/ceci">
+    var element = this;
+    require(['http://127.0.0.1:5010/_api/_files/hoodie.js'], function(Hoodie) {
+      console.log(Hoodie);
+      function Editable(value, name, editor) {
+        this.value = value;
+        this.name = name;
+        this.editor = editor;
+      }
+      Editable.prototype.toString = function(v) {
+        return this.value;
+      }
+
+      Ceci(element, {
+        init: function (params) {
+          params = params ? params : {};
+          var appId = params.appId || "app123";
+          var hoodieEndpoint = "http://127.0.0.1:5010/_api"; // replace with a hoodie backend URL
+          var hoodie = new Hoodie(hoodieEndpoint);
+
+          var t = this;
+
+          t.hoodie = hoodie;
+
+          var addItem = function(item, name){
+            try {
+              var li = document.createElement('li');
+              li.innerHTML = item.value;
+              li.setAttribute('hoodiename', name);
+              $(li).on('click', function(evt) {
+                var elt = evt.currentTarget
+                var name = elt.getAttribute('hoodiename');
+                hoodie.store.update('item', name, {})
+                alert('dunno what shall happen in here');
+                // var fireElt = t.io.child(name);
+                // fireElt.once('value', function(snapshot) {
+                //   t.broadcast(snapshot);
+                // })
+              })
+              t.querySelector('ul').appendChild(li);
+            } catch (e) {
+              console.log(e);
+            }
+          };
+
+          var resetList = function() {
+            t.querySelector('ul').innerHTML = "";
+          }
+
+          this.hoodie.store.on('remove:item', function(obj) {
+            resetList();
+          });
+
+          this.hoodie.store.on('add:item', function(obj) {
+            console.log("on add:item");
+            console.log(obj);
+            addItem(obj, obj.id);
+          });
+
+          this.hoodie.store.on('change:item', function(obj) {
+            child = t.querySelector('[hoodiename="' + obj.name + '"]');
+            child.innerHTML = obj.val;
+          });
+
+          hoodie.store.findAll('item').done(function(items) {
+            items.forEach(function(item) {
+              addItem(item, item.id);
+            });
+          })
+        },
+        sortByCreatedAt: function(a, b) {
+          return a.createdAt > b.createdAt;
+        },
+        defaultListener: 'addItem',
+        listeners: {
+          addItem: function (v, channel) {
+            this.log("adding: " + v.toString(), channel);
+            this.lookAtMe();
+            console.log(this.hoodie);
+            this.hoodie.store.add('item', {value: v.toString(), editor: v.editor}).done(console.log).fail(console.log);
+          },
+          clearList: function (v, channel) {
+            this.log("clearing list", channel);
+            this.hoodie.store.removeAll('item').done(function() {
+              this.hoodie.store.findAll('item').done(function(items) {
+                console.log(items);
+              });
+            }).fail(function(err) {
+              console.log(err);
+            });
+          },
+          updateItem: function(v, channel) {
+            this.log("updating item: " + v.toString(), channel)
+            this.lookAtMe();
+            delete v.name;
+            this.hoodie.store.update('item', v.name, {value: v.value.toString(), editor: v.editor});
+          }
+        },
+        broadcast: function (snapshot) {
+          var val = snapshot.val();
+          this.emit(new Editable(val.value, snapshot.name(), val.editor));
+        },
+        editable: {
+          "listtitle": {
+            title: "List Title",
+            type: "text",
+            description: "A title for your list",
+            postset: function(v) {
+              this.setTitle(v);
+            }
+          }
+        }
+      });
+      callback();
+    });
+  </script>
+</element>

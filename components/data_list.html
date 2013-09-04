@@ -62,6 +62,8 @@
           });
 
           this.io.on('child_added', function(snapshot) {
+            console.log("on child_added");
+            console.log(snapshot);
             addItem(snapshot.val(), snapshot.name());
           });
 

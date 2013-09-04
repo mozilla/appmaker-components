@@ -1,0 +1,36 @@
+@import url("../fonts.css");
+
+app-list, app-data-list-hoodie {
+  padding: 0 1.5rem;
+}
+
+app-list h1, app-data-list-hoodie h1 {
+  padding: .5rem 1rem;
+  color: rgb(255, 78, 0);
+  font-size: 16px; font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+  text-transform: uppercase;
+  border-bottom: 0.1rem solid rgb(255, 78, 0);
+  text-align: left;
+  font-weight: 400;
+}
+
+app-list ul, app-data-list-hoodie ul, app-list ol, app-data-list-hoodie ol {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+  display: block;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+app-list li, app-data-list-hoodie li {
+  font-size: 18px; font-size: 1.8rem;
+  font-family: "FiraSans", sans-serif;
+  border-bottom: solid .1rem #d9d9d9;
+  padding: 1.5rem 0rem;
+}
+
+app-list li:last-child, app-data-list-hoodie li:last-child {
+  border: none;
+}
