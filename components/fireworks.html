@@ -250,8 +250,16 @@
         shootThisManyRockets: function (count, channel) {
           var intRegex = /^\d+$/;
           if (intRegex.test(count)) {
-            this.log("launching" + count + "rockets", channel);
-            for (var i=0; i < Number(count); i++) {
+
+            var n = Number(count);
+            if (n > 15){
+              n = 15;
+              this.log("launching " + n + " (max) rockets", channel);
+            }
+            else{
+              this.log("launching " + n + " rockets", channel);
+            }
+            for (var i=0; i < n; i++) {
               this.launchRocket();
 
             }
