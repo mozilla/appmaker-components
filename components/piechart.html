@@ -12,6 +12,7 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
+        this.pieSize = 200;
         this.colors = {
           "blue" : "#2f8bd1",
           "green" : "#6fba00",
@@ -25,6 +26,7 @@
         this.myData = [0,0,0];
       },
       updatePie : function(){
+        var pS = this.pieSize;
 
         var myTotal = 0;
         for (var j = 0; j < this.myData.length; j++) {
@@ -37,15 +39,15 @@
 
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, pS, pS);
 
         for (var i = 0; i < this.myData.length; i++) {
           ctx.fillStyle = this.colors[this.myColor[i]];
           ctx.beginPath();
-          ctx.moveTo(100,100);
-          ctx.arc(100,100,100,lastend,lastend+
+          ctx.moveTo(pS/2,pS/2);
+          ctx.arc(pS/2,pS/2,pS/2,lastend,lastend+
           (Math.PI*2*(this.myData[i]/myTotal)),false);
-          ctx.lineTo(100,100);
+          ctx.lineTo(pS/2,pS/2);
           ctx.fill();
           lastend += Math.PI*2*(this.myData[i]/myTotal);
         }
