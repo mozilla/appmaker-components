@@ -70,9 +70,8 @@
         return new Text(this.querySelector('input').value);
       },
       broadcast: function (e) {
-        this.emit(new Text(e), this.querySelector("input").getAttribute("placeholder"));
+        this.emit(e);
       },
-
       updateConfig: function() {
         if (this._fireonchange) {
           this.classList.add('onchange');

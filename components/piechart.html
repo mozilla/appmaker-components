@@ -49,24 +49,29 @@
           ctx.fill();
           lastend += Math.PI*2*(this.myData[i]/myTotal);
         }
+      },
+      updateData : function(listener,channel,option){
+        if(parseInt(listener)){
+          listener = parseInt(listener);
+          this.myData[option] = listener;
+          this.myColor[option] = channel;
+        } else {
+          this.myData[option] = this.myData[option] + 1;
+          this.myColor[option] = channel;
+        }
+        this.updatePie();
 
       },
     defaultListener: 'optionOne',
       listeners: {
         optionOne: function (listener,channel) {
-          this.myData[0] = listener;
-          this.myColor[0] = channel;
-          this.updatePie();
+          this.updateData(listener,channel,0);
         },
         optionTwo: function (listener,channel) {
-          this.myData[1] = listener;
-          this.myColor[1] = channel;
-          this.updatePie();
+          this.updateData(listener,channel,1);
         },
         optionThree: function (listener,channel) {
-          this.myData[2] = listener;
-          this.myColor[2] = channel;
-          this.updatePie();
+          this.updateData(listener,channel,2);
         },
         resetCount: function (value, channel) {
           this.myData = [0,0,0];
