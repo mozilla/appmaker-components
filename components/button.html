@@ -19,7 +19,7 @@
         button.onclick = function (e) {
           t.broadcast('Click');
         }
-        this.setAttribute('buttonLabel', 'Click Me');
+        this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Click Me');
       },
       editable: {
         buttonLabel: {
