@@ -5,10 +5,10 @@
       <select id="blah">
         <option selected="selected" value="greater">Greater than</option>
         <option value="greaterEqual">Greater than or equal to</option>
-        <option value="equal">Equal to</option>      
-        <option value="lessEqual">Less than or equal to</option>      
-        <option value="less">Less than </option>      
-        <option value="notEqual">Not equal to</option>      
+        <option value="equal">Equal to</option>
+        <option value="notEqual">Not equal to</option>
+        <option value="lessEqual">Less than or equal to</option>
+        <option value="less">Less than </option>
       </select>
       <input type="number" value="3" />
       <div class="check-indicator">
@@ -28,34 +28,34 @@
     Ceci(this, {
       init: function (params) {
         this.count = 0;
-
+     
         this.incomingNumber;
         this.checkAgainst = 3;
-        that = this;
-
+        var that = this;
+     
         this.indicator = this.querySelector(".check-indicator");
-
+     
         this.querySelector("input").onchange = function(e){
           that.checkAgainst = e.target.value;
         }
-
+     
         var checkOptions = this.querySelector("select");
         
         this.checkFor = checkOptions.options[checkOptions.selectedIndex].value;
-
+     
         checkOptions.onchange = function(e){
           if (!e)
           var e = window.event;
           that.checkFor = this.options[this.selectedIndex].value;
         }
-      },
 
+      },
       checkTheNumber: function () {
+
+        console.log(this.incomingNumber + " " + this.checkFor + " " + this.checkAgainst);
 
         that = this;
         var ok = false;
-
-
 
         switch (this.checkFor) {
           case 'greater':

@@ -1,16 +1,16 @@
 app-number-checker {
-  padding: .5rem;
+  padding: 1rem 1.5rem;
 }
 
 app-number-checker .checker {
   line-height: 3rem;
   padding: 1rem 0 1rem 1rem;
   text-align: left;
-  font-size: font-size: 1.6rem;
   font-family: "FiraSans", sans-serif;
   background: #DDD;
-  background-image: -webkit-linear-gradient(top, #222, #444);
-  background-image: -moz-linear-gradient(top, #222, #444);
+  background-image: -webkit-linear-gradient(top, black, #555);
+  background-image: -moz-linear-gradient(top, black, #555);
+  border-bottom: solid 2px black;
   position: relative;
   border-radius: 4px;
 }
@@ -18,14 +18,11 @@ app-number-checker .checker {
 app-number-checker select {
   background: #FFFFFE;
   font-size: 1.2rem;
-  color: #333 ;
+  color: #333;
 }
 
 app-number-checker input {
 	text-align: center;
-	font-size: font-size: 1.4rem;
-  font-family: "FiraSans", sans-serif;
-  font-size: 1.5rem;
   width: 45px;
 }
 
@@ -37,8 +34,8 @@ app-number-checker .check-indicator {
   right:10px;
   top: 15px;
   border-radius: 10px;
-  border-bottom: solid 1px #777;
-  background-image: -webkit-radial-gradient( #BBB 0% ,#BBB 30%, #BBB  31% ,   #555 100%);
+  border: solid 2px #222;
+  background-image: -webkit-radial-gradient( #999 0% ,#999 30%, #999  31% ,   #555 100%);
   background-image: -moz-radial-gradient( #BBB 0% ,#BBB 30%, #BBB  31% ,   #555 100%);
 }
 
@@ -50,7 +47,7 @@ app-number-checker .check-indicator .indicator-sheen {
   background: white;
   border-radius: 5px;
   left: 4px;
-  opacity: .35;
+  opacity: .2;
 }
 
 app-number-checker .check-light {
@@ -84,11 +81,7 @@ app-number-checker .check-strobe {
 
 @-webkit-keyframes check-strobe {
 	0% {opacity: 1; }
-	5% {opacity: .2; }
-	10% {opacity: 1; }
-	15% {opacity: .2; }
-	20% {opacity: 1; }
-  96% {opacity: 1; }
+  80% {opacity: 1; }
 	100% {opacity: 0; }
 }
 
@@ -100,4 +93,18 @@ app-number-checker .check-strobe {
 	20% {opacity: 1; }
   96% {opacity: 1; }
 	100% {opacity: 0; }
+}
+
+app-number-checker .buttons {
+  background: #222;
+}
+
+app-number-checker .buttons .button {
+  display: block;
+  float: left;
+  padding: 0px 10px;
+  background: #444;
+  border: solid 2px #DDD;
+  font-size: 1.2rem;
+  margin: 1px;
 }
