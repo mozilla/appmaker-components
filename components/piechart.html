@@ -40,15 +40,27 @@
         canvas = document.getElementById("canvas");
         ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, pS, pS);
+        ctx.textAlign = "center";
 
         for (var i = 0; i < this.myData.length; i++) {
           ctx.fillStyle = this.colors[this.myColor[i]];
           ctx.beginPath();
           ctx.moveTo(pS/2,pS/2);
-          ctx.arc(pS/2,pS/2,pS/2,lastend,lastend+
-          (Math.PI*2*(this.myData[i]/myTotal)),false);
+          ctx.arc(pS/2,pS/2,pS/2,lastend,lastend+(Math.PI*2*(this.myData[i]/myTotal)),false);
           ctx.lineTo(pS/2,pS/2);
           ctx.fill();
+
+          var angle = lastend + (Math.PI*2*(this.myData[i]/myTotal)/2);
+          var x = 100 + 50 * Math.cos(angle);
+          var y = 100 + 50 * Math.sin(angle);
+          var fontSize = 10 + (40 * this.myData[i]/myTotal);
+          ctx.font = fontSize + "px sans-serif";
+
+          if(this.myData[i] > 0){
+            ctx.fillStyle = "rgba(255,255,255,.3)";
+            ctx.fillText(this.myData[i], x , y+5);
+          }
+
           lastend += Math.PI*2*(this.myData[i]/myTotal);
         }
       },
