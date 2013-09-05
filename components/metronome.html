@@ -15,7 +15,7 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function() {
-        this.period = 1;
+        this.period = this.getAttribute("period") || 1;
         this.count = 0;
         this.tick();
         this.timeout = null;
@@ -24,8 +24,11 @@
       setArrowSpeed : function(v){
         var animDuration = v*2;
         var metronomeArrow = this.querySelector('.metronome-arrow');
-        $(metronomeArrow).css("-webkit-animation-duration", animDuration + "s");
-        $(metronomeArrow).css("animation-duration", animDuration + "s");
+        metronomeArrow.classList.remove("metronome-animation");  
+        metronomeArrow.offsetWidth = metronomeArrow.offsetWidth;      
+        metronomeArrow.classList.add("metronome-animation");
+        metronomeArrow.style.webkitAnimationDuration = animDuration + "s";
+        metronomeArrow.style.animationDuration = animDuration + "s";
       },
       broadcast: function (e) {
         this.emit(e);
@@ -42,11 +45,6 @@
         this.broadcast(this.count);
 
         // Emitting Animation Beta
-        var indicator = this.querySelector('.broadcast-channels');
-        $(indicator).addClass("emitanim");
-        window.setTimeout(function(){
-          $(indicator).removeClass("emitanim");
-        }, this.period - 50);
 
         var t = this;
         var defer = function(){

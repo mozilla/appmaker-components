@@ -62,13 +62,16 @@ app-metronome .metronome-arrow {
   top: 10px;
   left: 15px;
 
+}
+
+app-metronome .metronome-animation {
   -webkit-animation-name: metronome;
   -webkit-animation-timing-function: linear;
   -webkit-animation-iteration-count: infinite;
-
   animation-name: metronome;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  
 }
 
 @-webkit-keyframes metronome {
