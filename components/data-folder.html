@@ -1,13 +1,15 @@
 <element name="app-data-folder">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-data-folder.css">
-    <header class="fixed">
-      <h1>Data Folder
+
+      <h1>
+        <span class="folder-name">Folder</span>
         <span class="item-count"></span>      
       </h1>
 
+      <div class="folder-content-wrapper">
       <div class="data-view-toggle">
-        <a class="selected-item" show="all" href="#">All</a><a show="stats" href="#">Stats</a>
+        <a class="selected-item" show="all" href="#">Items</a><a show="stats" href="#">Stats</a>
       </div>
 
       <div class="show-wrapper show-all">
@@ -18,11 +20,18 @@
       </div>
 
       <div class="emit-wrapper">
-        <select></select>
-        <a href="#" class="emit-data">EMIT</a>
+        <div class="emit-items">
+          <a href="#" class="emit-data">Emit all Items</a>
+        </div>
+
+        <div class="emit-stats">
+          <select ></select>
+          <a href="#" class="emit-data">Emit a Stat</a>
+        </div>
+
+      </div>
       </div>
 
-    </header>
   </template>
   <description>
     Lists data that you send it
@@ -45,7 +54,7 @@
       Ceci(element, {
         init: function (params) {
           
-          $(".data-view-toggle").on('click','a', function(evt) {
+          $(this).find(".data-view-toggle").on('click','a', function(evt) {
             var show = $(this).attr("show");
             $(this).parent().find("a").removeClass("selected-item");
             $(this).addClass("selected-item");
@@ -60,14 +69,38 @@
           var t = this;
           t.aggregate = {};
 
-          $(".emit-data").on("click",function(){
-            console.log(t.aggregate);
-            var data = $(".emit-wrapper select").val();
+          //Emits the selected statistic
+          $(this).find(".emit-stats .emit-data").on("click",function(){
+            var data = $(this).closest("div").find("select").val();
             t.broadcast(data);
             return false;
           });
 
           t.io = io;
+
+          //Emits all items
+          $(this).find(".emit-items .emit-data").on("click",function(){
+            var emit = [];
+            io.on('value', function(snapshot) {
+              for ( var i in snapshot.val()){
+                var item = JSON.parse(snapshot.val()[i]["value"]);
+                
+                var emitItem = {};
+                for (var j in item){
+                  var name = item[j]["name"];
+                  var value = item[j]["value"];
+                  emitItem[name] =  value ;
+                }
+                emit.push(emitItem);
+              }
+            });
+            
+            t.broadcast(emit);
+            return false;
+          });
+
+
+          // This builds out the items in the list 
 
           var addItem = function(item, name){
 
@@ -111,6 +144,8 @@
             resetList();
           });
 
+
+          // This generates the aggregate stats and builds the stats tables
           this.io.on('value',function(snapshot){
 
             t.aggregate["items"] = {};
@@ -125,11 +160,13 @@
             var obj = JSON.parse(childSnapshot.val()["value"]);
             t.aggregate["count"] = obj.length + 1;
             
-
+            
             for (var key in obj){
+
               var k = obj[key]["name"];
               var v = obj[key]["value"];
-
+              var storeItem = {};
+              
               if(parseInt(v)){
                 t.aggregate["items"][k] = parseInt(v) + (t.aggregate["items"][k] || 0);                
               } else {
@@ -138,9 +175,12 @@
                 }
                   t.aggregate["items"][k][v] = t.aggregate["items"][k][v] + 1 || 1;            
                 }
+              
               }
             
             });
+            
+            console.log(t.aggregate);
 
             // This builds the stats view
             var statsWrapper = t.querySelector(".stats");
@@ -177,19 +217,28 @@
               statsWrapper.appendChild(table);
             }
     
+    
             t.querySelector(".item-count").innerHTML = count + " items";
     
-            // Build the emitter options
+            
+            // Build the stats emitter options
             var items = t.aggregate["items"];
             for (var key in items){
-              
-              var option = document.createElement("option");
-              option.innerHTML = key + " total";
-              option.setAttribute("value",items[key]);
-              $(".emit-wrapper select").append(option);
+              if(typeof items[key] == "object"){
+                for (var j in items[key]){
+                  var option = document.createElement("option");
+                  option.innerHTML = j + " total";
+                  option.setAttribute("value",items[key][j]);
+                  $(".emit-wrapper .emit-stats select").append(option);
+                }
+              } else {
+                var option = document.createElement("option");
+                option.innerHTML = key + " total";
+                option.setAttribute("value",items[key]);
+                $(".emit-wrapper .emit-stats select").append(option);
+              }
             }
-    
-    
+        
           });
 
           this.io.on('child_added', function(snapshot) {
