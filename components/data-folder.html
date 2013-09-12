@@ -1,0 +1,247 @@
+<element name="app-data-folder">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-data-folder.css">
+    <header class="fixed">
+      <h1>Data Folder
+        <span class="item-count"></span>      
+      </h1>
+
+      <div class="data-view-toggle">
+        <a class="selected-item" show="all" href="#">All</a><a show="stats" href="#">Stats</a>
+      </div>
+
+      <div class="show-wrapper show-all">
+        <div class="stats"></div>
+        <div class="all">
+          <ul></ul>
+        </div>
+      </div>
+
+      <div class="emit-wrapper">
+        <select></select>
+        <a href="#" class="emit-data">EMIT</a>
+      </div>
+
+    </header>
+  </template>
+  <description>
+    Lists data that you send it
+  </description>
+  <friends>app-form</friends>
+  <script type="text/ceci">
+    var element = this;
+    require(['https://cdn.firebase.com/v0/firebase.js'], function() {
+
+      function Editable(value, name, editor) {
+        this.value = value;
+        this.name = name;
+        this.editor = editor;
+      }
+      
+      Editable.prototype.toString = function() {
+        return this.value;
+      }
+
+      Ceci(element, {
+        init: function (params) {
+          
+          $(".data-view-toggle").on('click','a', function(evt) {
+            var show = $(this).attr("show");
+            $(this).parent().find("a").removeClass("selected-item");
+            $(this).addClass("selected-item");
+            $(".show-wrapper").removeClass("show-all").removeClass("show-stats").addClass("show-" + show);
+            return false;
+          });
+          
+          params = params ? params : {};
+          var appId = params.appId || "app123";
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_folder/1");
+
+          var t = this;
+          t.aggregate = {};
+
+          $(".emit-data").on("click",function(){
+            console.log(t.aggregate);
+            var data = $(".emit-wrapper select").val();
+            t.broadcast(data);
+            return false;
+          });
+
+          t.io = io;
+
+          var addItem = function(item, name){
+
+            try {
+              
+              var li = document.createElement('table');
+              li.setAttribute("cellspacing","0");
+              li.setAttribute("cellpadding","0");
+
+              var obj = JSON.parse(item.value);
+
+              for (var key in obj){
+                var row = document.createElement('tr');
+                row.innerHTML = "<td>" + obj[key]['name'] + "</td><td>" + obj[key]["value"] + "</td>";               
+                li.appendChild(row);
+              }
+              
+              li.setAttribute('firebasename', name);
+              
+              $(li).on('click', function(evt) {
+                var elt = evt.currentTarget
+                var fireId = elt.getAttribute('firebasename');
+                var fireElt = t.io.child(fireId);
+                fireElt.once('value', function(snapshot) {
+                  t.broadcast(snapshot);
+                });
+              });
+                          
+              t.querySelector('ul').appendChild(li);
+            } catch (e) {
+              console.log(e);
+            }
+          };
+
+          var resetList = function() {
+            t.querySelector('ul').innerHTML = "";
+            t.querySelector('.stats').innerHTML = "";
+          }
+
+          this.io.on('child_removed', function(snapshot) {
+            resetList();
+          });
+
+          this.io.on('value',function(snapshot){
+
+            t.aggregate["items"] = {};
+            var count = 0;
+            // Each obj is a saved data 'card'
+            snapshot.forEach(function(childSnapshot){
+            
+            count++;
+
+            // Generate the aggregate object
+
+            var obj = JSON.parse(childSnapshot.val()["value"]);
+            t.aggregate["count"] = obj.length + 1;
+            
+
+            for (var key in obj){
+              var k = obj[key]["name"];
+              var v = obj[key]["value"];
+
+              if(parseInt(v)){
+                t.aggregate["items"][k] = parseInt(v) + (t.aggregate["items"][k] || 0);                
+              } else {
+                if(typeof t.aggregate["items"][k] != "object"){
+                  t.aggregate["items"][k] = { };                    
+                }
+                  t.aggregate["items"][k][v] = t.aggregate["items"][k][v] + 1 || 1;            
+                }
+              }
+            
+            });
+
+            // This builds the stats view
+            var statsWrapper = t.querySelector(".stats");
+            for (var key in t.aggregate["items"]){
+            
+              var table = document.createElement("table");
+              table.setAttribute("cellpadding","0");
+              table.setAttribute("cellspacing","0"); 
+              
+              if(typeof t.aggregate["items"][key] == "object") {
+                
+                var row = document.createElement('tr');
+                row.innerHTML = "<td colspan='2'><strong>"+key+"</strong></td>";
+                table.appendChild(row);
+
+                for (var a in t.aggregate["items"][key]){
+                  var row = document.createElement('tr');
+                  row.innerHTML = "<td>"+a+"</td><td>"+t.aggregate['items'][key][a]+"</td>";
+                  table.appendChild(row);
+                }
+                
+              } else {
+                var row = document.createElement('tr');
+                row.innerHTML = "<td colspan='2'><strong>"+key+"</strong></td>";
+                table.appendChild(row);
+                var row = document.createElement('tr');
+                row.innerHTML = "<td>Total</td><td>" + t.aggregate["items"][key] + "</td>"
+                table.appendChild(row);
+                var row = document.createElement('tr');
+                row.innerHTML = "<td>Average</td><td>" + Math.round(t.aggregate["items"][key]/count*10)/10 + "</td>"
+                table.appendChild(row);
+              }
+              
+              statsWrapper.appendChild(table);
+            }
+    
+            t.querySelector(".item-count").innerHTML = count + " items";
+    
+            // Build the emitter options
+            var items = t.aggregate["items"];
+            for (var key in items){
+              
+              var option = document.createElement("option");
+              option.innerHTML = key + " total";
+              option.setAttribute("value",items[key]);
+              $(".emit-wrapper select").append(option);
+            }
+    
+    
+          });
+
+          this.io.on('child_added', function(snapshot) {
+            addItem(snapshot.val(), snapshot.name());
+          });
+
+          this.io.on('child_changed', function(snapshot) {
+            child = t.querySelector('[firebasename="' + snapshot.name() + '"]');
+            child.innerHTML = snapshot.val().pretty;
+          });
+
+        },
+        sortByCreatedAt: function(a, b) {
+          return a.createdAt > b.createdAt;
+        },
+      defaultListener: 'addItem',
+        listeners: {
+          addItem: function (v, channel) {
+            this.log("adding: " + v.toString(), channel);
+            this.lookAtMe();
+            this.io.push({value: v.toString(), pretty: v.toString(true), editor: v.editor});
+          },
+          clearList: function (v, channel) {
+            this.log("clearing list", channel);
+            this.io.remove();
+            this.resetList();
+          },
+          updateItem: function(v, channel) {
+            var child = this.io.child(v._id);
+            this.lookAtMe();
+            delete v._id;
+            child.update({value: v.toString(), pretty: v.toString(true), editor: v.editor});
+          }
+        },
+        broadcast: function (snapshot) {
+          this.emit(snapshot);
+          // var val = snapshot.val();
+          // this.emit(new Editable(val.value, snapshot.name(), val.editor));
+        },
+        editable: {
+          listTitle: {
+            type: "text",
+            description: "A title for your list",
+            
+            postset: function(v) {
+              this.setTitle(v);
+            }
+          
+          }
+        }
+      });
+      callback();
+    });
+  </script>
+</element>
