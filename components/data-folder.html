@@ -20,6 +20,7 @@
       </div>
 
       <div class="emit-wrapper">
+
         <div class="emit-items">
           <a href="#" class="emit-data">Emit all Items</a>
         </div>
@@ -80,7 +81,15 @@
 
           //Emits all items
           $(this).find(".emit-items .emit-data").on("click",function(){
+            
+            var checkedItems = $(t).find(".emit-wrapper input:checked");
+            var getItems = [];
+            checkedItems.each(function(){
+              getItems.push($(this).val());
+            });
+
             var emit = [];
+            
             io.on('value', function(snapshot) {
               for ( var i in snapshot.val()){
                 var item = JSON.parse(snapshot.val()[i]["value"]);
@@ -89,12 +98,15 @@
                 for (var j in item){
                   var name = item[j]["name"];
                   var value = item[j]["value"];
-                  emitItem[name] =  value ;
+                  if(getItems.indexOf(name) > -1){
+                    emitItem[name] =  value ;  
+                  }
+                  
                 }
                 emit.push(emitItem);
               }
             });
-            
+
             t.broadcast(emit);
             return false;
           });
@@ -148,8 +160,12 @@
           // This generates the aggregate stats and builds the stats tables
           this.io.on('value',function(snapshot){
 
+            console.log("value");
+            
             t.aggregate["items"] = {};
             var count = 0;
+            var itemNames = [];
+            
             // Each obj is a saved data 'card'
             snapshot.forEach(function(childSnapshot){
             
@@ -160,12 +176,17 @@
             var obj = JSON.parse(childSnapshot.val()["value"]);
             t.aggregate["count"] = obj.length + 1;
             
-            
+        
             for (var key in obj){
+
+              var v = obj[key]["name"];
+
+              if(itemNames.indexOf(v) < 0){
+                itemNames.push(v);  
+              }
 
               var k = obj[key]["name"];
               var v = obj[key]["value"];
-              var storeItem = {};
               
               if(parseInt(v)){
                 t.aggregate["items"][k] = parseInt(v) + (t.aggregate["items"][k] || 0);                
@@ -175,12 +196,11 @@
                 }
                   t.aggregate["items"][k][v] = t.aggregate["items"][k][v] + 1 || 1;            
                 }
-              
               }
             
             });
             
-            console.log(t.aggregate);
+            // console.log(t.aggregate);
 
             // This builds the stats view
             var statsWrapper = t.querySelector(".stats");
@@ -220,6 +240,12 @@
     
             t.querySelector(".item-count").innerHTML = count + " items";
     
+            
+            //Build the items emitter options
+            $(itemNames).each(function(i,v){
+              $(t).find(".emit-items").prepend("<label><input checked value='"+v+"'type='checkbox'>"+v+"</span></label>");
+            });
+            
             
             // Build the stats emitter options
             var items = t.aggregate["items"];

@@ -119,10 +119,11 @@ app-data-folder .emit-wrapper {
 
 app-data-folder .emit-wrapper a {
   color: white;
-  background: rgba(255,255,255,.3);
-  padding: 1px 4px;
   border-radius: 3px;
   font-size: 13px;
   display: inline-block;
 }
-  
+
+app-data-folder .emit-wrapper label {
+  display: block;
+}
