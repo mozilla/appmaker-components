@@ -31,62 +31,51 @@
       },
       updateGraph : function(data){
         
-  
-        
         this.querySelector(".graph-bars").innerHTML = "";
         
         //Gotta figure out max and that becomes 100%
         var max = 0;
-        
-        var graphMe = [];
-        
+
+        //Go through once just to figure out the max value?
         for (var i = 0; i < data.length; i++) {
           var item = data[i];
-          var itemData = [];
-          
+
+          var j = 0;
           for (var key in item){
+            
             var val = item[key];
             if(parseInt(val)){
-              itemData.push(val);
+              var bar = document.createElement("div");
+              bar.setAttribute("class","bar");
+              bar.style.backgroundColor = this.colors[this.colorNames[j]];
+              j++;
+              bar.setAttribute("value",parseInt(val));
+              this.querySelector(".graph-bars").appendChild(bar);
               if (Math.abs(val) > max){
                 max = Math.abs(val);
               }
             }
           }
-          graphMe.push(itemData);
         }
-          
-        // We now have
-        // - Array of data points
-        // - Max value
-
-        for(var i = 0; i < graphMe.length; i++){
-          var item = graphMe[i];
-          for(var j = 0; j < item.length; j++){  
-            var bar = document.createElement("div");
-            bar.setAttribute("class","bar");
-            bar.style.backgroundColor = this.colors[this.colorNames[j]];
-            var percent = 100*item[j]/max;
-            bar.style.height =  percent + "%";
-            bar.style.top = 100 - percent + "%";
-            this.querySelector(".graph-bars").appendChild(bar);
-          }
-        }
+        
+        //Adjust bar heights based on their value vs teh max
+        $(".graph-bars .bar").each(function(){
+          var percent = Math.floor($(this).attr("value")/max * 100);
+          $(this).height(percent + "%");
+          $(this).css("top",(100 - percent) + "%");
+        })
         
         this.querySelector(".graph-max").innerHTML = max;
         
-        
       },
       updateData : function(listener){
-
-        
       },
-    defaultListener: 'graphData',
-      listeners: {
-        graphData: function (listener,channel) {
-          this.updateGraph(listener);
-        }
-      },
+      defaultListener: 'graphData',
+        listeners: {
+          graphData: function (listener,channel) {
+            this.updateGraph(listener);
+          }
+        },
       endpoint: true
     });
   </script>

@@ -1,0 +1,228 @@
+<element name="app-photo-folder">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-photo-folder.css">
+
+      <h1>
+        <span class="folder-name">Photo Folder</span>
+        <span class="item-count"></span>      
+      </h1>
+
+      <div class="folder-content-wrapper">
+      <div class="data-view-toggle">
+        <a class="selected-item" show="single" href="#">Single</a><a show="thumbnails" href="#">Thumbnails</a>
+      </div>
+
+      <div class="show-wrapper show-single">
+
+        <div class="thumbnails"></div>
+
+        <div class="single">
+          <div class="photos"></div>
+        </div>
+
+      </div>
+
+      <!--
+      <div class="emit-wrapper">
+
+        <div class="emit-items">
+          <a href="#" class="emit-data">Emit all Items</a>
+        </div>
+
+        <div class="emit-stats">
+          <select ></select>
+          <a href="#" class="emit-data">Emit a Stat</a>
+        </div>
+      -->
+
+      </div>
+      </div>
+
+  </template>
+  <description>
+    Shows photos that you send to it. Accepts URL to an image
+  </description>
+  <friends>app-form</friends>
+  <script type="text/ceci">
+    var element = this;
+    require(['https://cdn.firebase.com/v0/firebase.js'], function() {
+
+      function Editable(value, name) {
+        this.value = value;
+        this.name = name;
+        this.editor = editor;
+      }
+      
+      Editable.prototype.toString = function() {
+        return this.value;
+      }
+
+      Ceci(element, {
+        init: function (params) {
+          
+          //Toggle between thumbnails and single view
+          $(this).find(".data-view-toggle").on('click','a', function(evt) {
+            var show = $(this).attr("show");
+            $(this).parent().find("a").removeClass("selected-item");
+            $(this).addClass("selected-item");
+            $(".show-wrapper").removeClass("show-single").removeClass("show-thumbnails").addClass("show-" + show);
+            return false;
+          });
+          
+          params = params ? params : {};
+          var appId = params.appId || "app123";
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/photo_folder/1");
+
+          var t = this;
+          t.io = io;
+          t.imageCount = 0;
+          t.currentImage = 1;
+
+          //Load up hammer-time for swiping photos left and right in the single view
+          $.ajax({
+            type: "GET",
+            url : "{{ASSET_HOST}}/assets/js/jquery.hammer.min.js",
+            dataType: "script",
+            success: function(){
+              var photoViewer = $(t).find(".single").hammer();
+              photoViewer.on("swiperight",function(ev){
+                changeImage("previous");
+              });
+              photoViewer.on("swipeleft",function(ev){
+                 changeImage("next");
+              });
+            }
+          });
+
+          // Changes the images when it's swiped
+          var changeImage = function(direction){
+            if (direction == "next"){
+              t.currentImage++;
+              if(t.currentImage > t.imageCount){
+                t.currentImage = t.imageCount;
+              }
+            } else {
+              t.currentImage--;
+              if(t.currentImage < 1){
+                t.currentImage = 1;
+              }
+            }
+            
+            var newLeft = 280 - (t.currentImage*280);
+            $(t).find(".photos").css("left", newLeft);
+          }
+
+
+          //Todo - clean up the duplicate code here for adding to single and thumbnail view
+          var addItem = function(item, name){
+
+            var obj = JSON.parse(item.value);
+
+            for (var key in obj){
+              //Single
+              var deleteMe = document.createElement('div');
+              deleteMe.innerHTML = "X";
+              deleteMe.setAttribute("class","delete-image");
+              var imageWrapper = document.createElement('div');
+              imageWrapper.innerHTML = "<img src=" + obj[key]["value"] + "/>";               
+              imageWrapper.setAttribute('firebasename', name);
+              imageWrapper.setAttribute("class","image-wrapper");
+              imageWrapper.appendChild(deleteMe);
+              t.querySelector('.photos').appendChild(imageWrapper);
+             
+              $(imageWrapper).on('click', function(evt) {
+                var fireId = $(this).attr('firebasename');
+                var fireElt = t.io.child(fireId);
+                fireElt.once('value', function(snapshot) {
+                   t.broadcast(snapshot);
+                });
+              });
+             
+              //Thumbnail
+              var imageWrapper = document.createElement('div');
+              imageWrapper.innerHTML = "<img src=" + obj[key]["value"] + "/>";               
+              imageWrapper.setAttribute('firebasename', name);
+              imageWrapper.setAttribute("class","image-wrapper");
+              t.querySelector('.thumbnails').appendChild(imageWrapper);
+
+
+              $(imageWrapper).on('click', function(evt) {
+                var fireId = $(this).attr('firebasename');
+                var fireElt = t.io.child(fireId);
+                fireElt.once('value', function(snapshot) {
+                   t.broadcast(snapshot);
+                });
+              });
+
+            }
+
+            $(deleteMe).on('click', function(evt) {
+              var img = $(this).closest(".image-wrapper");
+              img.remove();
+              var fireId = img.attr('firebasename');
+              var fireElt = t.io.child(fireId);
+              fireElt.remove();
+            });
+            
+            //Prevent image dragging on swipe
+            $('img').on('dragstart', function(event) { event.preventDefault(); });
+           
+          };
+
+          var resetList = function() {
+            t.querySelector('.photos').innerHTML = "";
+            t.querySelector('.thumbnails').innerHTML = "";
+          }
+
+          this.io.on('child_removed', function(snapshot) {
+            resetList();
+          });
+
+          // This generates the aggregate stats and builds the stats tables
+          this.io.on('value',function(snapshot){
+            t.imageCount = snapshot.numChildren();
+            $(t).find(".photos").width(280*t.imageCount);
+            $(t).find(".item-count").text( t.imageCount + " photos");
+          });
+
+          this.io.on('child_added', function(snapshot) {
+            addItem(snapshot.val(), snapshot.name());
+          });
+
+          this.io.on('child_changed', function(snapshot) {
+            child = t.querySelector('[firebasename="' + snapshot.name() + '"]');
+            child.innerHTML = snapshot.val().pretty;
+          });
+
+        },
+        sortByCreatedAt: function(a, b) {
+          return a.createdAt > b.createdAt;
+        },
+      defaultListener: 'addItem',
+        listeners: {
+          addItem: function (v, channel) {
+            this.log("adding: " + v.toString(), channel);
+            this.lookAtMe();
+            this.io.push({value: v.toString(), pretty: v.toString(true)});
+          },
+          clearList: function (v, channel) {
+            this.log("clearing list", channel);
+            this.io.remove();
+            this.resetList();
+          },
+          updateItem: function(v, channel) {
+            var child = this.io.child(v._id);
+            this.lookAtMe();
+            delete v._id;
+            child.update({value: v.toString(), pretty: v.toString(true)});
+          }
+        },
+        broadcast: function (snapshot) {
+          var imageURL = JSON.parse(snapshot.val()["value"])[0]["value"];
+          this.emit(imageURL);
+        }
+      });
+      callback();
+    });
+  </script>
+</element>

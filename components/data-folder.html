@@ -42,7 +42,7 @@
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
 
-      function Editable(value, name, editor) {
+      function Editable(value, name) {
         this.value = value;
         this.name = name;
         this.editor = editor;
@@ -285,7 +285,7 @@
           addItem: function (v, channel) {
             this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
-            this.io.push({value: v.toString(), pretty: v.toString(true), editor: v.editor});
+            this.io.push({value: v.toString(), pretty: v.toString(true)});
           },
           clearList: function (v, channel) {
             this.log("clearing list", channel);
@@ -296,7 +296,7 @@
             var child = this.io.child(v._id);
             this.lookAtMe();
             delete v._id;
-            child.update({value: v.toString(), pretty: v.toString(true), editor: v.editor});
+            child.update({value: v.toString(), pretty: v.toString(true)});
           }
         },
         broadcast: function (snapshot) {
