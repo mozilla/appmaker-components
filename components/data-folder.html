@@ -79,7 +79,7 @@
 
           t.io = io;
 
-          //Emits all items
+          // Emits all items based on selected keys
           $(this).find(".emit-items .emit-data").on("click",function(){
             
             var checkedItems = $(t).find(".emit-wrapper input:checked");
@@ -107,6 +107,7 @@
               }
             });
 
+            console.log(emit);
             t.broadcast(emit);
             return false;
           });
@@ -145,6 +146,7 @@
             } catch (e) {
               console.log(e);
             }
+          
           };
 
           var resetList = function() {
@@ -160,8 +162,6 @@
           // This generates the aggregate stats and builds the stats tables
           this.io.on('value',function(snapshot){
 
-            console.log("value");
-            
             t.aggregate["items"] = {};
             var count = 0;
             var itemNames = [];
