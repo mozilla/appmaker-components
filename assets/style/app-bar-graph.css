@@ -1,0 +1,12 @@
+app-bar-graph{
+	display: block;
+	height: 20px;
+	padding: 10px;
+}
+
+app-bar-graph .bar{
+	background-color: blue;
+	color: black;
+	overflow: show;
+	width: 30%;
+}

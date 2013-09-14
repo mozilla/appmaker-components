@@ -1,0 +1,95 @@
+<!-- 
+
+Reference Component
+###################
+
+Features
+========
+
+* Properties (string and boolean) should be used
+* Multiple event listeners
+* A broadcaster (or if Pomax's patch lands, multiple broadcasters)
+* Handle defaults properly (see Flickr widget)
+* Persist non-default properties
+* Log handling inside event listeners. Use WTF severity for things the component cannot process at all.
+* Reference component should look good on phone:
+  - Full width
+  - Some minimum height
+
+Nice to have
+============
+
+* Use navigation in some way
+* Handle online/offline
+
+Major gotchas to avoid
+======================
+
+* Syntax errors don't report line #
+* Easy to hang browser in an infinite loop by wiring up property postSet() wrong
+
+-->
+
+<element name="app-bar-graph">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-bar-graph.css"></link>
+    <div>
+      <div class="bar">
+        <span class="label">X</span>
+      </div>
+    </div>
+  </template>
+  <friends>app-input, app-slider</friends>
+  <description>
+    Used whenever you need a bar graph, and who *doesn't* need a bar graph?
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var bar = this.querySelector('.bar');
+        var label = this.querySelector('.label');
+        this.bar = bar;
+        this.label = label;
+        var t = this;
+        this.setAttribute('label', this.getAttribute("label") || 'X');
+        this.setAttribute('color', this.getAttribute('color') || 'blue');
+        this.setAttribute('value', this.getAttribute('value') || 60);
+      },
+      editable: {
+        label: {
+          type: "text",
+          description: "What does this bar measure?",
+          postset: function(v) {
+            this.setLabel(v);
+          }
+        },
+        color: {
+          type: "text",
+          description: "What colour should the bar be?",
+          postset: function(v){
+            this.setColor(v);
+          }
+        },
+        "label color": {
+          type: "text",
+          description: "What color should the label be?",
+          postset: function(v){
+            this.bar.style.color = v;
+          }
+        }
+      },
+      setLabel: function (val) {
+        this.label.innerHTML = val;
+      },
+      setValue: function(val){
+        this.bar.style.width = val + 'px';
+      }
+      setColor: function(val){
+        this.bar.style.backgroundColor = val;
+      }
+      broadcast: function (e) {
+        this.emit(e)
+      }
+    });
+  </script>
+</element>
