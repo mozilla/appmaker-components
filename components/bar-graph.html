@@ -39,7 +39,7 @@ Major gotchas to avoid
       </div>
     </div>
   </template>
-  <friends>app-input, app-slider</friends>
+  <friends>app-input,app-seekbar</friends>
   <description>
     Used whenever you need a bar graph, and who *doesn't* need a bar graph?
   </description>
@@ -48,15 +48,15 @@ Major gotchas to avoid
       init: function (params) {
         var bar = this.querySelector('.bar');
         var label = this.querySelector('.label');
-        this.bar = bar;
-        this.label = label;
+        this._bar = bar;
+        this._label = label;
         var t = this;
         this.setAttribute('label', this.getAttribute("label") || 'X');
         this.setAttribute('color', this.getAttribute('color') || 'blue');
         this.setAttribute('value', this.getAttribute('value') || 60);
       },
       editable: {
-        label: {
+        "label": {
           type: "text",
           description: "What does this bar measure?",
           postset: function(v) {
@@ -70,25 +70,30 @@ Major gotchas to avoid
             this.setColor(v);
           }
         },
-        "label color": {
+        "labelColor": {
           type: "text",
           description: "What color should the label be?",
           postset: function(v){
-            this.bar.style.color = v;
+            this._bar.style.color = v;
           }
         }
       },
-      setLabel: function (val) {
-        this.label.innerHTML = val;
-      },
-      setValue: function(val){
-        this.bar.style.width = val + 'px';
-      }
-      setColor: function(val){
-        this.bar.style.backgroundColor = val;
-      }
       broadcast: function (e) {
         this.emit(e)
+      },
+      listeners: {
+        setColor: function(val){
+          this.log('Setting graph color to ' + val);
+          this._bar.style.backgroundColor = val;
+        },
+        setValue: function(val){
+          this.log('Setting graph value to ' + val);
+          this._bar.style.width = val + '%';
+        },
+        setLabel: function(val){
+          this.log('Setting graph label to ' + val);
+          this._label.innerHTML = val;
+        }
       }
     });
   </script>
