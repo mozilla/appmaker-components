@@ -1,0 +1,43 @@
+app-graph {
+  padding: 1.5rem;
+}
+
+app-graph .graph-wrapper {
+  position: relative;
+  padding: 0rem 1rem 0rem 3rem;
+}
+
+app-graph .graph-max {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #999;
+  font-size: 1.3rem;
+}
+
+app-graph .graph-baseline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #999;
+  font-size: 1.3rem;
+}
+
+
+
+app-graph .graph-bars {
+  height: 150px;
+  border-bottom: solid 1px #DDD;
+  border-left: solid 1px #DDD;
+  padding: 0 .5rem;
+}
+
+app-graph .bar {
+  display: block;
+  width: 10px;
+  background: blue;
+  float: left;
+  margin-right: 2px;
+  height: 100%;
+  position: relative;
+}

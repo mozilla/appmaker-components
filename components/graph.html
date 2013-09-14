@@ -1,0 +1,82 @@
+<element name="app-graph">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-graph.css">
+    <div class="graph-wrapper">
+      <div class="graph-max"></div>
+      <div class="graph-baseline"></div>
+      <div class="graph-bars"></div>
+    </div>
+  </template>
+  <description>
+    Graphs some values. Expects an array of values of value pairs
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+   
+        this.colorNames = ["blue","green","yellow","orange","red","pink","purple"];
+   
+        this.colors = {
+          "blue" : "#2f8bd1",
+          "green" : "#6fba00",
+          "yellow" : "#e6d400",
+          "orange" : "#ff7b00",
+          "red" : "#eb1900",
+          "pink" : "#ff4fa7",
+          "purple" : "#a016d2"
+        }
+   
+      },
+      updateGraph : function(data){
+        
+        this.querySelector(".graph-bars").innerHTML = "";
+        
+        //Gotta figure out max and that becomes 100%
+        var max = 0;
+
+        //Go through once just to figure out the max value?
+        for (var i = 0; i < data.length; i++) {
+          var item = data[i];
+
+          var j = 0;
+          for (var key in item){
+            
+            var val = item[key];
+            if(parseInt(val)){
+              var bar = document.createElement("div");
+              bar.setAttribute("class","bar");
+              bar.style.backgroundColor = this.colors[this.colorNames[j]];
+              j++;
+              bar.setAttribute("value",parseInt(val));
+              this.querySelector(".graph-bars").appendChild(bar);
+              if (Math.abs(val) > max){
+                max = Math.abs(val);
+              }
+            }
+          }
+        }
+        
+        //Adjust bar heights based on their value vs teh max
+        $(".graph-bars .bar").each(function(){
+          var percent = Math.floor($(this).attr("value")/max * 100);
+          $(this).height(percent + "%");
+          $(this).css("top",(100 - percent) + "%");
+        })
+        
+        this.querySelector(".graph-max").innerHTML = max;
+        
+      },
+      updateData : function(listener){
+      },
+      defaultListener: 'graphData',
+        listeners: {
+          graphData: function (listener,channel) {
+            this.updateGraph(listener);
+          }
+        },
+      endpoint: true
+    });
+  </script>
+</element>

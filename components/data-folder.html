@@ -42,7 +42,7 @@
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
 
-      function Editable(value, name, editor) {
+      function Editable(value, name) {
         this.value = value;
         this.name = name;
         this.editor = editor;
@@ -79,7 +79,7 @@
 
           t.io = io;
 
-          //Emits all items
+          // Emits all items based on selected keys
           $(this).find(".emit-items .emit-data").on("click",function(){
             
             var checkedItems = $(t).find(".emit-wrapper input:checked");
@@ -107,6 +107,7 @@
               }
             });
 
+            console.log(emit);
             t.broadcast(emit);
             return false;
           });
@@ -145,6 +146,7 @@
             } catch (e) {
               console.log(e);
             }
+          
           };
 
           var resetList = function() {
@@ -160,8 +162,6 @@
           // This generates the aggregate stats and builds the stats tables
           this.io.on('value',function(snapshot){
 
-            console.log("value");
-            
             t.aggregate["items"] = {};
             var count = 0;
             var itemNames = [];
@@ -285,7 +285,7 @@
           addItem: function (v, channel) {
             this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
-            this.io.push({value: v.toString(), pretty: v.toString(true), editor: v.editor});
+            this.io.push({value: v.toString(), pretty: v.toString(true)});
           },
           clearList: function (v, channel) {
             this.log("clearing list", channel);
@@ -296,7 +296,7 @@
             var child = this.io.child(v._id);
             this.lookAtMe();
             delete v._id;
-            child.update({value: v.toString(), pretty: v.toString(true), editor: v.editor});
+            child.update({value: v.toString(), pretty: v.toString(true)});
           }
         },
         broadcast: function (snapshot) {
