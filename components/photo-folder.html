@@ -3,37 +3,22 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-photo-folder.css">
 
       <h1>
-        <span class="folder-name">Photo Folder</span>
         <span class="item-count"></span>      
+        Images
       </h1>
 
       <div class="folder-content-wrapper">
       <div class="data-view-toggle">
-        <a class="selected-item" show="single" href="#">Single</a><a show="thumbnails" href="#">Thumbnails</a>
+        <a class="selected-item" show="single" href="#"></a>
+        <a show="thumbnails" href="#"></a>
       </div>
 
       <div class="show-wrapper show-single">
-
         <div class="thumbnails"></div>
-
         <div class="single">
           <div class="photos"></div>
         </div>
-
       </div>
-
-      <!--
-      <div class="emit-wrapper">
-
-        <div class="emit-items">
-          <a href="#" class="emit-data">Emit all Items</a>
-        </div>
-
-        <div class="emit-stats">
-          <select ></select>
-          <a href="#" class="emit-data">Emit a Stat</a>
-        </div>
-      -->
 
       </div>
       </div>
@@ -86,140 +71,172 @@
             success: function(){
               var photoViewer = $(t).find(".single").hammer();
               photoViewer.on("swiperight",function(ev){
-                changeImage("previous");
+                t.changeImage("previous");
               });
               photoViewer.on("swipeleft",function(ev){
-                 changeImage("next");
+                t.changeImage("next");
               });
             }
           });
 
           // Changes the images when it's swiped
-          var changeImage = function(direction){
-            if (direction == "next"){
-              t.currentImage++;
-              if(t.currentImage > t.imageCount){
-                t.currentImage = t.imageCount;
-              }
-            } else {
-              t.currentImage--;
-              if(t.currentImage < 1){
-                t.currentImage = 1;
-              }
-            }
-            
-            var newLeft = 280 - (t.currentImage*280);
-            $(t).find(".photos").css("left", newLeft);
-          }
-
 
           //Todo - clean up the duplicate code here for adding to single and thumbnail view
-          var addItem = function(item, name){
+          var addItem = function(photoObj,name){
 
-            var obj = JSON.parse(item.value);
+            //Single Item
+            var imageWrapper = document.createElement('div');
+            imageWrapper.innerHTML = "<div class='image-container'><img src=" + photoObj["url"] + "/></div>";
+            imageWrapper.setAttribute('firebasename', name);
+            imageWrapper.setAttribute("class","image-wrapper");
 
-            for (var key in obj){
-              //Single
-              var deleteMe = document.createElement('div');
-              deleteMe.innerHTML = "X";
-              deleteMe.setAttribute("class","delete-image");
-              var imageWrapper = document.createElement('div');
-              imageWrapper.innerHTML = "<img src=" + obj[key]["value"] + "/>";               
-              imageWrapper.setAttribute('firebasename', name);
-              imageWrapper.setAttribute("class","image-wrapper");
-              imageWrapper.appendChild(deleteMe);
-              t.querySelector('.photos').appendChild(imageWrapper);
-             
-              $(imageWrapper).on('click', function(evt) {
-                var fireId = $(this).attr('firebasename');
-                var fireElt = t.io.child(fireId);
-                fireElt.once('value', function(snapshot) {
-                   t.broadcast(snapshot);
-                });
-              });
-             
-              //Thumbnail
-              var imageWrapper = document.createElement('div');
-              imageWrapper.innerHTML = "<img src=" + obj[key]["value"] + "/>";               
-              imageWrapper.setAttribute('firebasename', name);
-              imageWrapper.setAttribute("class","image-wrapper");
-              t.querySelector('.thumbnails').appendChild(imageWrapper);
+            var deleteMe = document.createElement('div');
+            deleteMe.innerHTML = "X";
+            deleteMe.setAttribute("class","delete-image");
+            $(imageWrapper).find(".image-container").append(deleteMe);
 
-
-              $(imageWrapper).on('click', function(evt) {
-                var fireId = $(this).attr('firebasename');
-                var fireElt = t.io.child(fireId);
-                fireElt.once('value', function(snapshot) {
-                   t.broadcast(snapshot);
-                });
-              });
-
+            if(photoObj["caption"]){
+              var caption = document.createElement('div');
+              caption.innerHTML = photoObj["caption"] || "No caption";
+              caption.setAttribute("class","image-caption");
+              imageWrapper.appendChild(caption);
             }
+            
+            t.querySelector('.photos').appendChild(imageWrapper);
+            $(imageWrapper).find("img").addClass("warp-in");
+
+            $(imageWrapper).on('click', function(evt) {
+              var fireId = $(this).attr('firebasename');
+              var fireElt = t.io.child(fireId);
+              fireElt.once('value', function(snapshot) {
+                var url = snapshot.val()["url"];
+                t.broadcast(url);
+              });
+            });
+
+            //Thumbnail Items
+            var imageWrapper = document.createElement('div');
+            imageWrapper.innerHTML = "<img src=" + photoObj["url"] + "/>";
+            imageWrapper.setAttribute('firebasename', name);
+            imageWrapper.setAttribute("class","image-wrapper");
+            t.querySelector('.thumbnails').appendChild(imageWrapper);
+
+            $(imageWrapper).on('click', function(evt) {
+              var fireId = $(this).attr('firebasename');
+              var fireElt = t.io.child(fireId);
+
+              fireElt.once('value', function(snapshot) {
+                var url = snapshot.val()["url"];
+                t.broadcast(url);
+              });
+            });
 
             $(deleteMe).on('click', function(evt) {
               var img = $(this).closest(".image-wrapper");
               img.remove();
               var fireId = img.attr('firebasename');
               var fireElt = t.io.child(fireId);
+
+              if(t.currentImage == t.imageCount) {
+                t.changeImage("previous");
+              }
+
               fireElt.remove();
-            });
-            
+
+            }); // End adding an item
+
             //Prevent image dragging on swipe
             $('img').on('dragstart', function(event) { event.preventDefault(); });
            
           };
-
           var resetList = function() {
-            t.querySelector('.photos').innerHTML = "";
-            t.querySelector('.thumbnails').innerHTML = "";
           }
-
+          var updateList = function() {
+          }
           this.io.on('child_removed', function(snapshot) {
-            resetList();
+            updateList();
           });
 
           // This generates the aggregate stats and builds the stats tables
           this.io.on('value',function(snapshot){
             t.imageCount = snapshot.numChildren();
-            $(t).find(".photos").width(280*t.imageCount);
-            $(t).find(".item-count").text( t.imageCount + " photos");
+            $(t).find(".photos").width(290*t.imageCount);
+            $(t).find(".item-count").text( t.imageCount);
           });
 
           this.io.on('child_added', function(snapshot) {
-            addItem(snapshot.val(), snapshot.name());
-          });
-
-          this.io.on('child_changed', function(snapshot) {
-            child = t.querySelector('[firebasename="' + snapshot.name() + '"]');
-            child.innerHTML = snapshot.val().pretty;
+            addItem(snapshot.val(),snapshot.name());
           });
 
         },
-        sortByCreatedAt: function(a, b) {
-          return a.createdAt > b.createdAt;
+        changeImage : function(action){
+          var t = this;
+          if (parseInt(action)){
+            t.currentImage = parseInt(action);
+          }
+          if (action == "next"){
+            t.currentImage++;
+            if(t.currentImage > t.imageCount){
+              t.currentImage = t.imageCount;
+            }
+          }
+          if (action == "previous") {
+            t.currentImage--;
+            if(t.currentImage < 1){
+              t.currentImage = 1;
+            }
+          }
+          var newLeft = 290 - (t.currentImage*290);
+          $(t).find(".photos").css("left", newLeft);
+        },
+        addPhoto : function(v){
+
+          var image = {};
+
+          // Parses either a string (url) or a data form object
+          // Expects something with a 'caption' and 'url' key
+
+          if(typeof v == "string"){
+            image["url"] = v;
+            this.io.push(image);
+          } else {
+            var hasURL = false;
+            var dataObj = JSON.parse(v.toString());
+
+            for (var key in dataObj){
+
+              if (dataObj[key]["name"] == "url") {
+                hasURL = true;
+                image["url"] =  dataObj[key]["value"]
+              }
+
+              if (dataObj[key]["name"] == "caption") {
+                image["caption"] =  dataObj[key]["value"]
+              }
+            }
+            if(hasURL){
+              this.io.push(image);
+            }
+
+          }
+
         },
       defaultListener: 'addItem',
         listeners: {
           addItem: function (v, channel) {
             this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
-            this.io.push({value: v.toString(), pretty: v.toString(true)});
+            this.addPhoto(v);
+            this.changeImage(1);
           },
           clearList: function (v, channel) {
             this.log("clearing list", channel);
             this.io.remove();
             this.resetList();
-          },
-          updateItem: function(v, channel) {
-            var child = this.io.child(v._id);
-            this.lookAtMe();
-            delete v._id;
-            child.update({value: v.toString(), pretty: v.toString(true)});
           }
         },
-        broadcast: function (snapshot) {
-          var imageURL = JSON.parse(snapshot.val()["value"])[0]["value"];
-          this.emit(imageURL);
+        broadcast: function (url) {
+          this.emit(url);
         }
       });
       callback();
