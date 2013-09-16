@@ -63,12 +63,26 @@ app-photo-folder .data-view-toggle a {
   color: #555;
   font-size: 13px;
   display: block;
-  width: 30px;
-  height: 30px;
+  padding: 5px;
   text-align: center;
   float: left;
   background-image: -webkit-linear-gradient(white,#ddd);
 }
+
+app-photo-folder .data-view-toggle a .icon {
+  display: block;
+  height: 15px;
+  width: 15px;
+}
+
+app-photo-folder .data-view-toggle a[show='single'] .icon {
+  background: url("/assets/images/photo-folder/single-on.png?6");
+}
+
+app-photo-folder .data-view-toggle a[show='thumbnails'] .icon {
+  background: url("/assets/images/photo-folder/thumbs-on.png?6");
+}
+
 
 app-photo-folder .data-view-toggle a.selected-item {
   background: #999;

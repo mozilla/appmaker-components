@@ -3,14 +3,14 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-photo-folder.css">
 
       <h1>
-        <span class="item-count"></span>      
+        <span class="item-count"></span>
         Images
       </h1>
 
       <div class="folder-content-wrapper">
       <div class="data-view-toggle">
-        <a class="selected-item" show="single" href="#"></a>
-        <a show="thumbnails" href="#"></a>
+        <a class="selected-item" show="single" href="#"><span class="icon"></span></a>
+        <a show="thumbnails" href="#"><span class="icon"></span></a>
       </div>
 
       <div class="show-wrapper show-single">
@@ -27,7 +27,7 @@
   <description>
     Shows photos that you send to it. Accepts URL to an image
   </description>
-  <friends>app-form</friends>
+  <friends>app-form, randomcat</friends>
   <script type="text/ceci">
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
@@ -44,7 +44,7 @@
 
       Ceci(element, {
         init: function (params) {
-          
+
           //Toggle between thumbnails and single view
           $(this).find(".data-view-toggle").on('click','a', function(evt) {
             var show = $(this).attr("show");
@@ -53,7 +53,7 @@
             $(".show-wrapper").removeClass("show-single").removeClass("show-thumbnails").addClass("show-" + show);
             return false;
           });
-          
+
           params = params ? params : {};
           var appId = params.appId || "app123";
           var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/photo_folder/1");
@@ -147,7 +147,7 @@
 
             //Prevent image dragging on swipe
             $('img').on('dragstart', function(event) { event.preventDefault(); });
-           
+
           };
           var resetList = function() {
           }
