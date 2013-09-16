@@ -142,12 +142,30 @@
                   t.broadcast(snapshot);
                 });
               });
-                          
+
               t.querySelector('ul').appendChild(li);
+
+              var deleteMe = document.createElement('div');
+              deleteMe.innerHTML = "X";
+              deleteMe.setAttribute("class","delete-item");
+
+              $(li).find("tr:first-child td:last-child").append(deleteMe);
+
+              $(deleteMe).on('click', function(evt) {
+                var item = $(this).closest("table");
+                item.remove();
+                var fireId = item.attr('firebasename');
+                var fireElt = t.io.child(fireId);
+
+                fireElt.remove();
+
+              }); // End adding an item
+
+
             } catch (e) {
               console.log(e);
             }
-          
+
           };
 
           var resetList = function() {
@@ -155,8 +173,12 @@
             t.querySelector('.stats').innerHTML = "";
           }
 
+          var rebuildStats = function(){
+            //Put stats aggregating stuff here
+          }
+
           this.io.on('child_removed', function(snapshot) {
-            resetList();
+            rebuildStats();
           });
 
 
@@ -166,10 +188,10 @@
             t.aggregate["items"] = {};
             var count = 0;
             var itemNames = [];
-            
+
             // Each obj is a saved data 'card'
             snapshot.forEach(function(childSnapshot){
-            
+
             count++;
 
             // Generate the aggregate object

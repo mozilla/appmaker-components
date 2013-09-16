@@ -18,14 +18,11 @@ app-data-folder h1 {
   padding: 1rem 1.5rem;
 }
 
-
 app-data-folder h1 .folder-name {
   display: inline-block;
   background: #EFD384;
   margin: 0px;
   border-radius: 5px 5px 0 0;
-
-
 }
 
 app-data-folder .folder-content-wrapper {
@@ -39,6 +36,10 @@ app-data-folder table {
   border-bottom: solid 1px #BBB;
   border-left: solid 1px #DDD;
   margin-bottom: 12px;
+}
+
+app-data-folder .all table td {
+  position: relative;
 }
 
 app-data-folder .item-count {
@@ -126,4 +127,17 @@ app-data-folder .emit-wrapper a {
 
 app-data-folder .emit-wrapper label {
   display: block;
+}
+
+app-data-folder .delete-item {
+  color: white;
+  font-weight: bold;
+  background: #333;
+  border: solid 2px white;
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  padding: 1px 6px;
+  border-radius: 25px;
+  cursor: pointer;
 }
