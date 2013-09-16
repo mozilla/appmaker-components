@@ -107,27 +107,28 @@
               }
             });
 
-            console.log(emit);
             t.broadcast(emit);
             return false;
           });
 
-
           // This builds out the items in the list 
-
           var addItem = function(item, name){
 
             try {
-              
               var li = document.createElement('table');
               li.setAttribute("cellspacing","0");
               li.setAttribute("cellpadding","0");
 
-              var obj = JSON.parse(item.value);
+              try {
+                var obj = JSON.parse(item.value);
+              } catch(err){
+                var obj = {"value":item};
+                obj["value"]["name"] = "Item";
+              }
 
               for (var key in obj){
                 var row = document.createElement('tr');
-                row.innerHTML = "<td>" + obj[key]['name'] + "</td><td>" + obj[key]["value"] + "</td>";               
+                row.innerHTML = "<td>" + obj[key]["name"] + "</td><td>" + obj[key]["value"] + "</td>";
                 li.appendChild(row);
               }
               
@@ -175,8 +176,7 @@
 
             var obj = JSON.parse(childSnapshot.val()["value"]);
             t.aggregate["count"] = obj.length + 1;
-            
-        
+
             for (var key in obj){
 
               var v = obj[key]["name"];
@@ -187,7 +187,7 @@
 
               var k = obj[key]["name"];
               var v = obj[key]["value"];
-              
+
               if(parseInt(v)){
                 t.aggregate["items"][k] = parseInt(v) + (t.aggregate["items"][k] || 0);                
               } else {
@@ -197,21 +197,22 @@
                   t.aggregate["items"][k][v] = t.aggregate["items"][k][v] + 1 || 1;            
                 }
               }
-            
+
             });
-            
-            // console.log(t.aggregate);
 
             // This builds the stats view
+
             var statsWrapper = t.querySelector(".stats");
+            statsWrapper.innerHTML = "";
+
             for (var key in t.aggregate["items"]){
-            
+
               var table = document.createElement("table");
               table.setAttribute("cellpadding","0");
               table.setAttribute("cellspacing","0"); 
-              
+
               if(typeof t.aggregate["items"][key] == "object") {
-                
+
                 var row = document.createElement('tr');
                 row.innerHTML = "<td colspan='2'><strong>"+key+"</strong></td>";
                 table.appendChild(row);
@@ -221,7 +222,7 @@
                   row.innerHTML = "<td>"+a+"</td><td>"+t.aggregate['items'][key][a]+"</td>";
                   table.appendChild(row);
                 }
-                
+
               } else {
                 var row = document.createElement('tr');
                 row.innerHTML = "<td colspan='2'><strong>"+key+"</strong></td>";
@@ -236,19 +237,22 @@
               
               statsWrapper.appendChild(table);
             }
-    
-    
+
             t.querySelector(".item-count").innerHTML = count + " items";
-    
             
             //Build the items emitter options
+            $(".emit-items").html("");
+            
+            
             $(itemNames).each(function(i,v){
               $(t).find(".emit-items").prepend("<label><input checked value='"+v+"'type='checkbox'>"+v+"</span></label>");
             });
-            
-            
+
             // Build the stats emitter options
             var items = t.aggregate["items"];
+
+            $(".emit-wrapper .emit-stats select").html("");
+
             for (var key in items){
               if(typeof items[key] == "object"){
                 for (var j in items[key]){
@@ -264,16 +268,11 @@
                 $(".emit-wrapper .emit-stats select").append(option);
               }
             }
-        
+
           });
 
           this.io.on('child_added', function(snapshot) {
             addItem(snapshot.val(), snapshot.name());
-          });
-
-          this.io.on('child_changed', function(snapshot) {
-            child = t.querySelector('[firebasename="' + snapshot.name() + '"]');
-            child.innerHTML = snapshot.val().pretty;
           });
 
         },
@@ -283,21 +282,14 @@
       defaultListener: 'addItem',
         listeners: {
           addItem: function (v, channel) {
-            this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
-            this.io.push({value: v.toString(), pretty: v.toString(true)});
+            this.io.push({value: v.toString()});
           },
           clearList: function (v, channel) {
             this.log("clearing list", channel);
             this.io.remove();
             this.resetList();
           },
-          updateItem: function(v, channel) {
-            var child = this.io.child(v._id);
-            this.lookAtMe();
-            delete v._id;
-            child.update({value: v.toString(), pretty: v.toString(true)});
-          }
         },
         broadcast: function (snapshot) {
           this.emit(snapshot);
