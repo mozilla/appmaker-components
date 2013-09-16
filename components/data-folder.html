@@ -263,7 +263,7 @@
             t.querySelector(".item-count").innerHTML = count + " items";
             
             //Build the items emitter options
-            $(".emit-items").html("");
+            $(".emit-items").find("label").remove("");
             
             
             $(itemNames).each(function(i,v){

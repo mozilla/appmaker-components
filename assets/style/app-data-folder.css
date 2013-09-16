@@ -1,5 +1,5 @@
 app-data-folder {
-  background: #EFD384;
+  background: #333;
 }
 
 app-data-folder h1 {
@@ -7,23 +7,64 @@ app-data-folder h1 {
   color: #725B1C;
   font-size: 16px; font-size: 1.6rem;
   font-family: "FiraSans", sans-serif;
-  border-bottom: 2px solid #D3BB79;
   text-align: left;
-  font-weight: 400;
-  padding: 0;
   position: relative;
-  background: white;
-  background: #EFD384;
+  background: #333;
   padding-right: 1.5rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem 0rem 1rem;
 }
 
 app-data-folder h1 .folder-name {
   display: inline-block;
-  background: #EFD384;
   margin: 0px;
-  border-radius: 5px 5px 0 0;
+  color: #DDD;
 }
+
+app-data-folder .item-count {
+  margin-bottom: 10px;
+  color: #888;
+  float: right;
+}
+
+
+
+
+app-data-folder .data-view-toggle {
+  margin-bottom: 13px;
+}
+
+app-data-folder .data-view-toggle a {
+
+  color: #555;
+  padding: 5px 0 6px 0;
+  font-size: 13px;
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  background-image: -webkit-linear-gradient(white,#ddd);
+
+}
+
+app-data-folder .data-view-toggle a.selected-item {
+  background: #777;
+  color: white;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,.2);
+  background: -webkit-linear-gradient(#666,#777);
+
+}
+
+app-data-folder .data-view-toggle a:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+app-data-folder .data-view-toggle a:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+
+
+
+/*View mode toggle*/
 
 app-data-folder .folder-content-wrapper {
   padding: 1rem 1.5rem;
@@ -42,11 +83,7 @@ app-data-folder .all table td {
   position: relative;
 }
 
-app-data-folder .item-count {
-  margin-bottom: 10px;
-  color: #AA9350;
-  float: right;
-}
+
 
 app-data-folder table td {
   border-right: solid 1px #CCC;
@@ -72,33 +109,7 @@ app-data-folder li, app-data-list li {
   margin-bottom: .5rem;
 }
 
-app-data-folder .data-view-toggle {
-  margin-bottom: 13px;
-}
 
-app-data-folder .data-view-toggle a {
-  background: white;
-  color: #555;
-  padding: 5px 0 6px 0;
-  font-size: 13px;
-  display: inline-block;
-  width: 50%;
-  text-align: center;
-}
-
-app-data-folder .data-view-toggle a.selected-item {
-  background: #444;
-  box-shadow: inset 0px 0px 8px rgba(0,0,0,.3);
-  color: #DDD;
-}
-
-app-data-folder .data-view-toggle a:first-child {
-  border-radius: 4px 0 0 4px;
-}
-
-app-data-folder .data-view-toggle a:last-child {
-  border-radius: 0 4px 4px 0;
-}
 
 app-data-folder .all,
 app-data-folder .stats {
