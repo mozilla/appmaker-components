@@ -9,7 +9,6 @@ app-data-folder h1 {
   font-family: "FiraSans", sans-serif;
   text-align: left;
   position: relative;
-  background: #333;
   padding-right: 1.5rem;
   padding: 1rem 1.5rem 0rem 1rem;
 }
@@ -25,9 +24,6 @@ app-data-folder .item-count {
   color: #888;
   float: right;
 }
-
-
-
 
 app-data-folder .data-view-toggle {
   margin-bottom: 13px;
@@ -60,11 +56,6 @@ app-data-folder .data-view-toggle a:first-child {
 app-data-folder .data-view-toggle a:last-child {
   border-radius: 0 4px 4px 0;
 }
-
-
-
-
-/*View mode toggle*/
 
 app-data-folder .folder-content-wrapper {
   padding: 1rem 1.5rem;

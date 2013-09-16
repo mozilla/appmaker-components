@@ -2,42 +2,41 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-data-folder.css">
 
-      <h1>
-        <span class="folder-name">Folder</span>
-        <span class="item-count"></span>      
-      </h1>
+    <h1>
+      <span class="folder-name">Folder</span>
+      <span class="item-count"></span>
+    </h1>
 
-      <div class="folder-content-wrapper">
-      <div class="data-view-toggle">
-        <a class="selected-item" show="all" href="#">Items</a><a show="stats" href="#">Stats</a>
+    <div class="folder-content-wrapper">
+    <div class="data-view-toggle">
+      <a class="selected-item" show="all" href="#">Items</a><a show="stats" href="#">Stats</a>
+    </div>
+
+    <div class="show-wrapper show-all">
+      <div class="stats"></div>
+      <div class="all">
+        <ul></ul>
       </div>
+    </div>
 
-      <div class="show-wrapper show-all">
-        <div class="stats"></div>
-        <div class="all">
-          <ul></ul>
-        </div>
+    <div class="emit-wrapper">
+      <p>This stuff will live in the config for this component, not here.</p>
+      <div class="emit-items">
+        <a href="#" class="emit-data">Emit all Items</a>
       </div>
-
-      <div class="emit-wrapper">
-
-        <div class="emit-items">
-          <a href="#" class="emit-data">Emit all Items</a>
-        </div>
-
-        <div class="emit-stats">
-          <select ></select>
-          <a href="#" class="emit-data">Emit a Stat</a>
-        </div>
-
+      <div class="emit-stats">
+        <select ></select>
+        <a href="#" class="emit-data">Emit a Stat</a>
       </div>
-      </div>
+    </div>
+    </div>
 
   </template>
   <description>
     Lists data that you send it
   </description>
-  <friends>app-form</friends>
+  <friends>app-form,button</friends>
+
   <script type="text/ceci">
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
@@ -54,6 +53,8 @@
 
       Ceci(element, {
         init: function (params) {
+          
+          this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
           
           $(this).find(".data-view-toggle").on('click','a', function(evt) {
             var show = $(this).attr("show");
@@ -167,11 +168,6 @@
             }
 
           };
-
-          var resetList = function() {
-            t.querySelector('ul').innerHTML = "";
-            t.querySelector('.stats').innerHTML = "";
-          }
 
           var rebuildStats = function(){
             //Put stats aggregating stuff here
@@ -301,6 +297,13 @@
         sortByCreatedAt: function(a, b) {
           return a.createdAt > b.createdAt;
         },
+        resetList : function() {
+          this.querySelector('ul').innerHTML = "";
+          this.querySelector('.stats').innerHTML = "";
+        },
+        setBackgroundColor : function(v){
+          this.style.backgroundColor =  v;
+        },
       defaultListener: 'addItem',
         listeners: {
           addItem: function (v, channel) {
@@ -313,20 +316,26 @@
             this.resetList();
           },
         },
+        setTitle : function(v){
+          this.querySelector(".folder-name").innerHtml = v;
+        },
         broadcast: function (snapshot) {
           this.emit(snapshot);
-          // var val = snapshot.val();
-          // this.emit(new Editable(val.value, snapshot.name(), val.editor));
         },
         editable: {
           listTitle: {
             type: "text",
             description: "A title for your list",
-            
             postset: function(v) {
               this.setTitle(v);
             }
-          
+          },
+          backgroundColor: {
+            type: "text",
+            description: "Background color",
+            postset : function(v) {
+              this.setBackgroundColor(v);
+            }
           }
         }
       });
