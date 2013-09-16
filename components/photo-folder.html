@@ -6,7 +6,7 @@
         <span class="item-count"></span>
         Images
       </h1>
-
+      
       <div class="folder-content-wrapper">
       <div class="data-view-toggle">
         <a class="selected-item" show="single" href="#"><span class="icon"></span></a>
@@ -27,7 +27,7 @@
   <description>
     Shows photos that you send to it. Accepts URL to an image
   </description>
-  <friends>app-form, randomcat</friends>
+  <friends>app-form</friends>
   <script type="text/ceci">
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
@@ -84,9 +84,10 @@
           //Todo - clean up the duplicate code here for adding to single and thumbnail view
           var addItem = function(photoObj,name){
 
+            console.log(photoObj["url"]);
             //Single Item
             var imageWrapper = document.createElement('div');
-            imageWrapper.innerHTML = "<div class='image-container'><img src=" + photoObj["url"] + "/></div>";
+            imageWrapper.innerHTML = "<div class='image-container'><img src=" + photoObj["url"] + " /></div>";
             imageWrapper.setAttribute('firebasename', name);
             imageWrapper.setAttribute("class","image-wrapper");
 
@@ -116,7 +117,7 @@
 
             //Thumbnail Items
             var imageWrapper = document.createElement('div');
-            imageWrapper.innerHTML = "<img src=" + photoObj["url"] + "/>";
+            imageWrapper.innerHTML = "<img src=" + photoObj["url"] + " />";
             imageWrapper.setAttribute('firebasename', name);
             imageWrapper.setAttribute("class","image-wrapper");
             t.querySelector('.thumbnails').appendChild(imageWrapper);
@@ -195,6 +196,8 @@
 
           // Parses either a string (url) or a data form object
           // Expects something with a 'caption' and 'url' key
+          console.log(typeof v);
+          console.log("Image string: " + v);
 
           if(typeof v == "string"){
             image["url"] = v;
