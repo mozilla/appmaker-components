@@ -2,7 +2,9 @@
   <template>
     <style type="text/css">
     app-fireworks canvas {
-      background-color: black;
+      background-color: #0e1012;
+      margin: 0px;
+      padding: 0px;
     }
     </style>
     <canvas class="fireworks-canvas">
@@ -33,8 +35,8 @@
         var canvas = this.querySelector(".fireworks-canvas"),
             ctx = canvas.getContext( '2d' ),
             // full screen dimensions
-            cw = 310,
-            ch = 300,
+            cw = 308,
+            ch = 160,
             // firework collection
             fireworks = [],
             // particle collection
