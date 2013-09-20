@@ -1,18 +1,22 @@
 <element name="app-flickr">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-flickr.css">
-    <div class="wrapper"><img class="image"/></div>
+    <div class="wrapper"><img height="100%" class="image"/></div>
   </template>
   <friends>app-input</friends>
   <description>
     Shows images from Flickr
   </description>
   <friends>app-map,app-data-list</friends>
+  <thumbnail>
+    <div style="color: white; font-weight: bold; font-size: 18px; background: #3c414a; padding: 8px 20px; border-radius: 3px">flickr</div>
+  </thumbnail>
   <script type="text/ceci">
     Ceci(this, {
       percent : 0,
       _channel: null,
       init: function (params) {
+        var t = this;
         var img = this.querySelector("img");
         if (! this.hasAttribute('searchTerm')) {
           this.setAttribute('searchTerm', 'cat');
@@ -22,6 +26,13 @@
         if (! this.hasAttribute('imageHeight')) {
           this.setAttribute('imageHeight', '200');
         }
+
+        this.setHeight(this.getAttribute('imageHeight'));
+
+        this.querySelector("img").onclick = function (e) {
+          t.sendImage();
+        }
+
         this.newImage();
       },
       editable: {
@@ -46,9 +57,14 @@
         }
       },
       setHeight: function (val) {
-        this.querySelector('img').style.height = val + "px";
+        this.style.height = val + "px";
+        this.querySelector(".image").style.height = val + "px";
       },
-      defaultListener : "setImageKeyword",
+      sendImage : function(){
+        var img = this.querySelector("img");
+        this.emit(img.getAttribute("src"));
+      },
+      defaultListener : "newImage",
       listeners: {
         setImageKeyword: function(val, channel) {
           this.log("setting image keyword to: "+ val, channel);
@@ -80,7 +96,7 @@
             var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";
             $(img).attr("src",src);
             // straight emit, will only broadcast if a channel has been chosen
-            element.emit(src);
+            element.sendImage();
           });
         }
       }
