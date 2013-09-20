@@ -1,4 +1,4 @@
-<element name="app-rating">
+<element name="app-star-rating">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-rating.css">
     <div class="wrapper">
@@ -8,11 +8,17 @@
   <description>
     A rating bar you can rate items with.
   </description>
-    
+  <thumbnail>
+    <div style="background: #efefef; height: 20px; overflow: hidden; text-align: center; padding: 10px 10px; border-radius: 5px;">
+      <span style="position: relative; top: -8px; font-size: 45px; color: #e2ba2e;">*</span>
+      <span style="position: relative; top: -8px; font-size: 45px; color: #e2ba2e;">*</span>
+      <span style="position: relative; top: -8px; font-size: 45px; color: #c6c6c6;">*</span>
+    </div>
+  </thumbnail>
   <script type="text/ceci">
     function Scalar(value) {
       this.value = value;
-      this.editor = 'app-rating';
+      this.editor = 'app-star-rating';
     };
     Ceci(this, {
       init: function (params) {
@@ -24,7 +30,7 @@
         this.ratingBar.on("click",".rating-icon",function(){
           var index = $(this).index();
           that.updateBar(index + 1);
-          that.setRating(); 
+          that.sendRating(); 
         });
 
         var that = this;
@@ -52,11 +58,10 @@
             });
             
             rBar.on("dragend",function(ev){
-              that.setRating();
+              that.sendRating();
             });
           }
         });
-
       },
       editable: {
         starNumber: {
@@ -70,7 +75,7 @@
       buildStars: function (count) {
         this.ratingBar.html("");
         for(var i = 1; i <= count; i++){
-        this.ratingBar.append("<div class='rating-icon'></div>");          
+        this.ratingBar.append("<div class='rating-icon'></div>");
         }
       },
       updateBar : function(rating){
@@ -84,16 +89,15 @@
       clearBar: function(){
         this.ratingBar.find(".rating-icon").removeClass("icon-enabled");
       },
-      setRating : function(){
+      sendRating : function(){
         this.emit(this.rating);
       },
-      broadcast: [ "setRating" ],
-      defaultBroadcast: "setRating",
+      broadcast: [ "sendRating" ],
+      defaultBroadcast: "sendRating",
       listeners: {
-        getRating : function (val) {
+        setRating : function (val) {
           var value = parseInt(val);
           this.updateBar(value);
-          this.setRating(value);
         }
       }
     });

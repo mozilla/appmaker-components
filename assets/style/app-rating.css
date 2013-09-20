@@ -1,12 +1,12 @@
-app-rating {
+app-star-rating {
   padding: 1rem 1.5rem;
 }
 
-app-rating .wrapper {
+app-star-rating .wrapper {
   text-align: center;
 }
 
-app-rating .rating-bar {
+app-star-rating .rating-bar {
   margin: 0 auto;
   text-align: center;
   line-height: 0px;
@@ -19,7 +19,7 @@ app-rating .rating-bar {
   display: inline-block;
 }
 
-app-rating .rating-icon {
+app-star-rating .rating-icon {
   width: 30px;
   height: 30px;
   background-image: url(../images/star_rating_off.png?3);
@@ -28,6 +28,6 @@ app-rating .rating-icon {
   margin-right: 4px;
 }
 
-app-rating .icon-enabled {
+app-star-rating .icon-enabled {
   background-image: url(../images/star_rating_on.png?3);
 }
