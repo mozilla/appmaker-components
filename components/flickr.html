@@ -2,6 +2,7 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-flickr.css">
     <div class="wrapper"><img height="100%" class="image"/></div>
+    <div class="loading-overlay"></div>
   </template>
   <friends>app-input</friends>
   <description>
@@ -21,7 +22,9 @@
         if (! this.hasAttribute('searchTerm')) {
           this.setAttribute('searchTerm', 'cat');
         }
+
         this.term = this.getAttribute('searchTerm');
+        this.loading = this.querySelector('.loading-overlay');
 
         if (! this.hasAttribute('imageHeight')) {
           this.setAttribute('imageHeight', '200');
@@ -78,7 +81,7 @@
           this.newImage(val, channel);
         },
         newImage: function (listener, channel) {
-          this.log("gets a new image", channel);
+          this.loading.style.display = "block";
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
           var url = encodeURI("http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="+API_KEY+"&text=" + this.term + "&safe_search=1&per_page=40");
@@ -97,6 +100,7 @@
             $(img).attr("src",src);
             // straight emit, will only broadcast if a channel has been chosen
             element.sendImage();
+            element.loading.style.display = "none";
           });
         }
       }

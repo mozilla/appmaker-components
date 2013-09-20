@@ -4,6 +4,16 @@ app-flickr {
   text-align: center;
   background-repeat: no-repeat;
   background-position: center;
+  position: relative;
+}
+
+app-flickr .loading-overlay {
+  background: url(../images/flickr/throbber.gif) center no-repeat rgba(0,0,0,.8);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 app-flickr .wrapper {
