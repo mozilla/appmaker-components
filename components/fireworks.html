@@ -1,21 +1,25 @@
 <element name="app-fireworks">
   <template>
     <style type="text/css">
-    app-fireworks canvas {
+    app-fireworks {
       background-color: #0e1012;
-      margin: 0px;
-      padding: 0px;
     }
     </style>
-    <canvas class="fireworks-canvas">
-      Canvas is not supported in your browser.
-    </canvas>
+    <canvas class="fireworks-canvas">Canvas is not supported in your browser.</canvas>
   </div>
   </template>
-  <friends>app-button,app-metronome</friends>
+  <friends>app-button</friends>
   <description>
     Shows firework show
   </description>
+  <thumbnail>
+    <div style="position: relative; background: black; width: 60px; height: 40px; border-radius: 5px">
+      <div style="position: absolute; top:-18px; left: 25px; font-size: 80px;color: #53b1e0">*</div>
+      <div style="position: absolute; top: 5px; left: 10px; font-size: 20px; color: orange">*</div>
+      <div style="position: absolute; top: 12px; left: 13px; font-size: 40px;color: pink">*</div>
+    </div>
+  </thumbnail>
+
   <script type="text/ceci">
     var element = this;
     Ceci(this, {
@@ -30,6 +34,8 @@
                   window.setTimeout( callback, 1000 / 60 );
                 };
         })();
+
+        this.setAttribute('fireworkSound', this.getAttribute("fireworkSound") || 'Kapow!');
 
         // now we will setup our basic variables for the demo
         var canvas = this.querySelector(".fireworks-canvas"),
@@ -77,6 +83,7 @@
           return Math.sqrt( Math.pow( xDistance, 2 ) + Math.pow( yDistance, 2 ) );
         }
 
+        var t = this;
         // create firework
         function Firework( sx, sy, tx, ty, hue ) {
           // actual coordinates
@@ -122,7 +129,8 @@
 
           // if the distance traveled, including velocities, is greater than the initial distance to the target, then the target has been reached
           if( this.distanceTraveled >= this.distanceToTarget ) {
-            element.emit("kapow!");
+
+            element.emit(t.getAttribute('fireworkSound'));
             createParticles( this.tx, this.ty, this.hue );
             // remove the firework, use the index passed into the update function to determine which to remove
             fireworks.splice( index, 1 );
@@ -243,6 +251,10 @@
           this.random( 0, this.cw ), this.random( 0, this.ch / 2 ), this.hue));
       },
       editable: {
+        fireworkSound: {
+          type: "text",
+          description: "Tell the fireworks what to broadcast every shot."
+        }
       },
       defaultListener: "shootRocket",
       listeners: {
