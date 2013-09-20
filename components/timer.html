@@ -11,7 +11,6 @@
   <thumbnail>
     <div style="height: 30px; border-bottom: 2px solid black; border-top: 1px solid #666; background-color: #333;   width: 80px; border-radius: 1px; color: #DDD; line-height: 30px; text-align: center; margin: 0 auto">0:00.30</div>
   </thumbnail>
-
   <script type="text/flathead">
   </script>
   <script type="text/ceci">
@@ -29,7 +28,7 @@
         this.elapsedTime = new Date().getTime() - this.startTime;
         this.startTime = new Date().getTime();
         //Add it up in milliseonds
-      
+
         if(this.mode == "up"){
           this.mS = this.mS + this.elapsedTime;
         } else {
