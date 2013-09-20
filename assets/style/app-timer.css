@@ -1,14 +1,13 @@
 app-timer {
-  padding: 1rem 1.5rem;
+
 }
 
 app-timer .timer {
-  border-radius: 5px;  
   padding: .7rem 0rem;
   background: black;
   color: #BBB;
-	text-align: center;
-	font-size: font-size: 1.6rem;
+  text-align: center;
+  font-size: font-size: 1.6rem;
   background: -webkit-linear-gradient(top, black, #555);
   border-bottom: solid 2px black;
 }
@@ -17,8 +16,3 @@ app-timer .current-time {
   font-size: 2.5rem;
 }
 
-app-timer .count-to {
-  display: none;
-  color: #888;
-  line-height: 1.8rem;
-}
