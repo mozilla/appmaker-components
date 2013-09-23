@@ -1,6 +1,6 @@
-<element name="app-seekbar">
+<element name="app-slider">
   <template>
-    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-seekbar.css">
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-slider.css">
     <div class="slider"></div>
   </template>
   <description>
@@ -13,7 +13,7 @@
   <script type="text/ceci">
     function Scalar(value) {
       this.value = value;
-      this.editor = 'app-seekbar';
+      this.editor = 'app-slider';
     };
     Scalar.prototype.toString = function() {
       return String(this.value);

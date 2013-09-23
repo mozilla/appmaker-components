@@ -1,15 +1,15 @@
-app-seekbar {
+app-slider {
   padding: 2rem 3rem;
   background-color: #474d57;
 }
 
-app-seekbar .slider {
+app-slider .slider {
   background: #212429;
   position: relative;
   height: .3rem;
 }
 
-app-seekbar a {
+app-slider a {
   position: absolute;
   top: -1rem;
   display: block;
@@ -21,11 +21,11 @@ app-seekbar a {
   background-color: #707a8a;
 }
 
-app-seekbar a:active, app-seekbar a:focus {
+app-slider a:active, app-slider a:focus {
   outline: none;
 }
   
-app-seekbar .ui-slider-range {
+app-slider .ui-slider-range {
   background: #48c5ed;
   height: .3rem;
   position: absolute;
