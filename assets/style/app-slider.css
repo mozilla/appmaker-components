@@ -1,5 +1,5 @@
 app-slider {
-  padding: 2rem 3rem;
+  padding: 2rem;
   background-color: #474d57;
 }
 
@@ -7,6 +7,18 @@ app-slider .slider {
   background: #212429;
   position: relative;
   height: .3rem;
+  margin-right: 6rem;
+}
+
+app-slider .value {
+  float: right;
+  font-size: 1.6rem;
+  color: #DDD;
+  position: relative;
+  top: -1rem;
+  left: 1rem;
+  width: 45px;
+  text-align: center;
 }
 
 app-slider a {
