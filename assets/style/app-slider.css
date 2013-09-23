@@ -24,7 +24,7 @@ app-slider a {
 app-slider a:active, app-slider a:focus {
   outline: none;
 }
-  
+
 app-slider .ui-slider-range {
   background: #48c5ed;
   height: .3rem;

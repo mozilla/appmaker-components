@@ -20,10 +20,10 @@
     };
     Ceci(this, {
       init: function (params) {
-        var slider = $(this).find(".slider");
+        this.slider = $(this).find(".slider");
         var value = Number(this.getAttribute('value'));
         var element = this;
-        slider.slider({
+        this.slider.slider({
           range:"min",
           value: value,
           max : 100,
@@ -36,14 +36,23 @@
       getCurrentValue: function() {
         return this.getAttribute("value");
       },
+      updateValue: function(val) {
+        this.slider.slider("value",val);
+        this.setAttribute("value", String(val));
+        this.emit(new Scalar(val));
+      },
       changeValue: function(val) {
         this.setAttribute("value", String(val));
         this.emit(new Scalar(val));
       },
       broadcast: [ "changeValue" ],
       defaultBroadcast: "changeValue",
-      changeValue: function(val) {
-        this.emit(val);
+      emitValue: function(val) {},
+      listeners: {
+        setValue : function (val) {
+          var value = parseInt(val);
+          this.updateValue(value);
+        }
       }
     });
   </script>
