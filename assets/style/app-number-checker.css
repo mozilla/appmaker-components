@@ -1,7 +1,3 @@
-app-number-checker {
-  padding: 1rem 1.5rem;
-}
-
 app-number-checker .checker {
   line-height: 3rem;
   padding: 1rem 0 1rem 1rem;
@@ -12,7 +8,6 @@ app-number-checker .checker {
   background-image: -moz-linear-gradient(top, black, #555);
   border-bottom: solid 2px black;
   position: relative;
-  border-radius: 4px;
 }
 
 app-number-checker select {
@@ -80,19 +75,19 @@ app-number-checker .check-strobe {
 }
 
 @-webkit-keyframes check-strobe {
-	0% {opacity: 1; }
+  0% {opacity: 1; }
   80% {opacity: 1; }
-	100% {opacity: 0; }
+  100% {opacity: 0; }
 }
 
 @-moz-keyframes check-strobe {
-	0% {opacity: 1; }
-	5% {opacity: .2; }
-	10% {opacity: 1; }
-	15% {opacity: .2; }
-	20% {opacity: 1; }
+  0% {opacity: 1; }
+  5% {opacity: .2; }
+  10% {opacity: 1; }
+  15% {opacity: .2; }
+  20% {opacity: 1; }
   96% {opacity: 1; }
-	100% {opacity: 0; }
+  100% {opacity: 0; }
 }
 
 app-number-checker .buttons {

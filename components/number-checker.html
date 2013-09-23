@@ -17,43 +17,39 @@
       </div>
     </div>
   </template>
-
+  <thumbnail>
+    <div style="border-bottom: solid 2px black; background: white; border-radius: 13px; padding: 5px 5px 5px 10px; color: #777; background: #DDD">X > 5 
+      <span style="margin-left: 5px; color: #DDD; padding: 2px 8px; border-radius: 10px; background: #555">?</span>
+    </div>
+  </thumbnail>
   <description>
     Listens for a number and checks if it meets certain criteria
   </description>
-
   <script type="text/flathead">
   </script>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
         this.count = 0;
-     
         this.incomingNumber;
         this.checkAgainst = 3;
         var that = this;
-     
         this.indicator = this.querySelector(".check-indicator");
-     
+
         this.querySelector("input").onchange = function(e){
           that.checkAgainst = e.target.value;
         }
-     
+
         var checkOptions = this.querySelector("select");
-        
         this.checkFor = checkOptions.options[checkOptions.selectedIndex].value;
-     
+
         checkOptions.onchange = function(e){
           if (!e)
           var e = window.event;
           that.checkFor = this.options[this.selectedIndex].value;
         }
-
       },
       checkTheNumber: function () {
-
-        console.log(this.incomingNumber + " " + this.checkFor + " " + this.checkAgainst);
-
         that = this;
         var ok = false;
 
@@ -77,42 +73,35 @@
             if(this.incomingNumber != this.checkAgainst){ ok = true; }
           break;
         }
-        
         if(this.incomingNumber == false){
           ok = false;
         }
-
         if(ok == true){
           this.indicator.setAttribute("light","good");
           this.emit(this.incomingNumber);  
         } else {
-          this.indicator.setAttribute("light","bad");          
+          this.indicator.setAttribute("light","bad");
         }
-        
         el = this.querySelector(".check-light");
-
         el.classList.remove("check-strobe");
         el.offsetWidth = el.offsetWidth;
-
         el.addEventListener('webkitAnimationEnd', function(){
           el.classList.remove("check-strobe");
         });
         el.addEventListener('animationend', function(){
           el.classList.remove("check-strobe");
         });
-
         el.classList.add("check-strobe");
-        
       },
       editable: {
         countItem: {
           type: "text",
           description: "Name for what you're counting",
           postset: function(v) {
-
           }
         }
-      }, 
+      },
+      broadcast: function () {},
     defaultListener: 'checkNumber',
       listeners: {
         checkNumber: function (listener,channel) {
