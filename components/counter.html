@@ -1,7 +1,9 @@
 <element name="app-counter">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-counter.css">
-    <div class="counter"><span class="count">0</span><span class="count-label"><span></div>
+    <div class="counter">
+      <span class="count-wrapper"><span class="count">0</span><span class="count-label"><span></span>
+    </div>
   </template>
   <description>
     Listens for a message and counts
@@ -23,8 +25,13 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
+        console.log("init");
         this.count = 0;
-        this.setAttribute('countItem', this.getAttribute('countItem') || "times");
+        var countLabel = this.getAttribute('countItem');
+        if(countLabel === null) {
+          countLabel = "";
+        }
+        this.setAttribute('countItem', countLabel);
       },
       updateDisplay: function () {
         this.querySelector('.count').innerHTML = this.count;
@@ -35,15 +42,16 @@
           var countLabel = this.getAttribute('countItem');
           var countLabel = countLabel.trim();
           var lastChar = countLabel.charAt(countLabel.length-1);
-          if(lastChar.toLowerCase() != "s"){
-            var addChar = "s";
-            if(lastChar == lastChar.toUpperCase()){
-              addChar = addChar.toUpperCase();
+          if(lastChar){
+            if(lastChar.toLowerCase() != "s"){
+              var addChar = "s";
+              if(lastChar == lastChar.toUpperCase()){
+                addChar = addChar.toUpperCase();
+              }
+              this.setLabel(this.getAttribute('countItem') + addChar);            
             }
-            this.setLabel(this.getAttribute('countItem') + addChar);            
-          } 
+          }
         }
-                    
         this.lookAtMe();
         this.emit(this.count);
       },
@@ -55,9 +63,9 @@
             this.setLabel(v);
           }
         }
-      }, 
+      },
       setLabel: function (value){
-        this.querySelector('.count-label').innerHTML = " " + value;          
+        this.querySelector('.count-label').innerHTML = " " + value;
       },
     defaultListener: 'countUp',
       listeners: {
@@ -67,7 +75,6 @@
           this.count++;
           this.log("counting up to " + this.count, channel);
           this.updateDisplay();
-          
         },
         countDown: function (listener,channel) {
           this.count--;
