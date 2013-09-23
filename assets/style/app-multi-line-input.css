@@ -1,6 +1,6 @@
 @import url("../fonts.css");
 
-app-textarea textarea {
+app-multi-line-input textarea {
   font-family: "FiraSans", sans-serif;
   padding: .2rem;
   resize: none;
@@ -18,14 +18,14 @@ app-textarea textarea {
   width: 100%;
 }
 
-app-textarea textarea:focus {
+app-multi-line-input textarea:focus {
 
 }
 
-app-textarea .inner-wrapper {
+app-multi-line-input .inner-wrapper {
   position: relative;
 }
 
-app-textarea .outer-wrapper {
+app-multi-line-input .outer-wrapper {
   position: relative;
 }
