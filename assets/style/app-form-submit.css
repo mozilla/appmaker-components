@@ -5,29 +5,29 @@ app-form-submit {
 }
 
 app-form-submit .button:active {
-  background: linear-gradient(to top, #ddd, #ddd);
-  background: -webkit-linear-gradient(top, #ddd, #ddd);
+  background-color: #3d911f;
 }
 
 app-form-submit .button {
-  padding: 0 1.5rem;
+  cursor: pointer;
   position: relative;
   text-decoration: none;
   outline: none;
-  background: linear-gradient(to top, #f8f8f8, #ddd);
-  background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
+  border-top: 1px solid #80d661;
+  border-bottom: 2px solid #3d911f; 
+  background-color: #4DB227;
   text-align: center;
-  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
   display: block;
-  vertical-align: middle;
+  padding-top: 5px;
+  padding-bottom: 3px;
   text-overflow: ellipsis;
   overflow: hidden;
-  border: 0.1rem solid #a6a6a6;
   border-radius: 0.2rem;
-  font-weight: 500;
-  font-size: 1.6rem;
+  font-weight: 600;
+  font-size: 1.8rem;
   line-height: 3.8rem;
-  color: #333;
+  color: #ffffff;
+  width: 100%;
 }
 
 app-form-submit button {

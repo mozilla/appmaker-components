@@ -32,12 +32,9 @@
 
       Ceci(element, {
         init: function (params) {
-          
+          this.itemCount = 0;
           this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
-          this.emitonadd;
-          
           this.emitonadd = this.getAttribute('emitOnAdd') || false;
-          
           params = params ? params : {};
           var appId = params.appId || "app123";
           var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_folder/1");
@@ -64,7 +61,7 @@
             });
 
             var emit = [];
-            
+
             io.on('value', function(snapshot) {
               for ( var i in snapshot.val()){
                 var item = JSON.parse(snapshot.val()[i]["value"]);
@@ -90,7 +87,6 @@
           var addItem = function(data, name){
 
             try {
-
               var item = document.createElement("div");
               item.setAttribute("class","data-item")
               var table = document.createElement('table');
@@ -108,7 +104,7 @@
               if(typeof obj == "object") {
                 for (var key in obj){
                   var row = document.createElement('tr');
-                  row.innerHTML = "<td>" + obj[key]["name"] + "</td><td>" + obj[key]["value"] + "</td>";
+                  row.innerHTML = "<td class='key-name'>" + obj[key]["name"] + "</td><td>" + obj[key]["value"] + "</td>";
                   table.appendChild(row);
                 }
               } else {
@@ -150,6 +146,10 @@
               console.log(e);
             }
           };
+
+          this.io.on('value', function(snapshot) {
+            console.log("something changed, better upate count");
+          });
 
           this.io.on('child_added', function(snapshot) {
             addItem(snapshot.val(), snapshot.name());

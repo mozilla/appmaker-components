@@ -1,8 +1,8 @@
-app-photo-folder {
+app-image-gallery {
   background: #333;
 }
 
-app-photo-folder h1 {
+app-image-gallery h1 {
   padding: 0 0 .5rem 0;
   font-size: 16px; font-size: 1.6rem;
   text-align: left;
@@ -15,11 +15,11 @@ app-photo-folder h1 {
   color: #DDD;
 }
 
-app-photo-folder .folder-content-wrapper {
+app-image-gallery .folder-content-wrapper {
   padding: 1rem 1rem 1.5rem 1rem;
 }
 
-app-photo-folder table {
+app-image-gallery table {
   background: white;
   width: 100%;
   border-top: solid 1px #DDD;
@@ -30,7 +30,7 @@ app-photo-folder table {
 
 
 
-app-photo-folder table td {
+app-image-gallery table td {
   border-right: solid 1px #CCC;
   border-bottom: solid 1px #CCC;
   padding: 5px;
@@ -38,27 +38,27 @@ app-photo-folder table td {
   font-size: 1.3rem;
 }
 
-app-photo-folder ul, app-data-list ul, app-photo-folder ol, app-data-list ol {
+app-image-gallery ul, app-data-list ul, app-image-gallery ol, app-data-list ol {
   margin: 0;
   list-style-type: none;
   padding: 0;
   display: block;
 }
 
-app-photo-folder .photos {
+app-image-gallery .photos {
   padding: 1rem 0rem;
   position: relative;
   -webkit-transition: left linear .1s;
   -moz-transition: left linear .1s;
 }
 
-app-photo-folder .data-view-toggle {
+app-image-gallery .data-view-toggle {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-app-photo-folder .data-view-toggle a {
+app-image-gallery .data-view-toggle a {
   background: white;
   color: #555;
   font-size: 13px;
@@ -69,37 +69,37 @@ app-photo-folder .data-view-toggle a {
   background-image: -webkit-linear-gradient(white,#ddd);
 }
 
-app-photo-folder .data-view-toggle a .icon {
+app-image-gallery .data-view-toggle a .icon {
   display: block;
   height: 15px;
   width: 15px;
 }
 
-app-photo-folder .data-view-toggle a[show='single'] .icon {
+app-image-gallery .data-view-toggle a[show='single'] .icon {
   background: url("/assets/images/photo-folder/single-on.png?6");
 }
 
-app-photo-folder .data-view-toggle a[show='thumbnails'] .icon {
+app-image-gallery .data-view-toggle a[show='thumbnails'] .icon {
   background: url("/assets/images/photo-folder/thumbs-on.png?6");
 }
 
 
-app-photo-folder .data-view-toggle a.selected-item {
+app-image-gallery .data-view-toggle a.selected-item {
   background: #999;
   color: #DDD;
   box-shadow: inset 0px 0px 10px rgba(0,0,0,.2);
   background: -webkit-linear-gradient(#777,#999);
 }
 
-app-photo-folder .data-view-toggle a:first-child {
+app-image-gallery .data-view-toggle a:first-child {
   border-radius: 2px 0 0 2px;
 }
 
-app-photo-folder .data-view-toggle a:last-child {
+app-image-gallery .data-view-toggle a:last-child {
   border-radius: 0 2px 2px 0;
 }
 
-app-photo-folder .delete-image {
+app-image-gallery .delete-image {
   color: white;
   font-weight: bold;
   background: #333;
@@ -112,19 +112,19 @@ app-photo-folder .delete-image {
   cursor: pointer;
 }
 
-app-photo-folder .photos {
+app-image-gallery .photos {
   margin: 0 !important;
 }
 
 /*Single Photo Styles*/
 
-app-photo-folder .single {
+app-image-gallery .single {
   width: 290px;
   margin-bottom: .5rem;
   overflow: hidden;
 }
 
-app-photo-folder .single .image-wrapper {
+app-image-gallery .single .image-wrapper {
   text-align: center;
   position: relative;
   float: right;
@@ -132,45 +132,45 @@ app-photo-folder .single .image-wrapper {
   width: 290px;
 }
 
-app-photo-folder .single .image-wrapper .image-container {
+app-image-gallery .single .image-wrapper .image-container {
   display: inline-block;
   margin: 0 auto;
   position: relative;
 }
 
-app-photo-folder .single .image-wrapper img {
+app-image-gallery .single .image-wrapper img {
   max-width: 270px;
   box-shadow: 0px 2px 3px rgba(0,0,0,.2);
   display: block;
   margin: 0 auto;
 }
 
-app-photo-folder .single .image-caption {
+app-image-gallery .single .image-caption {
   padding-top: 1rem;
   color: #999;
 }
 
-app-photo-folder .thumbnails {
+app-image-gallery .thumbnails {
   overflow: auto;
   width: 280px;
   margin: 0 auto;
 }
 
-app-photo-folder .thumbnails .image-wrapper {
+app-image-gallery .thumbnails .image-wrapper {
   position: relative;
   width: 83px;
   padding: 5px;
   float: left;
 }
 
-app-photo-folder .thumbnails .image-wrapper img {
+app-image-gallery .thumbnails .image-wrapper img {
   box-shadow: 0px 2px 3px rgba(0,0,0,.2);
   width: 100%;
   display: block;
   cursor: pointer;
 }
 
-app-photo-folder li, app-data-list li {
+app-image-gallery li, app-data-list li {
   font-size: 12px; font-size: 1.2rem;
   font-family: "FiraSans", sans-serif;
   border: solid .1rem #d9d9d9;
@@ -179,36 +179,36 @@ app-photo-folder li, app-data-list li {
   margin-bottom: .5rem;
 }
 
-app-photo-folder .show-single .single {
+app-image-gallery .show-single .single {
   display: block;
 }
 
-app-photo-folder .thumbnails,
-app-photo-folder .single {
+app-image-gallery .thumbnails,
+app-image-gallery .single {
   display: none;
 }
 
-app-photo-folder .show-thumbnails .thumbnails {
+app-image-gallery .show-thumbnails .thumbnails {
   display: block;
 }
 
-app-photo-folder .emit-wrapper {
+app-image-gallery .emit-wrapper {
   background: #776531;
   padding: 1rem;
 }
 
-app-photo-folder .emit-wrapper a {
+app-image-gallery .emit-wrapper a {
   color: white;
   border-radius: 3px;
   font-size: 13px;
   display: inline-block;
 }
 
-app-photo-folder .emit-wrapper label {
+app-image-gallery .emit-wrapper label {
   display: block;
 }
 
-app-photo-folder .warp-in {
+app-image-gallery .warp-in {
   -webkit-animation-name: warpin;
   -webkit-animation-duration: .1s;
   -webkit-animation-timing-function: linear;

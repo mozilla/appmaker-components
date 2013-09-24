@@ -3,13 +3,21 @@ app-storage-box {
 }
 
 app-storage-box h1 {
-  padding: 0 0 1rem 0;
-  color: #725B1C;
+  padding: 0 0 .5rem 0;
   font-size: 16px; font-size: 1.6rem;
-  font-family: "FiraSans", sans-serif;
   text-align: left;
+  font-weight: 400;
+  padding: 0;
   position: relative;
-  padding: 1rem 1.5rem 0rem 1.5rem;
+  background: #222;
+  padding-right: 1.5rem;
+  padding: 1.5rem;
+  color: #DDD;
+}
+
+app-storage-box .item-count {
+  float: right;
+  color: #ddd;
 }
 
 app-storage-box h1 .folder-name {
@@ -80,6 +88,10 @@ app-storage-box .data-item:last-child {
 
 app-storage-box .all table td {
   position: relative;
+}
+
+app-storage-box td.key-name {
+  font-weight: bold;
 }
 
 app-storage-box table td {
