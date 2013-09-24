@@ -68,7 +68,14 @@ app-storage-box table {
   border-top: solid 1px #DDD;
   border-bottom: solid 1px #BBB;
   border-left: solid 1px #DDD;
+}
+
+app-storage-box .data-item {
   margin-bottom: 12px;
+}
+
+app-storage-box .data-item:last-child {
+  margin-bottom: 0px;
 }
 
 app-storage-box .all table td {

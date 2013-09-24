@@ -10,19 +10,7 @@
     <div class="folder-content-wrapper">
 
     <div class="data-items"></div>
-    <!--
-    <div class="emit-wrapper">
-      <p>This stuff will live in the config for this component, not here.</p>
-      <div class="emit-items">
-        <a href="#" class="emit-data">Emit all Items</a>
-      </div>
-      <div class="emit-stats">
-        <select ></select>
-        <a href="#" class="emit-data">Emit a Stat</a>
-      </div>
-    </div>
-    </div>
-      -->
+
   </template>
   <description>
     Lists data that you send it
@@ -46,6 +34,9 @@
         init: function (params) {
           
           this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
+          this.emitonadd;
+          
+          this.emitonadd = this.getAttribute('emitOnAdd') || false;
           
           params = params ? params : {};
           var appId = params.appId || "app123";
@@ -175,9 +166,15 @@
           this.style.backgroundColor =  v;
         },
         addAnItem : function(v){
+          var t = this;
           //Rudimentary check for a value type
           if(v){
             this.io.push({value: v.toString()});
+
+            if(this.emitonadd){
+              this.emit(v.toString());
+            }
+
           }
         },
       defaultListener: 'addItem',
@@ -195,7 +192,8 @@
           this.querySelector(".folder-name").innerHtml = v;
         },
         broadcast: function (snapshot) {
-          this.emit(snapshot);
+          // console.log(snapshot.val()["value"]);
+          this.emit(snapshot.val()["value"]);
         },
         editable: {
           listTitle: {
@@ -203,6 +201,14 @@
             description: "A title for your list",
             postset: function(v) {
               this.setTitle(v);
+            }
+          },
+          emitOnAdd: {
+            type: "boolean",
+            description: "Emit on add",
+            postset: function(v) {
+              this.emitonadd = v == "true";
+              console.log(this.emitonadd);
             }
           },
           backgroundColor: {
