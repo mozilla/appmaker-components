@@ -26,14 +26,14 @@
         this.max = this.getAttribute('maxValue') || 50;
         this.setAttribute("minValue", this.min);
         this.setAttribute("maxValue", this.max);
-        this.middle = parseInt(this.min) + parseInt(((this.max - this.min) / 2));
+        this.default = this.getAttribute("startingValue") || this.min;
         this.valueIndicator = this.querySelector(".value");
-        this.valueIndicator.innerHTML = this.middle;
+        this.valueIndicator.innerHTML = this.default;
         var element = this;
         var t = this;
         this.slider.slider({
           range: "min",
-          value: this.middle,
+          value: this.default,
           max : t.max,
           min: t.min,
           slide : function(event,ui){
@@ -48,17 +48,24 @@
         this.slider.slider("value",val);
         this.setAttribute("value", val);
         this.valueIndicator.innerHTML = val;
-        this.emit(new Scalar(val));
+        this.emit(new Scalar(val), "Slider value");
       },
       changeValue: function(val) {
         this.setAttribute("value", val);
         this.valueIndicator.innerHTML = val;
-        this.emit(new Scalar(val));
+        this.emit(new Scalar(val), "Slider value");
       },
       broadcast: [ "changeValue" ],
       defaultBroadcast: "changeValue",
       emitValue: function(val) {},
       editable: {
+        startingValue: {
+          type: "number",
+          description: "Starting value for the slider.",
+          postset: function(v) {
+            
+          }
+        },
         minValue: {
           type: "number",
           description: "The lowest possible value.",

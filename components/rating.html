@@ -18,7 +18,10 @@
   <script type="text/ceci">
     function Scalar(value) {
       this.value = value;
-      this.editor = 'app-star-rating';
+      this.editor = 'app-rating';
+    };
+    Scalar.prototype.toString = function() {
+      return String(this.value);
     };
     Ceci(this, {
       init: function (params) {
@@ -86,7 +89,7 @@
         this.ratingBar.find(".rating-icon").removeClass("icon-enabled");
       },
       sendRating : function(){
-        this.emit(this.rating);
+        this.emit(new Scalar(this.rating), "Rating");
       },
       broadcast: [ "sendRating" ],
       defaultBroadcast: "sendRating",
