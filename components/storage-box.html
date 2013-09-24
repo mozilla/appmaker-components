@@ -35,6 +35,7 @@
           this.itemCount = 0;
           this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
           this.emitonadd = this.getAttribute('emitOnAdd') || false;
+          this.emitonload = this.getAttribute('emitOnLoad') || false;
           params = params ? params : {};
           var appId = params.appId || "app123";
           var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_folder/1");
@@ -65,15 +66,15 @@
             io.on('value', function(snapshot) {
               for ( var i in snapshot.val()){
                 var item = JSON.parse(snapshot.val()[i]["value"]);
-                
+
                 var emitItem = {};
                 for (var j in item){
                   var name = item[j]["name"];
                   var value = item[j]["value"];
                   if(getItems.indexOf(name) > -1){
-                    emitItem[name] =  value ;  
+                    emitItem[name] =  value ;
                   }
-                  
+
                 }
                 emit.push(emitItem);
               }
@@ -100,7 +101,7 @@
               } catch(e) {
                 var obj = data.value;
               }
-              
+
               if(typeof obj == "object") {
                 for (var key in obj){
                   var row = document.createElement('tr');
@@ -202,10 +203,16 @@
           },
           emitOnAdd: {
             type: "boolean",
-            description: "Emit on add",
+            description: "Emit the newest item when it is added.",
             postset: function(v) {
               this.emitonadd = v == "true";
-              console.log(this.emitonadd);
+            }
+          },
+          emitOnLoad: {
+            type: "boolean",
+            description: "Emit a value when the app first loads.",
+            postset: function(v) {
+              this.emitonload = v == "true";
             }
           },
           backgroundColor: {
