@@ -61,7 +61,7 @@
         if(sec < 10) { sec="0" + sec;}
         if(hour > 0) { hour = hour + ":"; } else {  hour = "";}
         this.currentTime = hour + min + ":" + sec;
-        this.querySelector('.current-time').innerText = this.currentTime;
+        this.querySelector('.current-time').innerHTML = this.currentTime;
       },
       startTheTimer : function(){
         this.startTime = new Date().getTime();
