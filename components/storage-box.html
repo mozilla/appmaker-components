@@ -170,11 +170,9 @@
           //Rudimentary check for a value type
           if(v){
             this.io.push({value: v.toString()});
-
             if(this.emitonadd){
               this.emit(v.toString());
             }
-
           }
         },
       defaultListener: 'addItem',
@@ -192,7 +190,6 @@
           this.querySelector(".folder-name").innerHtml = v;
         },
         broadcast: function (snapshot) {
-          // console.log(snapshot.val()["value"]);
           this.emit(snapshot.val()["value"]);
         },
         editable: {
