@@ -1,0 +1,220 @@
+<element name="app-storage-box">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-storage-box.css">
+
+    <h1>
+      <span class="folder-name">Storage Box</span>
+      <span class="item-count"></span>
+    </h1>
+
+    <div class="folder-content-wrapper">
+
+    <div class="data-items"></div>
+    <!--
+    <div class="emit-wrapper">
+      <p>This stuff will live in the config for this component, not here.</p>
+      <div class="emit-items">
+        <a href="#" class="emit-data">Emit all Items</a>
+      </div>
+      <div class="emit-stats">
+        <select ></select>
+        <a href="#" class="emit-data">Emit a Stat</a>
+      </div>
+    </div>
+    </div>
+      -->
+  </template>
+  <description>
+    Lists data that you send it
+  </description>
+
+  <script type="text/ceci">
+    var element = this;
+    require(['https://cdn.firebase.com/v0/firebase.js'], function() {
+
+      function Editable(value, name) {
+        this.value = value;
+        this.name = name;
+        this.editor = editor;
+      }
+      
+      Editable.prototype.toString = function() {
+        return this.value;
+      }
+
+      Ceci(element, {
+        init: function (params) {
+          
+          this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
+          
+          params = params ? params : {};
+          var appId = params.appId || "app123";
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_folder/1");
+
+          var t = this;
+          t.aggregate = {};
+
+          //Emits the selected statistic
+          $(this).find(".emit-stats .emit-data").on("click",function(){
+            var data = $(this).closest("div").find("select").val();
+            t.broadcast(data);
+            return false;
+          });
+
+          t.io = io;
+
+          // Emits all items based on selected keys
+          $(this).find(".emit-items .emit-data").on("click",function(){
+            
+            var checkedItems = $(t).find(".emit-wrapper input:checked");
+            var getItems = [];
+            checkedItems.each(function(){
+              getItems.push($(this).val());
+            });
+
+            var emit = [];
+            
+            io.on('value', function(snapshot) {
+              for ( var i in snapshot.val()){
+                var item = JSON.parse(snapshot.val()[i]["value"]);
+                
+                var emitItem = {};
+                for (var j in item){
+                  var name = item[j]["name"];
+                  var value = item[j]["value"];
+                  if(getItems.indexOf(name) > -1){
+                    emitItem[name] =  value ;  
+                  }
+                  
+                }
+                emit.push(emitItem);
+              }
+            });
+
+            t.broadcast(emit);
+            return false;
+          });
+
+          // This builds out the items in the list 
+          var addItem = function(data, name){
+
+            try {
+
+              var item = document.createElement("div");
+              item.setAttribute("class","data-item")
+              var table = document.createElement('table');
+              table.setAttribute("cellspacing","0");
+              table.setAttribute("cellpadding","0");
+
+              //If data doesn't parse as an object, add it as a string instead
+
+              try {
+                var obj = JSON.parse(data.value);
+              } catch(e) {
+                var obj = data.value;
+              }
+              
+              if(typeof obj == "object") {
+                for (var key in obj){
+                  var row = document.createElement('tr');
+                  row.innerHTML = "<td>" + obj[key]["name"] + "</td><td>" + obj[key]["value"] + "</td>";
+                  table.appendChild(row);
+                }
+              } else {
+                var row = document.createElement('tr');
+                row.innerHTML = "<td>"  + obj + "</td>";
+                table.appendChild(row);
+              }
+
+              item.setAttribute('firebasename', name);
+
+              //Broadcast the data for this item
+              $(item).on('click', function(evt) {
+                var elt = evt.currentTarget
+                var fireId = elt.getAttribute('firebasename');
+                var fireElt = t.io.child(fireId);
+                fireElt.once('value', function(snapshot) {
+                  t.broadcast(snapshot);
+                });
+              });
+
+              item.appendChild(table);
+              t.querySelector('.data-items').appendChild(item);
+
+              var deleteMe = document.createElement('div');
+              deleteMe.innerHTML = "X";
+              deleteMe.setAttribute("class","delete-item");
+
+              $(item).append(deleteMe);
+
+              $(deleteMe).on('click', function(evt) {
+                var dataItem = $(this).closest(".data-item");
+                var fireId = dataItem.attr('firebasename');
+                var fireElt = t.io.child(fireId);
+                dataItem.remove();
+                fireElt.remove();
+              }); // End adding an item
+
+            } catch (e) {
+              console.log(e);
+            }
+          };
+
+          this.io.on('child_added', function(snapshot) {
+            addItem(snapshot.val(), snapshot.name());
+          });
+
+        },
+        sortByCreatedAt: function(a, b) {
+          return a.createdAt > b.createdAt;
+        },
+        resetList : function() {
+          this.querySelector('.data-items').innerHTML = "";
+        },
+        setBackgroundColor : function(v){
+          this.style.backgroundColor =  v;
+        },
+        addAnItem : function(v){
+          //Rudimentary check for a value type
+          if(v){
+            this.io.push({value: v.toString()});
+          }
+        },
+      defaultListener: 'addItem',
+        listeners: {
+          addItem: function (v) {
+            this.addAnItem(v);
+          },
+          clearList: function (v, channel) {
+            this.log("clearing list", channel);
+            this.io.remove();
+            this.resetList();
+          },
+        },
+        setTitle : function(v){
+          this.querySelector(".folder-name").innerHtml = v;
+        },
+        broadcast: function (snapshot) {
+          this.emit(snapshot);
+        },
+        editable: {
+          listTitle: {
+            type: "text",
+            description: "A title for your list",
+            postset: function(v) {
+              this.setTitle(v);
+            }
+          },
+          backgroundColor: {
+            type: "text",
+            description: "Background color",
+            postset : function(v) {
+              this.setBackgroundColor(v);
+            }
+          }
+        }
+      });
+      callback();
+    });
+  </script>
+</element>

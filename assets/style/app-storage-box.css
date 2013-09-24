@@ -1,0 +1,146 @@
+app-storage-box {
+  background: #333;
+}
+
+app-storage-box h1 {
+  padding: 0 0 1rem 0;
+  color: #725B1C;
+  font-size: 16px; font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+  text-align: left;
+  position: relative;
+  padding: 1rem 1.5rem 0rem 1.5rem;
+}
+
+app-storage-box h1 .folder-name {
+  display: inline-block;
+  margin: 0px;
+  color: #DDD;
+}
+
+app-storage-box .item-count {
+  margin-bottom: 10px;
+  color: #888;
+  float: right;
+}
+
+app-storage-box .data-view-toggle {
+  margin-bottom: 13px;
+}
+
+app-storage-box .data-view-toggle a {
+  color: #555;
+  padding: 5px 0 6px 0;
+  font-size: 13px;
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+  background-image: -webkit-linear-gradient(white,#ddd);
+}
+
+app-storage-box .data-view-toggle a.selected-item {
+  background: #777;
+  color: white;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,.2);
+  background: -webkit-linear-gradient(#666,#777);
+}
+
+app-storage-box .data-view-toggle a:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+app-storage-box .data-view-toggle a:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+app-storage-box .folder-content-wrapper {
+  padding: 1rem 1.5rem;
+}
+
+app-storage-box .data-item {
+  position: relative;
+  cursor: pointer;
+}
+
+app-storage-box table {
+  background: white;
+  width: 100%;
+  border-top: solid 1px #DDD;
+  border-bottom: solid 1px #BBB;
+  border-left: solid 1px #DDD;
+  margin-bottom: 12px;
+}
+
+app-storage-box .all table td {
+  position: relative;
+}
+
+
+
+app-storage-box table td {
+  border-right: solid 1px #CCC;
+  border-bottom: solid 1px #CCC;
+  padding: 5px;
+  color: #666;
+  font-size: 1.3rem;
+}
+
+app-storage-box ul, app-data-list ul, app-storage-box ol, app-data-list ol {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+  display: block;
+}
+
+app-storage-box li, app-data-list li {
+  font-size: 12px; font-size: 1.2rem;
+  font-family: "FiraSans", sans-serif;
+  border: solid .1rem #d9d9d9;
+  padding: 1rem;
+  background: white;
+  margin-bottom: .5rem;
+}
+
+
+
+app-storage-box .all,
+app-storage-box .stats {
+  display: none;
+}
+
+app-storage-box .show-all .all {
+  display: block;
+}
+
+app-storage-box .show-stats .stats {
+  display: block;
+}
+
+app-storage-box .emit-wrapper {
+  background: #776531;
+  padding: 1rem;
+}
+
+app-storage-box .emit-wrapper a {
+  color: white;
+  border-radius: 3px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+app-storage-box .emit-wrapper label {
+  display: block;
+}
+
+app-storage-box .delete-item {
+  color: white;
+  font-weight: bold;
+  background: #333;
+  border: solid 2px white;
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  padding: 1px 6px;
+  border-radius: 25px;
+  cursor: pointer;
+}
