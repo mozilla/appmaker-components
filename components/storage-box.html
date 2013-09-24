@@ -34,6 +34,7 @@
         init: function (params) {
           this.itemCount = 0;
           this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
+          this.setAttribute('boxName', this.getAttribute('boxName') || 'Storage Box');
           this.emitonadd = this.getAttribute('emitOnAdd') || false;
           this.emitonload = this.getAttribute('emitOnLoad') || false;
           params = params ? params : {};
@@ -149,7 +150,7 @@
           };
 
           this.io.on('value', function(snapshot) {
-            console.log("something changed, better upate count");
+
           });
 
           this.io.on('child_added', function(snapshot) {
@@ -188,15 +189,16 @@
           },
         },
         setTitle : function(v){
-          this.querySelector(".folder-name").innerHtml = v;
+          this.querySelector(".folder-name").innerHTML = v;
+          console.log(v);
         },
         broadcast: function (snapshot) {
           this.emit(snapshot.val()["value"]);
         },
         editable: {
-          listTitle: {
+          boxName: {
             type: "text",
-            description: "A title for your list",
+            description: "A title for your stored items",
             postset: function(v) {
               this.setTitle(v);
             }
