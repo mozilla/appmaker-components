@@ -11,6 +11,9 @@
     </div>
   </div>
   </template>
+  <thumbnail>
+    <div style="height: 30px; font-weight: 600; border-bottom: 2px solid #3d911f; border-top: 1px solid #80d661; background-color: #4DB227; width: 110px; border-radius: 3px; color: #FFF; line-height: 30px; text-align: center; margin: 0 auto">Submit</div>
+  </thumbnail>
   <description>
     When clicked I broadcast an aggregate of all my inputs
   </description>
@@ -49,7 +52,6 @@
       init: function (params) {
         var _this = this;
         this._data = {};
-
 
         this._list = this.querySelector('.property-list');
 

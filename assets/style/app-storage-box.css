@@ -54,7 +54,7 @@ app-storage-box .data-view-toggle a:last-child {
 }
 
 app-storage-box .folder-content-wrapper {
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
 }
 
 app-storage-box .data-item {
@@ -81,8 +81,6 @@ app-storage-box .data-item:last-child {
 app-storage-box .all table td {
   position: relative;
 }
-
-
 
 app-storage-box table td {
   border-right: solid 1px #CCC;
