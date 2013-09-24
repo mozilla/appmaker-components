@@ -3,8 +3,9 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-image-gallery.css">
 
       <h1>
-        <span class="item-count"></span>
-        Images
+        <span class="folder-name"></span>
+        <span class="item-count-wrapper">
+        <span class="item-count"> </span> Images</span>
       </h1>
       
       <div class="folder-content-wrapper">
@@ -28,7 +29,16 @@
   </description>
 
   <thumbnail>
-    <div style="padding:2px 2px 6px 2px; background: white;"><div style="height: 20px; width: 20px; background: black;"></div></div>
+    <div style="padding:2px 2px 6px 2px; background: white; margin-right: 4px">
+      <div style="height: 20px; width: 20px; background: #999;"></div>
+    </div>
+    <div style="padding:2px 2px 6px 2px; background: white; margin-right: 4px">
+      <div style="height: 20px; width: 20px; background: #999;"></div>
+    </div>
+    <div style="padding:2px 2px 6px 2px; background: white; margin-right: 4px">
+      <div style="height: 20px; width: 20px; background: #999;"></div>
+    </div>
+
   </thumbnail>
 
 
@@ -50,7 +60,8 @@
         init: function (params) {
 
           t = this;
-          
+
+          this.setAttribute('galleryName', this.getAttribute('galleryName') || 'Image Gallery');
           //Toggle between thumbnails and single view
           $(this).find(".data-view-toggle").on('click','a', function(evt) {
             var show = $(this).attr("show");
@@ -232,6 +243,22 @@
             $(imgElement).attr("src",v);
           }
 
+        },
+        setTitle : function(v){
+          this.querySelector(".folder-name").innerHTML = v;
+          console.log(v);
+        },
+        setTitle : function(v){
+          this.querySelector(".folder-name").innerHTML = v;
+        },
+        editable: {
+          galleryName: {
+            type: "text",
+            description: "A title for your image gallery",
+            postset: function(v) {
+              this.setTitle(v);
+            }
+          }
         },
       defaultListener: 'addItem',
         listeners: {
