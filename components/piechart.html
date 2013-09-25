@@ -7,6 +7,9 @@
   <description>
     Listens for a message and counts
   </description>
+  <thumbnail>
+    <div style="background: #4886d1; height: 40px; width: 40px; border-radius: 25px; border-bottom: solid 3px #4077ba"></div>
+  </thumbnail>
   <script type="text/flathead">
   </script>
   <script type="text/ceci">
@@ -76,18 +79,18 @@
         this.updatePie();
 
       },
-    defaultListener: 'optionOne',
+    defaultListener: 'setFirstValue',
       listeners: {
-        optionOne: function (listener,channel) {
+        setFirstValue: function (listener,channel) {
           this.updateData(listener,channel,0);
         },
-        optionTwo: function (listener,channel) {
+        setSecondValue: function (listener,channel) {
           this.updateData(listener,channel,1);
         },
-        optionThree: function (listener,channel) {
+        setThirdValue: function (listener,channel) {
           this.updateData(listener,channel,2);
         },
-        resetCount: function (value, channel) {
+        resetValues: function (value, channel) {
           this.myData = [0,0,0];
           this.updatePie();
         }
