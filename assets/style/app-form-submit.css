@@ -28,6 +28,7 @@ app-form-submit .button {
   line-height: 3.8rem;
   color: #ffffff;
   width: 100%;
+  margin: 0;
 }
 
 app-form-submit button {
@@ -42,33 +43,38 @@ app-form-submit button {
 app-form-submit .property-list {
   list-style: none;
   margin: 0;
-  padding: 3px;
-  padding-right: 6px;
+  padding: .4rem;
   font-size: .8em;
-  border-top: 1px solid #c0c0c0;
-  border-left: 1px solid #c0c0c0;
-  border-right: 1px solid #c0c0c0;
+  background: #DDD;
 }
 
 app-form-submit .property-list li {
   position: relative;
-  height: 1em;
+  background: white;
+  border-bottom: solid 1px #CCC;
+  overflow: auto;
+}
+
+app-form-submit .property-list .name,
+app-form-submit .property-list .value {
+  background: white;
+  padding: 4px;
+  color: #666;
 }
 
 app-form-submit .property-list li .name {
-  position: absolute;
-  width: 40%;
-  height: 100%;
+  float: left;
+  width: 30%;
   text-align: left;
   overflow: hidden;
+  border-right: solid 1px #CCC;
   text-overflow: ellipsis;
+  font-weight: bold;
 }
 
 app-form-submit .property-list li .value {
-  position: absolute;
-  width: 60%;
-  height: 100%;
-  right: 0;
+  float: right;
+  width: 63%;
   overflow: hidden;
   text-overflow: ellipsis;
 }

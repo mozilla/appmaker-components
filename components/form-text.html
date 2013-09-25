@@ -3,6 +3,11 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form-text.css">
     <input type="text"/><button>Submit</button>
   </template>
+  <thumbnail>
+    <div style="box-shadow: inset 0px 0px 3px rgba(0,0,0,.4); padding: .3rem 1.3rem .3rem .4rem; background: white; color: #999; font-size: 1.3rem">
+      Lorem Ipsum <span style="color: #444; position: relative; top: -1px">|</span>
+    </div>
+  </thumbnail>
   <description>
     Broadcasts whatever message a user types
   </description>
@@ -14,7 +19,6 @@
     Text.prototype.toString = function() {
       return String(this.value);
     };
-
     Ceci(this, {
       init: function (params) {
         var value = this.getAttribute('value');
@@ -22,6 +26,7 @@
         var element = this;
         this.button = this.querySelector('button');
         this.input = this.querySelector('input');
+        this.setAttribute('inputName',this.getAttribute('inputName') || "Text Input");
         this.input.setAttribute('placeholder', 'Placeholder Text');
         this.querySelector('button').onclick = function (e) {
           var input = element.querySelector('input[type="text"]');
@@ -67,9 +72,8 @@
         return new Text(this.querySelector('input').value);
       },
       broadcast: function (e) {
-        this.emit(new Text(e), this.querySelector("input").getAttribute("placeholder"));
+        this.emit(new Text(e), this.getAttribute("inputName"));
       },
-
       updateConfig: function() {
         if (this._fireonchange) {
           this.classList.add('onchange');
@@ -80,18 +84,16 @@
         }
       },
       editable: {
+        inputName: {
+          type: "text",
+          description: "The name of this field, helpful when saving data.",
+          postset: function(v) {}
+        },
         placeholderText: {
           type: "text",
           description: "The text you want your input field to show by default.",
           postset: function(v) {
             this.querySelector("input").setAttribute("placeholder", v);
-          }
-        },
-        buttonLabel: {
-          type: "text",
-          description: "The text label you want your button to have.",
-          postset: function(v) {
-            this.querySelector("button").innerHTML = v;
           }
         },
         emitOnChange: {

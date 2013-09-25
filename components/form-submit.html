@@ -91,7 +91,7 @@
             currentListItem = document.createElement('li');
             this._list.appendChild(currentListItem);
           }
-          currentListItem.innerHTML = '<div class="name">' + property + ': ' + '</div><div class="value">' + value + '</div>';
+          currentListItem.innerHTML = '<div class="name">' + property + '</div><div class="value">' + value + '</div>';
           currentListItem.setAttribute('data-' + fixedProperty, value);
         } else {
           if (currentListItem) {
