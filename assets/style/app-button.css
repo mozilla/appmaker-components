@@ -1,9 +1,5 @@
 @import url("../fonts.css");
 
-app-button {
-  padding: 0;
-}
-
 app-button .button:active {
   background-color: #3d911f;
 }
@@ -28,6 +24,7 @@ app-button .button {
   line-height: 3.8rem;
   color: #ffffff;
   width: 100%;
+  margin: 0;
 }
 
 app-button button {
