@@ -1,11 +1,11 @@
 @import url("../fonts.css");
 
-app-form-text {
+app-text-input {
   padding: 0;
   height: 3.8rem;
 }
 
-app-form-text input[type=text]{
+app-text-input input[type=text]{
   padding: 0;
   height: 100%;
   border: none;
@@ -29,11 +29,11 @@ app-form-text input[type=text]{
   font-family: "FiraSans", sans-serif;
 }
 
-app-form-text.onchange input[type=text]{
+app-text-input.onchange input[type=text]{
   width: 100%;
 }
 
-app-form-text button {
+app-text-input button {
   background: linear-gradient(to top, #f8f8f8, #ddd);
   background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
   border: 0.1rem solid #a6a6a6;
@@ -47,7 +47,7 @@ app-form-text button {
   font-family: "FiraSans", sans-serif;
 }
 
-app-form-text button:active {
+app-text-input button:active {
   background: linear-gradient(to top, #ddd, #ddd);
   background: -webkit-linear-gradient(top, #ddd, #ddd);
 }
