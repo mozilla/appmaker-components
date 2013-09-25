@@ -20,8 +20,9 @@
         this.hasAlert = false;
         this.alertTime;
         this.mS = 0;
-        this.mode = "up"
+        this.mode = "up";
         this.updateDisplay();
+        this.timerInterval = false;
       },
       updateTime : function(){
         //Get time difference between ticks
@@ -65,15 +66,16 @@
       },
       startTheTimer : function(){
         this.startTime = new Date().getTime();
-        that = this;
+        var that = this;
         if(!this.timerInterval){
-          this.timerInterval = window.setInterval(function(){
+          console.log("setting timer interval");
+          this.timerInterval = setInterval(function(){
             that.updateTime();
           },50);
         }
       },
       stopTheTimer : function(){
-        clearInterval(that.timerInterval);
+        clearInterval(this.timerInterval);
         this.timerInterval = false;
       },
       resetTheTimer : function(){
