@@ -5,9 +5,9 @@
       <h1>
         <span class="folder-name"></span>
         <span class="item-count-wrapper">
-        <span class="item-count"> </span> Images</span>
+        <span class="item-count"></span> Images</span>
       </h1>
-      
+
       <div class="folder-content-wrapper">
       <div class="data-view-toggle">
         <a class="selected-item" show="single" href="#"><span class="icon"></span></a>
@@ -38,9 +38,7 @@
     <div style="padding:2px 2px 6px 2px; background: white; margin-right: 4px">
       <div style="height: 20px; width: 20px; background: #999;"></div>
     </div>
-
   </thumbnail>
-
 
   <script type="text/ceci">
     var element = this;
@@ -51,7 +49,7 @@
         this.name = name;
         this.editor = editor;
       }
-      
+
       Editable.prototype.toString = function() {
         return this.value;
       }
@@ -116,8 +114,8 @@
               caption.setAttribute("class","image-caption");
               imageWrapper.appendChild(caption);
             }
-            
-            t.querySelector('.photos').appendChild(imageWrapper);
+
+            $(t).find('.photos').prepend(imageWrapper);
             $(imageWrapper).find("img").addClass("warp-in");
 
             $(imageWrapper).on('click', function(evt) {
@@ -150,7 +148,11 @@
 
             $(deleteMe).on('click', function(evt) {
               var img = $(this).closest(".image-wrapper");
+              var index = img.index() + 1;
+              var thumbImg = $(t).find(".thumbnails .image-wrapper:nth-child("+index+")");
+              thumbImg.remove();
               img.remove();
+
               var fireId = img.attr('firebasename');
               var fireElt = t.io.child(fireId);
 
@@ -159,7 +161,6 @@
               }
 
               fireElt.remove();
-
             }); // End adding an item
 
             //Prevent image dragging on swipe

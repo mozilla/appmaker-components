@@ -34,8 +34,6 @@ app-image-gallery table {
   margin-bottom: 12px;
 }
 
-
-
 app-image-gallery table td {
   border-right: solid 1px #CCC;
   border-bottom: solid 1px #CCC;
@@ -133,7 +131,7 @@ app-image-gallery .single {
 app-image-gallery .single .image-wrapper {
   text-align: center;
   position: relative;
-  float: right;
+  float: left;
   margin: 0;
   width: 290px;
 }
