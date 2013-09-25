@@ -2,14 +2,20 @@
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-chat-window.css">
     <header class="fixed">
-      <h3>Room: <span class="room-name"></span></h3>
+      <h1>Chat Room<span class="room-name-wrapper">Room: <span class="room-name"></span></span></h1>
       <h3>Status: <span class="status">Disconnected</span></h3>
       <h3>Nickname: <span class="nick-name"></span></h3>
-      <ul></ul>
     </header>
+      <ul></ul>
   </template>
+  <thumbnail>
+    <div style="position: relative; height: 40px; width: 55px;">
+      <div style="border-radius: 5px; padding: 4px 6px; color: rgba(255,255,255,.7); background: #888; position: absolute;">Hi :)</div>
+      <div style="-moz-border-radius: 5px 5px 5px 0px; border-radius: 5px 5px 5px 0px; padding: 4px 6px; color: rgba(255,255,255,.7); background: #4b90e1; position: absolute; bottom: 0px; right: 0px">Hey!</div>
+    </div>
+  </thumbnail>
   <description>
-    Shows user chats
+    Start your own chat room.
   </description>
   <script type="text/ceci">
     var element = this;
