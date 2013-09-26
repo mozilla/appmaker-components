@@ -1,7 +1,7 @@
 <element name="app-randomcat">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random_cat.css">
-    <div class="wrapper"><img style="width: 30%" src="http://placekitten.com/200/200" /></div>
+    <div class="wrapper"><img style="width: 30%" /></div>
   </template>
   <description>
     Shows a super random cat
@@ -10,21 +10,27 @@
     Ceci(this, {
       percent : 0,
       init: function (params) {
-
         var cat = this.querySelector("img");
         var t = this;
-
         cat.onclick = function(){
           var img = t.querySelector("img");
           t.broadcast(img.src);
         };
         var percent = 80;
+        this.changeCat();
         this.setAttribute('catwidth', percent);
       },
       broadcast: function (e) {
         this.emit(e)
       },
       editable: {
+        photoStyle: {
+          options : ["Color","Black and White"],
+          type: "select",
+          description: "Pick what kind of photo you'd like.",
+          postset: function(v) {
+          }
+        },
         catWidth: {
           min : 0,
           max: 100,
@@ -38,9 +44,15 @@
       defaultListener: 'changeCat',
       listeners: {
         changeCat: function () {
+          var type = "";
+          if (this.getAttribute("photoStyle") != "Color"){
+            type = "/g/"
+          } else {
+            type ="";
+          };
           var cat = this.querySelector("img");
           var random = 600 - Math.floor((Math.random()*500));
-          var src = "http://placekitten.com/"+random+"/"+random;
+          var src = "http://placekitten.com/"+type+random+"/"+random;
           cat.setAttribute("src", src);
         },
         setWidth : function(val){

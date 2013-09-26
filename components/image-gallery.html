@@ -5,7 +5,7 @@
       <h1>
         <span class="folder-name"></span>
         <span class="item-count-wrapper">
-        <span class="item-count"></span> Images</span>
+        (<span class="item-count"></span>)</span>
       </h1>
 
       <div class="folder-content-wrapper">
@@ -264,10 +264,20 @@
       defaultListener: 'addItem',
         listeners: {
           addItem: function (v, channel) {
-            this.log("adding: " + v.toString(), channel);
             this.lookAtMe();
             this.addPhoto(v);
             this.changeImage(1);
+          },
+          sendImage: function (v, channel) {
+            var t = this;
+            var photoList = this.querySelector(".single .photos");
+            var img = $(photoList).find(".image-wrapper:first-child");
+            var fireId = img.attr('firebasename');
+            var fireElt = t.io.child(fireId);
+              fireElt.once('value', function(snapshot) {
+                var url = snapshot.val()["url"];
+                t.broadcast(url);
+              });
           },
           clearList: function (v, channel) {
             this.log("clearing list", channel);
