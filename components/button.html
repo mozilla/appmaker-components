@@ -23,6 +23,8 @@
           t.broadcast('Click');
         }
         this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Click Me');
+        this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
+        this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
       },
       editable: {
         buttonLabel: {
@@ -31,10 +33,30 @@
           postset: function(v) {
             this.setLabel(v);
           }
+        },
+        textColor: {
+          type: "text",
+          description: "The color of the button label",
+          postset: function(v) {
+            this.setTextColor(v);
+          }
+        },
+        buttonColor: {
+          type: "text",
+          description: "The color of your button",
+          postset: function(v) {
+            this.setButtonColor(v);
+          }
         }
       },
       setLabel: function (val) {
         this.querySelector('button').innerHTML = val;
+      },
+      setButtonColor: function (val) {
+        this.querySelector('button').style.backgroundColor = val;
+      },
+      setTextColor: function (val) {
+        this.querySelector('button').style.color = val;
       },
       broadcast: function (e) {
         this.emit(e)
