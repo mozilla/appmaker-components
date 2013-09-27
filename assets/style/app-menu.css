@@ -1,0 +1,51 @@
+app-menu {
+
+}
+
+app-menu header {
+  background-color: #212429;
+  padding: 0;
+  padding: 1rem 1.5rem;
+  color: #FFF;
+  font-size: 2.4rem;
+  text-align: center;
+  position: relative;
+}
+
+app-menu .menu-icon {
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  border-radius: .3rem;
+  padding-top: .5rem;
+}
+
+app-menu .menu-icon .line {
+  height: .3rem;
+  background: #999;
+  margin-bottom: .5rem;
+  border-radius: 1px;
+  -moz-border-radius: 1px;
+}
+
+app-menu .menu-wrapper {
+  background: #555;
+  padding: .5rem 1.5rem;
+
+  left: 0px;
+}
+
+app-menu .menu-wrapper .menu-item {
+  color: #CCC;
+  border-bottom: solid 1px #777;
+  padding: 1rem 0rem;
+  font-size: 1.6rem;
+  display: block;
+}
+
+app-menu .menu-wrapper .menu-item:last-child {
+  border: none;
+}
+

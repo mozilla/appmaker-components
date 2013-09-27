@@ -1,0 +1,66 @@
+<element name="app-menu">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-menu.css">
+    <style type="text/css">
+    </style>
+    <header>
+      <div class="menu-icon">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <span class="menu-title">Menu<span>
+    </header>
+    <div class="menu-wrapper">
+      <a href="#" class="menu-item">Item 1</a>
+      <a href="#" class="menu-item">Item 2</a>
+      <a href="#" class="menu-item">Item 3</a>
+    </div>
+  </template>
+  <description>
+    I'm a page header. I don't listen or broadcast.
+  </description>
+  <thumbnail>
+    <div style="border-radius: 1px; background-color: black; padding: 1rem 2rem; text-align: center; color: #FFF;">Menu</div>
+  </thumbnail>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.mode = "off";
+        this.setAttribute("menuTitle", "Menu");
+        this.setAttribute("menuOptions", this.getAttribute("menuOptions"));
+        var t = this;
+        $(this).on("click", ".menu-icon", function(){
+          $(t).find(".menu-wrapper").slideToggle();
+        });
+      },
+      buildMenu : function(v){
+        var options = JSON.parse(v);
+        this.querySelector(".menu-wrapper").innerHTML = "";
+        for(var key in options) {
+          var item = document.createElement("a");
+          item.setAttribute("href","#");
+          item.classList.add("menu-item");
+          item.innerHTML = options[key];
+          this.querySelector(".menu-wrapper").appendChild(item);
+        }
+      },
+      editable: {
+        menuTitle: {
+          type: "text",
+          description: "Text for header label",
+          postset: function(v) {
+            this.querySelector(".menu-title").innerHTML = v
+          }
+        },
+        menuOptions: {
+          type: "multiple",
+          description: "Menu Options",
+          postset: function(v) {
+            this.buildMenu(v);
+          }
+        }
+      },
+    });
+  </script>
+</element>

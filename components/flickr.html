@@ -4,18 +4,26 @@
     <div class="wrapper"><img height="100%" class="image"/></div>
     <div class="loading-overlay"></div>
   </template>
-  <friends>app-input</friends>
+
   <description>
     Shows images from Flickr
   </description>
-  <friends>app-map,app-data-list</friends>
   <thumbnail>
     <div style="color: white; font-weight: bold; font-size: 18px; background: #3c414a; padding: 8px 20px; border-radius: 3px">flickr</div>
   </thumbnail>
+
   <script type="text/ceci">
+    function Text(value) {
+      this.value = value;
+      this.editor = 'app-text-input';
+    };
+    Text.prototype.toString = function() {
+      return String(this.value);
+    };
     Ceci(this, {
       percent : 0,
       _channel: null,
+
       init: function (params) {
         var t = this;
         var img = this.querySelector("img");
@@ -65,7 +73,7 @@
       },
       sendImage : function(){
         var img = this.querySelector("img");
-        this.emit(img.getAttribute("src"));
+        this.emit(new Text(img.getAttribute("src")),"Image Url");
       },
       defaultListener : "newImage",
       listeners: {
