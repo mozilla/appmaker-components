@@ -27,7 +27,7 @@
     Ceci(this, {
       init: function (params) {
         this.mode = "off";
-        this.setAttribute("menuTitle", "Menu");
+        this.setAttribute("menuTitle", this.getAttribute("menuTitle") || "Menu");
         this.setAttribute("menuOptions", this.getAttribute("menuOptions")|| JSON.stringify(["Option 1","Option 2","Option 3"]));
         var t = this;
         $(this).on("click", ".menu-icon", function(){
