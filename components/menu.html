@@ -21,8 +21,9 @@
     I'm a page header. I don't listen or broadcast.
   </description>
   <thumbnail>
-    <div style="border-radius: 1px; background-color: black; padding: 1rem 2rem; text-align: center; color: #FFF;">Menu</div>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAASCAYAAABb0P4QAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpBQjQ0QTNERjdCRkFFMjExOTI3Q0ZCMTdDMTBCM0U2NSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGNDk3OTVGQzE3M0UxMUUzQkQ3OEUxRDEyODNBNUUxMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGNDk3OTVGQjE3M0UxMUUzQkQ3OEUxRDEyODNBNUUxMSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2QzRDQUJGQjdGQ0UyMTFCOTkwRkVEOUIzNUFDOTc4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkFCNDRBM0RGN0JGQUUyMTE5MjdDRkIxN0MxMEIzRTY1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+CloGrwAAADpJREFUeNpiXLdx62EGBgYbBuqAI0wM1AWMLEDClpomUtuFowZSyUBQOvxPJXx4NB2OGjgs0yFAgAEAaCkrZNyibncAAAAASUVORK5CYII=">
   </thumbnail>
+
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
@@ -39,7 +40,7 @@
         this.querySelector(".menu-wrapper").innerHTML = "";
         for(var key in options) {
           var item = document.createElement("a");
-          item.setAttribute("href","#");
+          item.setAttribute("href","#")
           item.classList.add("menu-item");
           item.innerHTML = options[key];
           this.querySelector(".menu-wrapper").appendChild(item);
