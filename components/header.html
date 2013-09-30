@@ -14,7 +14,7 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.setAttribute("headerLabel", "Header");
+        this.setAttribute("headerLabel", this.getAttribute("headerLabel") || "Header");
       },
       editable: {
         headerLabel: {
