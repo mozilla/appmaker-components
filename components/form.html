@@ -1,0 +1,102 @@
+<element name="app-form">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form.css"></link>
+    <style type="text/css">
+    </style>
+    <h1>Form Title</h1>
+    <div class="form-items">
+      <div class="helper">Drop Components Here</div>
+    </div>
+    <div>
+      <button class="button">Default</button>
+    </div>
+  </template>
+  <friends>app-fireworks,app-counter</friends>
+  <thumbnail>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpBQjQ0QTNERjdCRkFFMjExOTI3Q0ZCMTdDMTBCM0U2NSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpERTVFREU0NDE3NDkxMUUzQkQ3OEUxRDEyODNBNUUxMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpERTVFREU0MzE3NDkxMUUzQkQ3OEUxRDEyODNBNUUxMSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2QzRDQUJGQjdGQ0UyMTFCOTkwRkVEOUIzNUFDOTc4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkFCNDRBM0RGN0JGQUUyMTE5MjdDRkIxN0MxMEIzRTY1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+xb6E8QAAAmRJREFUeNrclz1rVEEUhmeXm9VCi+QfaCG6lZYSN42IGqOgNgoKQgxoE1BYu0BIOi2CoGhwwSKCVhEVQyIqwSRopTZuQCE/ITaCGkjic+AdGIYrejd3b8SBZ8/szJlz5uPMxy1NPnlecc7dgHPQ5YpJX2EC6gk/12HQFZs65fN7mZ/zKqxBqSBq8jmQBNM+f/JEbyHDf/x0al7ZrrIvLMp5nMpuk9OmdyBpYf1OIY4qkHaoeAnmYJqlnGxLB3B8BnEZelKqd4sB9N4g79GRB7ktAUYbiIdy3oSrsAe2iqrKmtKZoM39XGZAzvthRU7uMLq1SG3RQPemzQKMwQX+r6J7seUZwMDZwPkxjN1Oce6CrbwG42T71KZfS9fyDFySvILhl0HHhhSE+1X01oIQnVF15DU6Nlu3FDePMs8ABk5rPT/BuMp2wQeyI3AItgnLj1D33nRk4q7a9shW5iU4ItlgRKsY2UL+GezViA/DdmH5d7DPdEzX2ljbyFamJfAXxrSkXdk2ulfQi4OVQPcFTmeRU3BQuoNqOxbYyjQDO4NDJuxQPXLuA9DK6pHuUmQrUwc6AsNO+95vud+lpmQ1atuRx12wGHUkLVWjjuR6Gc35WGC9Kym7pqLXVaib62VUV7RbkM3icBi5oLpuGNa58AWu5T4DrOdPxHH4KEcz8E3MqMzq+tD90ZbrGMOfba8HJ2G3qhbCk7Ct7wF1ZNTllJIokFzWIMr4mPnrGKj9s0+yrCP8U12yEaP/zbN8WSM9UKBfv32Xy/pK9ZG/HuDT+gZJs+M/zRqJjs2SPlI7C/48H/olwACHqeBsZt5zuAAAAABJRU5ErkJggg==">
+  </thumbnail>
+  <description>
+    When clicked broadcasts a "click" message
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var button = this.querySelector('button')
+        var t = this;
+        button.onclick = function () {
+          t.sendData();
+          // t.broadcast('Click');
+        }
+        this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Submit');
+        this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
+        this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
+        
+        var sortableOptions = {
+          distance : 10,
+          tolerance : "pointer",
+          connectWith: ".drophere"
+          // placeholder: "ui-state-highlight",
+          // handle : ".handle",
+          // start : function() { $(".phone-container").addClass("dragging"); },
+          // stop : function() { $(".phone-container").removeClass("dragging"); }
+          // receive: function (event, ui) {
+          //   if (ui.helper) {
+          //     var helper = $(ui.helper);
+          //     app.addComponent(helper.attr('value'));
+          //   }
+          // }
+        };
+        
+        
+        $(this).find(".form-items").sortable(sortableOptions);
+        
+      },
+      sendData : function() {
+        var inputs = $(this).find(".component");
+        var sendData = []
+        $(inputs).each(function(i,input){
+          var item = {};
+          item["name"] = $(this).find("input").attr("placeholder");
+          item["value"] = $(this).find("input").val();
+          sendData.push(item);
+        });
+        this.broadcast(JSON.stringify(sendData));
+      },
+      editable: {
+        buttonLabel: {
+          type: "text",
+          description: "A text for your label to show up in your app",
+          postset: function(v) {
+            this.setLabel(v);
+          }
+        },
+        textColor: {
+          type: "text",
+          description: "The color of the button label",
+          postset: function(v) {
+            this.setTextColor(v);
+          }
+        },
+        buttonColor: {
+          type: "text",
+          description: "The color of your button",
+          postset: function(v) {
+            this.setButtonColor(v);
+          }
+        }
+      },
+      setLabel: function (val) {
+        this.querySelector('button').innerHTML = val;
+      },
+      setButtonColor: function (val) {
+        this.querySelector('button').style.backgroundColor = val;
+      },
+      setTextColor: function (val) {
+        this.querySelector('button').style.color = val;
+      },
+      broadcast: function (e) {
+        this.emit(e)
+      }
+    });
+  </script>
+</element>
