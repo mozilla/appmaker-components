@@ -1,10 +1,58 @@
+@import url("../fonts.css");
 
 app-form {
-  padding: 0;
+  padding: .75rem;
+}
+
+app-form h1 {
+  font-size: 2.2rem;
+  margin: 0rem 0rem .8rem 0rem;
+  padding: 0rem 0rem .4rem 0rem;
+  text-align: left;
+  color: #666;
+  font-weight: 400;
+  border-bottom: solid 2px #CCC;
+}
+
+app-form .component broadcast,
+app-form .component listen {
+  display: none;
+}
+
+app-form .form-items {
+  background: #EFEFEF;
+  margin-bottom: .5rem;
+  border-radius: .3rem;
+  min-height: 5rem;
+  padding: .5rem;
+}
+
+app-form .form-items .component {
+  margin-bottom: .5rem;
+}
+
+app-form .form-items .component:last-child, 
+app-form .form-items .component:last-child {
+  margin-bottom: 0rem;
+}
+
+app-form .form-items .helper {
+  display: none;
+}
+
+app-form .form-items {
+  text-align: center;
+}
+
+app-form .form-items .helper:only-child {
+  padding: 1.5rem 0rem;
+  text-align: center;
+  display: block;
+  color: #888;
 }
 
 app-form .button:active {
-  background: #008AAA;
+  background-color: #3d911f;
 }
 
 app-form .button {
@@ -12,32 +60,22 @@ app-form .button {
   position: relative;
   text-decoration: none;
   outline: none;
-  background: linear-gradient(to top, #f8f8f8, #ddd);
-  background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
+  border-top: 1px solid rgba(255,255,255,.3);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+  background-color: #4DB227;
   text-align: center;
-  text-shadow: 0.1rem 0.1rem 0 rgba(255, 255, 255, 0.3);
   display: block;
   padding-top: 5px;
   padding-bottom: 3px;
   text-overflow: ellipsis;
   overflow: hidden;
-  border: 0.1rem solid #a6a6a6;
   border-radius: 0.2rem;
-  font-weight: 500;
-  font-size: 1.6rem;
+  font-weight: 600;
+  font-size: 1.8rem;
   line-height: 3.8rem;
-  color: #333;
+  color: #ffffff;
   width: 100%;
-}
-
-app-form .buttonrow {
-  display: inline-block;
-  width: 100%
-}
-
-app-form .button.half {
-  display: inline;
-  width: 49%;
+  margin: 0;
 }
 
 app-form button {
