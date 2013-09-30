@@ -3,6 +3,7 @@
     <style type="text/css">
     app-fireworks {
       background-color: #0e1012;
+      display: inline-block;
     }
     </style>
     <canvas class="fireworks-canvas">Canvas is not supported in your browser.</canvas>
@@ -37,8 +38,8 @@
         var canvas = this.querySelector(".fireworks-canvas"),
             ctx = canvas.getContext( '2d' ),
             // full screen dimensions
-            cw = 308,
-            ch = 160,
+            cw = 320,
+            ch = 320,
             // firework collection
             fireworks = [],
             // particle collection
