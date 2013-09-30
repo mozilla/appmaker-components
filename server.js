@@ -41,6 +41,7 @@ app.get('/package/:components', function (req, res) {
     var packagedData = '';
     if (components.length) {
       var todo = components.length;
+      res.write('<elements>\n');
       components.forEach(function (name) {
 
         var stream = mu.compileAndRender(name, view);
@@ -49,6 +50,7 @@ app.get('/package/:components', function (req, res) {
 
         stream.on('end', function () {
           if (--todo === 0) {
+            res.write('</elements>\n');
             res.end();
           }
         });
