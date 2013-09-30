@@ -93,7 +93,6 @@
               table.setAttribute("cellpadding","0");
 
               //If data doesn't parse as an object, add it as a string instead
-
               try {
                 var obj = JSON.parse(data.value);
               } catch(e) {
@@ -103,7 +102,7 @@
               if(typeof obj == "object") {
                 for (var key in obj){
                   var row = document.createElement('tr');
-                  row.innerHTML = "<td class='key-name'>" + obj[key]["name"] + "</td><td>" + obj[key]["value"] + "</td>";
+                  row.innerHTML = "<td class='key-name'>" + obj[key]["name"] + "</td><td class='value'>" + obj[key]["value"] + "</td>";
                   table.appendChild(row);
                 }
               } else {
@@ -166,6 +165,7 @@
         },
         addAnItem : function(v){
           var t = this;
+          console.log(v);
           //Rudimentary check for a value type
           if(v){
             this.io.push({value: v.toString()});
