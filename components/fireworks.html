@@ -38,8 +38,8 @@
         var canvas = this.querySelector(".fireworks-canvas"),
             ctx = canvas.getContext( '2d' ),
             // full screen dimensions
-            cw = 320,
-            ch = 320,
+            cw = document.querySelector('.phone-canvas').clientWidth,
+            ch = document.querySelector('.phone-canvas').clientWidth, // square is fine
             // firework collection
             fireworks = [],
             // particle collection
