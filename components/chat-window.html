@@ -78,13 +78,14 @@
           'setNickname': function (v, channel) {
             this.log("sets nickname to: " + v.toString(), channel);
             var oldNick = this._settings.nick;
+            if (oldNick === v.toString()) return;
             this._settings.nick = v.toString();
             this._nickLabel.innerHTML = this._settings.nick;
             this._io.push({title: oldNick + ' is now known as ' + this._settings.nick });
           },
           'setRoom': function (v, channel) {
-            console.log(v,listener,channel);
             this.log("sets room to: " + v.toString(), channel);
+            if (this._settings.room === v.toString()) return;
             this._settings.room = v.toString();
             this._roomLabel.innerHTML = this._settings.room;
             this._list.innerHTML = '';
