@@ -83,12 +83,12 @@
           this.setAttribute("searchTerm", val); // causes recursion
         },
         setLocation: function(location, channel) {
-          this.log("setting location to: "+ location.lat + ',' + lotation.lng, channel);
-          this.lat = location.lat;
-          this.lng = location.lng;
-          this.newImage(val, channel);
+          this.log("setting location to: "+ location.value.lat + ',' + location.value.lng, channel);
+          this.lat = location.value.lat;
+          this.lng = location.value.lng;
+          this.newImage();
         },
-        newImage: function (listener, channel) {
+        newImage: function () {
           this.loading.style.display = "block";
           var img = this.querySelector("img");
           var API_KEY = "4b3f331df9427810328ad803b5b0cb9a";
@@ -102,6 +102,7 @@
           var element = this;
           $.getJSON(url + "&format=json&jsoncallback=?", function(data){
             var count = data.photos.photo.length;
+            if (!count) return; // no photos found
             var randomIndex = Math.floor(Math.random()*count);
             var item = data.photos.photo[randomIndex];
             var src = "http://farm"+ item.farm +".static.flickr.com/"+ item.server +"/"+ item.id +"_"+ item.secret +"_m.jpg";

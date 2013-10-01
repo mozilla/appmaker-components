@@ -147,6 +147,7 @@
           },
           centerOnPhone: function(val) {
             this.map.locate({setView: true, maxZoom: 16});
+            this.map.setZoom(10);
           },
           findLocationByName: function(val) {
             if (!val) {
