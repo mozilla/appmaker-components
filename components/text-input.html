@@ -31,16 +31,7 @@
           element.broadcast(input.value);
           input.value = "";
         };
-
-        if (this.hasAttribute('fireonchange')) {
-          this._fireonchange = this.getAttribute('fireonchange') == "true";
-          this.updateConfig();
-        }
-        else {
-          this.setAttribute("fireonchange", true);
-          this._fireonchange = true;
-          this.updateConfig();
-        }
+        this.updateConfig();
 
         this.input.addEventListener("input", function (e) {
           if (! element._fireonchange) return;
@@ -59,6 +50,14 @@
         else {
           this.setAttribute("buttontext", "OK");
         }
+
+        this.input.addEventListener("keydown", function (e) {
+          if (element._fireonchange) return;
+          if (e.keyCode == 13) {
+            element.broadcast(element.input.value);
+            element.input.value = '';
+          }
+        }, false);
 
       },
       listeners: {
