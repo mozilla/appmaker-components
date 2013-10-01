@@ -95,6 +95,7 @@
             this._io.push({title: this._settings.nick + ': ' + v.toString()});
           },
           'clear': function (v, channel) {
+            this._io.remove();
             this.log("clears the room", channel);
             this._list.innerHTML = '';
           }
@@ -104,14 +105,14 @@
             type: 'text',
             description: 'A nickname for your chatting persona',
             postset: function (v) {
-              this['Set_Nickname'](v);
+              this['setNickname'](v);
             }
           },
           room: {
             type: 'text',
             description: 'The chat room you want to be in',
             postset: function (v) {
-              this['Set_Room'](v);
+              this['setRoom'](v);
             }
           }
         }
