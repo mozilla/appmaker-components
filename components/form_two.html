@@ -1,0 +1,156 @@
+<element name="app-form-two">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-form-two.css"></link>
+    <style type="text/css">
+    </style>
+    <h1><span class="form-title">Form Title</span>    <a class="add-field" href="#">Add Field</a></h1>
+    <div class="new-field"><input type="text" placeholder="Field Name"/><a href="#">ADD</a></div>
+    <div class="form-items">
+    </div>
+    <div>
+      <button class="button">Default</button>
+    </div>
+  </template>
+  <friends>app-fireworks,app-counter</friends>
+  <thumbnail>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDNDVCOTVDODE4MTcxMUUzQkQ3OEUxRDEyODNBNUUxMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDNDVCOTVDOTE4MTcxMUUzQkQ3OEUxRDEyODNBNUUxMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkM0NUI5NUM2MTgxNzExRTNCRDc4RTFEMTI4M0E1RTExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkM0NUI5NUM3MTgxNzExRTNCRDc4RTFEMTI4M0E1RTExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+yROonAAAAKBJREFUeNpi/P///0cGBgY+hoEBnxiBDvjPMICACYmdDcSMdMLZMEuRQ4CRzp7/jx4CAx4FAwJY0INkRIYA44hOA6MOADngMDQHDAQ+PKjqAls61gW2o3XBaF0wWheMFsWDygE6VK4PDkPNJLI4+v//8H/qA5CZDMRgeFF8z1OaKkGqtP0pAylF+2giHHAHDHgiBBE6VHbEYaiZRDkAIMAAi4iybzxuY5IAAAAASUVORK5CYII=">
+  </thumbnail>
+  <description>
+    When clicked broadcasts a "click" message
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var button = this.querySelector('button')
+        var t = this;
+        button.onclick = function () {
+          t.sendData();
+        }
+
+        this.setAttribute('formTitle', this.getAttribute("formTitle") || 'Form Title');
+        this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Submit');
+        this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
+        this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
+        this.setAttribute("formFields", this.getAttribute("formFields")|| JSON.stringify(["Field 1","Field 2","Field 3"]));
+
+        $(this).find(".add-field").on("click",function(){
+          $(t).find(".new-field").toggle();
+          
+        });
+
+        $(this).find(".new-field a").on("click",function(){
+          var placeholder = $(this).closest("div").find("input").val();
+          if(placeholder){
+            t.addField($(this).closest("div").find("input").val());
+            $(this).closest("div").hide();
+            t.rememberForm();
+          }
+        });
+
+        $(this).on("click", ".delete-me", function(){
+          $(this).closest(".input-wrapper").remove();
+          t.rememberForm();
+        });
+
+      },
+      rememberForm : function(){
+        var inputs = $(this).find(".form-items input");
+        var formFields = [];
+
+        $(inputs).each(function(){
+          formFields.push($(this).attr("placeholder"));
+        });
+
+        this.setAttribute("formFields", JSON.stringify(formFields));
+      },
+      buildForm : function(v){
+        var options = JSON.parse(v);
+        this.querySelector(".form-items").innerHTML = "";
+
+        for(var key in options) {
+          this.addField(options[key])
+        }
+      },
+      addField : function(placeHolder){
+        var itemwrapper = document.createElement("div");
+
+        var deleteMe = document.createElement("a");
+        $(deleteMe).text("X");
+        $(deleteMe).addClass("delete-me");
+        
+        $(itemwrapper).addClass("input-wrapper");
+        var item = document.createElement("input");
+        item.setAttribute("type","text")
+        item.setAttribute("placeholder",placeHolder)
+
+        $(itemwrapper).append(item);
+        $(itemwrapper).append(deleteMe);
+        this.querySelector(".form-items").appendChild(itemwrapper);
+
+      },
+      sendData : function() {
+        var inputs = $(this).find(".form-items input");
+        var sendData = []
+        $(inputs).each(function(i,input){
+          var item = {};
+          item["name"] = $(this).attr("placeholder");
+          item["value"] = $(this).val();
+          sendData.push(item);
+        });
+        this.broadcast(JSON.stringify(sendData));
+      },
+      editable: {
+        formTitle: {
+          type: "text",
+          description: "A text for your label to show up in your app",
+          postset: function(v) {
+            this.setTitle(v);
+          }
+        },
+        formFields: {
+          type: "multiple",
+          description: "Menu Options",
+          postset: function(v) {
+            this.buildForm(v);
+          }
+        },
+        buttonLabel: {
+          type: "text",
+          description: "A text for your label to show up in your app",
+          postset: function(v) {
+            this.setLabel(v);
+          }
+        },
+        textColor: {
+          type: "text",
+          description: "The color of the button label",
+          postset: function(v) {
+            this.setTextColor(v);
+          }
+        },
+        buttonColor: {
+          type: "text",
+          description: "The color of your button",
+          postset: function(v) {
+            this.setButtonColor(v);
+          }
+        }
+      },
+      setTitle: function (val) {
+        this.querySelector('.form-title').innerHTML = val;
+      },
+      setLabel: function (val) {
+        this.querySelector('button').innerHTML = val;
+      },
+      setButtonColor: function (val) {
+        this.querySelector('button').style.backgroundColor = val;
+      },
+      setTextColor: function (val) {
+        this.querySelector('button').style.color = val;
+      },
+      broadcast: function (e) {
+        this.emit(e)
+      }
+    });
+  </script>
+</element>

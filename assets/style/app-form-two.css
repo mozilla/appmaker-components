@@ -1,0 +1,142 @@
+@import url("../fonts.css");
+
+app-form-two {
+  padding: .75rem;
+}
+
+app-form-two h1 {
+  font-size: 2.2rem;
+  margin: 0rem 0rem .8rem 0rem;
+  padding: 0rem 0rem .4rem 0rem;
+  text-align: left;
+  color: #666;
+  font-weight: 400;
+  border-bottom: solid 2px #CCC;
+}
+
+app-form-two .new-field {
+  display: none;
+  padding: 5px;
+  background: #777;
+  margin-bottom: 7px;
+  border-radius: 3px;
+}
+
+app-form-two .new-field a {
+  color: white;
+  background: #999;
+  padding: 6px 10px;
+  margin-left: 4px;
+  position: relative;
+  top: -1px;
+}
+
+app-form-two .new-field input {
+  padding: 4px;
+  width: 78%;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+app-form-two .form-items {
+  background: #EFEFEF;
+  margin-bottom: .5rem;
+  border-radius: .3rem;
+  padding: .5rem;
+  text-align: left;
+}
+
+app-form-two .add-field {
+  font-size: 1.5rem;
+  float: right;
+  padding: 3px 7px;
+  background: #DDD;
+  color: #999;
+  border-radius: 3px;
+  position: relative;
+  top: 2px;
+}
+
+app-form-two .form-items .input-wrapper {
+  text-align: left;
+}
+
+app-form-two .form-items .input-wrapper a {
+  padding: 4px 9px;
+  background: #BBB;
+  border-radius: 15px;
+  color: white;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+app-form-two .form-items .input-wrapper {
+  margin: 0 0 .5rem 0;
+}
+
+app-form-two .form-items input {
+  width: 88%;
+  font-size: 1.6rem;
+  padding: .4rem .6rem;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+app-form-two .form-items .component {
+  margin-bottom: .5rem;
+}
+
+app-form-two .form-items .input-wrapper:last-child{
+  margin-bottom: 0rem;
+}
+
+app-form-two .form-items .helper {
+  display: none;
+}
+
+app-form-two .form-items {
+
+}
+
+app-form-two .form-items .helper:only-child {
+  padding: 1.5rem 0rem;
+  text-align: center;
+  display: block;
+  color: #888;
+}
+
+app-form-two .button:active {
+  background-color: #3d911f;
+}
+
+app-form-two .button {
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  border-top: 1px solid rgba(255,255,255,.3);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+  background-color: #4DB227;
+  text-align: center;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  color: #ffffff;
+  width: 100%;
+  margin: 0;
+}
+
+app-form-two button {
+  font-family: "FiraSans", sans-serif;
+  border: none;
+  background: 0;
+  font-weight: 500;
+  font-size: 1.6rem;
+  position: relative;
+}
