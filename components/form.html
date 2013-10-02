@@ -27,6 +27,7 @@
           // t.broadcast('Click');
         }
 
+        this.setAttribute('formTitle', this.getAttribute("formTitle") || 'Form Title');
         this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Submit');
         this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
         this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
@@ -56,11 +57,11 @@
         this.broadcast(JSON.stringify(sendData));
       },
       editable: {
-        buttonLabel: {
+        formTitle: {
           type: "text",
           description: "A text for your label to show up in your app",
           postset: function(v) {
-            this.setLabel(v);
+            this.setTitle(v);
           }
         },
         formFields: {
@@ -68,6 +69,13 @@
           description: "Menu Options",
           postset: function(v) {
             this.buildForm(v);
+          }
+        },
+        buttonLabel: {
+          type: "text",
+          description: "A text for your label to show up in your app",
+          postset: function(v) {
+            this.setLabel(v);
           }
         },
         textColor: {
@@ -84,6 +92,9 @@
             this.setButtonColor(v);
           }
         }
+      },
+      setTitle: function (val) {
+        this.querySelector('h1').innerHTML = val;
       },
       setLabel: function (val) {
         this.querySelector('button').innerHTML = val;
