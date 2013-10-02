@@ -5,7 +5,6 @@
     </style>
     <h1>Form Title</h1>
     <div class="form-items">
-      <div class="helper">Drop Components Here</div>
     </div>
     <div>
       <button class="button">Default</button>
@@ -27,37 +26,31 @@
           t.sendData();
           // t.broadcast('Click');
         }
+
         this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Submit');
         this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
         this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
-        
-        var sortableOptions = {
-          distance : 10,
-          tolerance : "pointer",
-          connectWith: ".drophere"
-          // placeholder: "ui-state-highlight",
-          // handle : ".handle",
-          // start : function() { $(".phone-container").addClass("dragging"); },
-          // stop : function() { $(".phone-container").removeClass("dragging"); }
-          // receive: function (event, ui) {
-          //   if (ui.helper) {
-          //     var helper = $(ui.helper);
-          //     app.addComponent(helper.attr('value'));
-          //   }
-          // }
-        };
-        
-        
-        $(this).find(".form-items").sortable(sortableOptions);
-        
+        this.setAttribute("formFields", this.getAttribute("formFields")|| JSON.stringify(["Field 1","Field 2","Field 3"]));
+
+      },
+      buildForm : function(v){
+        var options = JSON.parse(v);
+        this.querySelector(".form-items").innerHTML = "";
+        for(var key in options) {
+          var item = document.createElement("input");
+          item.setAttribute("type","text")
+          item.setAttribute("placeholder",options[key])
+          this.querySelector(".form-items").appendChild(item);
+        }
       },
       sendData : function() {
-        var inputs = $(this).find(".component");
+        var inputs = $(this).find(".form-items input");
+        console.log(inputs);
         var sendData = []
         $(inputs).each(function(i,input){
           var item = {};
-          item["name"] = $(this).find("input").attr("placeholder");
-          item["value"] = $(this).find("input").val();
+          item["name"] = $(this).attr("placeholder");
+          item["value"] = $(this).val();
           sendData.push(item);
         });
         this.broadcast(JSON.stringify(sendData));
@@ -68,6 +61,13 @@
           description: "A text for your label to show up in your app",
           postset: function(v) {
             this.setLabel(v);
+          }
+        },
+        formFields: {
+          type: "multiple",
+          description: "Menu Options",
+          postset: function(v) {
+            this.buildForm(v);
           }
         },
         textColor: {

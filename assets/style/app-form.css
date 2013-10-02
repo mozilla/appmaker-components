@@ -25,14 +25,23 @@ app-form .form-items {
   border-radius: .3rem;
   min-height: 5rem;
   padding: .5rem;
+  text-align: left;
+}
+
+app-form .form-items input {
+  width: 100%;
+  font-size: 1.6rem;
+  display: block;
+  margin: 0 0 .5rem 0;
+  padding: .4rem .6rem;
+  box-sizing: border-box;
 }
 
 app-form .form-items .component {
   margin-bottom: .5rem;
 }
 
-app-form .form-items .component:last-child, 
-app-form .form-items .component:last-child {
+app-form .form-items input:last-child{
   margin-bottom: 0rem;
 }
 
