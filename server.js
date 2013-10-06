@@ -36,25 +36,28 @@ app.use(express.logger());
 
 app.get('/package/:components', function (req, res) {
   var components = req.params.components.split('+');
-
+  var componentData = {};
   function collectAndSendComponentData () {
     var packagedData = '';
     if (components.length) {
       var todo = components.length;
-      res.write('<elements>\n');
       components.forEach(function (name) {
-
-        var stream = mu.compileAndRender(name, view);
-
-        stream.pipe(res, {end: false})
-
-        stream.on('end', function () {
-          if (--todo === 0) {
-            res.write('</elements>\n');
-            res.end();
-          }
+        componentData[name] = '';
+        mu.compileAndRender(name, view)
+          .on('data', function (dataFragment) {
+            componentData[name] += dataFragment.toString();
+          })
+          .on('end', function () {
+            if (--todo === 0) {
+              res.write('<elements>\n');
+              components.forEach(function (c) {
+                res.write(componentData[c]);
+              });
+              res.write('</elements>\n');
+              res.end();
+            }
+          })
         });
-      });
     }
     else {
       res.send('', 200);
@@ -64,6 +67,12 @@ app.get('/package/:components', function (req, res) {
   if (components.length === 1 && components[0] === 'all') {
     fs.readdir(path.join(__dirname, 'components'), function (err, files) {
       components = files;
+
+      // MAKE SURE these are sorted alphabetically
+      components = components.sort(function (a, b) {
+        return a < b ? -1 : (a > b ? 1 : 0);
+      });
+
       collectAndSendComponentData();
     });
   }
