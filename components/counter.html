@@ -23,6 +23,8 @@
           countLabel = "";
         }
         this.setAttribute('countItem', countLabel);
+        this.setAttribute("incrementBy", this.getAttribute("incrementBy") || 1);
+        this.setIncrement();
       },
       updateDisplay: function () {
         this.querySelector('.count').innerHTML = this.count;
@@ -46,12 +48,23 @@
         this.lookAtMe();
         this.emit(this.count);
       },
+      setIncrement : function(){
+        this.increment = this.getAttribute("incrementBy") || 1;
+      },
       editable: {
         countItem: {
           type: "text",
           description: "Name for what you're counting",
           postset: function(v) {
             this.setLabel(v);
+          }
+        },
+        incrementBy: {
+          type: "number",
+          min : 1,
+          description: "Count up or down with this number",
+          postset: function(v) {
+            this.setIncrement(v);
           }
         }
       },
@@ -61,15 +74,11 @@
     defaultListener: 'countUp',
       listeners: {
         countUp: function (listener,channel) {
-          console.log("channel is", channel);
-          console.log("listener is", listener);
-          this.count++;
-          this.log("counting up to " + this.count, channel);
+          this.count = this.count + parseInt(this.increment);
           this.updateDisplay();
         },
         countDown: function (listener,channel) {
-          this.count--;
-          this.log("counting down to " + this.count, channel);
+          this.count = this.count - parseInt(this.increment);
           this.updateDisplay();
         },
         resetCount: function (value, channel) {
