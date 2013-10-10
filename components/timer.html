@@ -83,6 +83,9 @@
         this.mode = "up";
         this.updateDisplay();
       },
+      broadcastCurrentTime : function() {
+        this.emit(this.currentTime);
+      },
     defaultListener : "start",
       listeners: {
         setTimer : function(listener, channel){
@@ -90,6 +93,9 @@
           this.mS = 1000 * parseInt(listener) || 10000;
           this.startTheTimer();
         },   
+        broadcastTime: function (listener,channel) {
+          this.broadcastCurrentTime();
+        },
         stop: function (listener,channel) {
           this.stopTheTimer();
         },
