@@ -24,7 +24,7 @@ app-map .pin {
 	width: 100%;
 }
 
-@import url("../stylesheets/fonts.css");
+@import url("../style/fonts.css");
 
 app-map .pin:active {
   background: -moz-linear-gradient(top, #ddd, #ddd);
