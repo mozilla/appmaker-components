@@ -1,6 +1,4 @@
-@import url("../style/fonts.css");
-
-app-counter .counter {
+app-average .average {
   line-height: 3.8rem;
   text-align: center;
   font-size: font-size: 1.6rem;
@@ -10,7 +8,7 @@ app-counter .counter {
   background: #DDD;
 }
 
-app-counter .counter .count-wrapper {
+app-average .average .average-wrapper {
   background: white;
   padding: .5rem 1rem;
   border-radius: .5rem;
