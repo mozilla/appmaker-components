@@ -1,4 +1,4 @@
-@import url("../fonts.css");
+@import url("../stylesheets/fonts.css");
 
 app-button .button:active {
   background-color: #3d911f;
