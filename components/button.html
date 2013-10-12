@@ -28,9 +28,10 @@
         button.onmouseup = function (e) {
           t.broadcast('mouseUp');
         };
-        this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Click Me');
-        this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
-        this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
+
+        this.setLabel(this.getAttribute("buttonLabel") || 'Click Me');
+        this.setButtonColor(this.getAttribute("buttonColor") || '#4DB227');
+        this.setTextColor(this.getAttribute("textColor") || '#FFFFFF');
       },
       editable: {
         buttonLabel: {

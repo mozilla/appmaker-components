@@ -18,32 +18,32 @@
     Ceci(this, {
       init: function (params) {
         this.count = 0;
-        var countLabel = this.getAttribute('countItem');
-        if(countLabel === null) {
-          countLabel = "";
-        }
-        this.setAttribute('countItem', countLabel);
-        this.setAttribute("incrementBy", this.getAttribute("incrementBy") || 1);
-        this.setIncrement();
+        this.setLabel(this.getAttribute('countItem'));
+        this.setIncrement(this.getAttribute("incrementBy") || 1);
       },
-      updateDisplay: function () {
+      updateDisplay: function() {
         this.querySelector('.count').innerHTML = this.count;
         // bypasses default broadcasting, so that the value
         // is only sent along after a broadcast channel has been chosen
+        var label = "";
 
-        if(this.count > 1){
-          var countLabel = this.getAttribute('countItem');
-          var countLabel = countLabel.trim();
-          var lastChar = countLabel.charAt(countLabel.length-1);
-          if(lastChar){
-            if(lastChar.toLowerCase() != "s"){
-              var addChar = "s";
-              if(lastChar == lastChar.toUpperCase()){
-                addChar = addChar.toUpperCase();
+        if (this.countItem){
+
+          label = this.countItem.trim();
+          var pluralChar = "";
+
+          if(Math.abs(this.count) > 1) {
+            var lastChar = label.charAt(label.length - 1);
+            if (lastChar) {
+              if(lastChar.toLowerCase() != "s"){
+                pluralChar = "s";
+                if(lastChar == lastChar.toUpperCase()){
+                  pluralChar = pluralChar.toUpperCase();
+                }
               }
-              this.setLabel(this.getAttribute('countItem') + addChar);            
             }
           }
+          this.querySelector('.count-label').innerHTML = " " + label + pluralChar;
         }
         this.lookAtMe();
         this.emit(this.count);
@@ -69,7 +69,11 @@
         }
       },
       setLabel: function (value){
-        this.querySelector('.count-label').innerHTML = " " + value;
+        if (!value){
+          value = "";
+        }
+        this.countItem = value;
+        this.updateDisplay();
       },
     defaultListener: 'countUp',
       listeners: {
