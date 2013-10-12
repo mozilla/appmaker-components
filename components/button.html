@@ -20,8 +20,14 @@
         var button = this.querySelector('div')
         var t = this;
         button.onclick = function (e) {
-          t.broadcast('Click');
-        }
+          t.broadcast('click');
+        };
+        button.onmousedown = function (e) {
+          t.broadcast('mouseDown');
+        };
+        button.onmouseup = function (e) {
+          t.broadcast('mouseUp');
+        };
         this.setAttribute('buttonLabel', this.getAttribute("buttonLabel") || 'Click Me');
         this.setAttribute('buttonColor', this.getAttribute("buttonColor") || '#4DB227');
         this.setAttribute('textColor', this.getAttribute("textColor") || '#FFFFFF');
@@ -58,9 +64,7 @@
       setTextColor: function (val) {
         this.querySelector('button').style.color = val;
       },
-      broadcast: function (e) {
-        this.emit(e)
-      }
+      broadcasts: ['click', 'mousedown', 'mouseup']
     });
   </script>
 </element>
