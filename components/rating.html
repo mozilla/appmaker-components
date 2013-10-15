@@ -85,10 +85,9 @@
         this.ratingBar.find(".rating-icon").removeClass("icon-enabled");
       },
       sendRating : function(){
-        this.emit(new Scalar(this.rating), "Rating");
+        this.emit('rated', new Scalar(this.rating), "Rating");
       },
-      broadcast: [ "sendRating" ],
-      defaultBroadcast: "sendRating",
+      broadcasts: ['rated'],
       listeners: {
         setRating : function (val) {
           var value = parseInt(val);

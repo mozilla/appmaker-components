@@ -76,9 +76,10 @@
         }
         if(ok == true){
           this.indicator.setAttribute("light","good");
-          this.emit(this.incomingNumber);  
+          this.broadcast('yes', this.incomingNumber);
         } else {
           this.indicator.setAttribute("light","bad");
+          this.broadcast('no', this.incomingNumber);
         }
         el = this.querySelector(".check-light");
         el.classList.remove("check-strobe");
@@ -99,12 +100,12 @@
           }
         }
       },
-      broadcast: function () {},
-    defaultListener: 'checkNumber',
+      defaultListener: 'checkNumber',
+      broadcasts: ['yes', 'no'],
       listeners: {
         checkNumber: function (listener,channel) {
           this.incomingNumber = parseInt(listener) || false;
-          this.checkTheNumber();            
+          this.checkTheNumber();
         }
       }
     });

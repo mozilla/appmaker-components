@@ -24,7 +24,6 @@
         var t = this;
         button.onclick = function () {
           t.sendData();
-          // t.broadcast('Click');
         }
 
         this.setAttribute('formTitle', this.getAttribute("formTitle") || 'Form Title');
@@ -54,7 +53,7 @@
           item["value"] = $(this).val();
           sendData.push(item);
         });
-        this.broadcast(JSON.stringify(sendData));
+        this.broadcast('send', JSON.stringify(sendData));
       },
       editable: {
         formTitle: {
@@ -105,9 +104,7 @@
       setTextColor: function (val) {
         this.querySelector('button').style.color = val;
       },
-      broadcast: function (e) {
-        this.emit(e)
-      }
+      broadcasts: ['send']
     });
   </script>
 </element>
