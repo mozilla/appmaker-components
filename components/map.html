@@ -60,7 +60,7 @@
 
           element._pin = element.querySelector(".pin");
           element._pin.onclick = function(e) {
-            element.broadcast(element.map.getCenter());
+            element.broadcast('location', element.map.getCenter());
           }
           element._pin.onclick();
           if (! this.hasAttribute('pin')) {
@@ -138,9 +138,10 @@
           }
         },
         defaultListener: "findLocationByName",
+        broadcasts: ['location'],
         listeners: {
           recordLocation: function(val) {
-            this.broadcast(this.map.getCenter());
+            this.broadcast('location', this.map.getCenter());
           },
           centerOnLocation: function(location) {
             this.map.panTo({'lat':Number(location.lat), 'lon':Number(location.lon)});

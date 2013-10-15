@@ -46,7 +46,7 @@
           this.querySelector('.count-label').innerHTML = " " + label + pluralChar;
         }
         this.lookAtMe();
-        this.emit(this.count);
+        this.emit('update', this.count);
       },
       setIncrement : function(){
         this.increment = this.getAttribute("incrementBy") || 1;
@@ -75,7 +75,8 @@
         this.countItem = value;
         this.updateDisplay();
       },
-    defaultListener: 'countUp',
+      defaultListener: 'countUp',
+      broadcasts: ['update'],
       listeners: {
         countUp: function (listener,channel) {
           this.count = this.count + parseInt(this.increment);

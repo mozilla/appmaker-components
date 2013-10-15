@@ -22,7 +22,7 @@
         this.name = name;
         this.editor = editor;
       }
-      
+
       Editable.prototype.toString = function() {
         return this.value;
       }
@@ -44,15 +44,14 @@
           //Emits the selected statistic
           $(this).find(".emit-stats .emit-data").on("click",function(){
             var data = $(this).closest("div").find("select").val();
-            t.broadcast(data);
+            t.broadcast('sendData', data.val()["value"]);
             return false;
           });
 
           t.io = io;
 
           // Emits all items based on selected keys
-          $(this).find(".emit-items .emit-data").on("click",function(){
-            
+          $(this).find(".emit-items .emit-data").on("click", function() {
             var checkedItems = $(t).find(".emit-wrapper input:checked");
             var getItems = [];
             checkedItems.each(function(){
@@ -78,11 +77,11 @@
               }
             });
 
-            t.broadcast(emit);
+            t.broadcast('sendData', emit);
             return false;
           });
 
-          // This builds out the items in the list 
+          // This builds out the items in the list
           var addItem = function(data, name){
 
             try {
@@ -119,7 +118,7 @@
                 var fireId = elt.getAttribute('firebasename');
                 var fireElt = t.io.child(fireId);
                 fireElt.once('value', function(snapshot) {
-                  t.broadcast(snapshot);
+                  t.broadcast('sendData', snapshot);
                 });
               });
 
@@ -170,11 +169,12 @@
           if(v){
             this.io.push({value: v.toString()});
             if(this.emitonadd){
-              this.emit(v.toString());
+              this.broadcast('itemAdded', v.toString());
             }
           }
         },
-      defaultListener: 'addItem',
+        defaultListener: 'addItem',
+        broadcasts: ['sendData', 'itemAdded'],
         listeners: {
           addItem: function (v) {
             this.addAnItem(v);
@@ -188,9 +188,6 @@
         setTitle : function(v){
           this.querySelector(".folder-name").innerHTML = v;
           console.log(v);
-        },
-        broadcast: function (snapshot) {
-          this.emit(snapshot.val()["value"]);
         },
         editable: {
           boxName: {
