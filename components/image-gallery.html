@@ -114,7 +114,7 @@
               var fireElt = t.io.child(fireId);
               fireElt.once('value', function(snapshot) {
                 var url = snapshot.val()["url"];
-                t.broadcast(url);
+                t.broadcast('sendImage', url);
               });
             });
 
@@ -130,7 +130,7 @@
               var fireElt = t.io.child(fireId);
               fireElt.once('value', function(snapshot) {
                 var url = snapshot.val()["url"];
-                t.broadcast(url);
+                t.broadcast('sendImage', url);
               });
               var index = $(this).index() + 1;
               t.changeView("single");
@@ -252,7 +252,8 @@
             }
           }
         },
-      defaultListener: 'addItem',
+        defaultListener: 'addItem',
+        broadcasts: ['sendImage'],
         listeners: {
           addItem: function (v, channel) {
             this.lookAtMe();
@@ -267,7 +268,7 @@
             var fireElt = t.io.child(fireId);
               fireElt.once('value', function(snapshot) {
                 var url = snapshot.val()["url"];
-                t.broadcast(url);
+                t.broadcast('sendImage', url);
               });
           },
           clearList: function (v, channel) {
@@ -275,9 +276,6 @@
             this.io.remove();
             this.resetList();
           }
-        },
-        broadcast: function (url) {
-          this.emit(url);
         }
       });
       callback();
