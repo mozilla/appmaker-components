@@ -31,24 +31,19 @@
           _this._nickLabel = this.querySelector('.nick-name');
           _this._statusLabel = this.querySelector('.status');
 
-          var addItem = function (item) {
+          var addItem = function (item, id) {
             var li = document.createElement('li');
             li.innerHTML = item.title;
+            if (id) {
+              li.setAttribute('id', "chat-snap-" + id);
+            }
+
             _this._list.appendChild(li);
             _this._list.scrollTop = _this._list.scrollHeight - _this._list.clientHeight;
           };
 
           _this._roomLabel.innerHTML = _this._settings.room;
           _this._nickLabel.innerHTML = _this._settings.nick;
-
-          var _handlers = {
-            'child_added': function (snap) {
-              addItem(snap.val());
-            },
-            'child_removed': function () {
-              // not sure what to do here...
-            }
-          };
 
           function onConnectionInfo (snap) {
             _this._statusLabel.innerHTML = snap.val() === true ? 'Connected' : 'Disconnected';
@@ -59,9 +54,28 @@
               Object.keys(_handlers).forEach(function (h) {_this._io.off(h, _handlers[h])});
               _this._ioConnected.off('value', onConnectionInfo);
             }
-            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this._settings.room + "/chat/1").limit(100);
+            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this._settings.room + "/chat/1");
             _this._ioConnected = new Firebase("https://appmaker.firebaseio.com/.info/connected");
-            Object.keys(_handlers).forEach(function (h) {_this._io.on(h, _handlers[h])});
+
+            var handlers = {
+              'child_added': function (snap) {
+                window.snap = snap;
+                addItem(snap.val(), snap.name().substr(1));
+              },
+              'child_removed': function (snap) {
+                console.log('child_removed');
+                // Remove the generated element from the dom if it exists
+                var li = document.getElementById("chat-snap-" + snap.name().substr(1));
+                if (li) {
+                  li.remove();
+                }
+              }
+            };
+
+            Object.keys(handlers).forEach(function (name) {
+              _this._io.limit(20).on(name, handlers[name])
+            });
+
             _this._ioConnected.on('value', onConnectionInfo);
           };
 
