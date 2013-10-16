@@ -48,7 +48,6 @@ DISABLE_CACHE=anythingnotnull
 foreman start
 ```
 
-<<<<<<< HEAD
 or
 
 ```
