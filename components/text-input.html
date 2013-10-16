@@ -28,14 +28,14 @@
         this.input.setAttribute('placeholder', 'Placeholder Text');
         this.querySelector('button').onclick = function (e) {
           var input = element.querySelector('input[type="text"]');
-          element.broadcast(input.value);
+          element.broadcast('sendData', new Text(input.value), this.getAttribute("inputName"));
           input.value = "";
         };
         this.updateConfig();
 
         this.input.addEventListener("input", function (e) {
           if (! element._fireonchange) return;
-          element.broadcast(element.input.value);
+          element.broadcast('sendData', new Text(element.input.value), this.getAttribute("inputName"));
         }, false);
 
         if (this.hasAttribute('placeholdertext')) {
@@ -54,12 +54,14 @@
         this.input.addEventListener("keydown", function (e) {
           if (element._fireonchange) return;
           if (e.keyCode == 13) {
-            element.broadcast(element.input.value);
+            element.broadcast('sendData', new Text(element.input.value), this.getAttribute("inputName"));
             element.input.value = '';
           }
         }, false);
 
       },
+      broadcasts: ['sendData'],
+      defaultBroadcasts: ['sendData'],
       listeners: {
         setValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
@@ -67,9 +69,6 @@
       },
       getCurrentValue: function() {
         return new Text(this.querySelector('input').value);
-      },
-      broadcast: function (e) {
-        this.emit(new Text(e), this.getAttribute("inputName"));
       },
       updateConfig: function() {
         if (this._fireonchange) {

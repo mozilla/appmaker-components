@@ -1,0 +1,40 @@
+/* Component styles live here */
+/* Make sure to nest all styles within your app-component-name tag */
+
+app-component-template {
+  padding: 1rem 1rem 1.2rem 1rem;
+  background: #333;
+  text-align: left;
+  cursor: pointer;
+}
+
+app-component-template h1 {
+  font-size: 2rem;
+  font-weight: normal;
+  margin-bottom: 1.3rem;
+  text-align: left;
+  color: #DDD;
+  padding-bottom: .6rem;
+  border-bottom: solid 2px #666;
+}
+
+app-component-template h2 {
+  padding: 0 0 .4rem 0;
+  margin: 0;
+  color: #AAA;
+  font-size: 1.5rem;
+  font-weight: normal;
+  line-height: 1.5rem;
+}
+
+app-component-template p {
+  padding: 0;
+  margin: 0;
+  color: #666;
+  background: #EEE;
+  font-size: 1.5rem;
+  font-weight: normal;
+  line-height: 1.5rem;
+  padding: .5rem;
+  border-radius: .2rem;
+}

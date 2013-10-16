@@ -24,7 +24,7 @@
           this.textarea.setAttribute('placeholder', this.getAttribute('defaulttext'));
         }
         this.textarea.addEventListener("input", function (e) {
-          element.broadcast(element.textarea.value);
+          element.broadcast('change', element.textarea.value);
         }, false);
       },
       broadcast: function(val) {
@@ -43,7 +43,8 @@
             this.querySelector("textarea").setAttribute("placeholder", v);
           }
         }
-      }
+      },
+      broadcasts: ['change']
     });
   </script>
 </element>

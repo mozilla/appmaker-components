@@ -17,14 +17,11 @@
         var t = this;
         cat.onclick = function(){
           var img = t.querySelector("img");
-          t.broadcast(img.src);
+          t.broadcast('cat', img.src);
         };
         var percent = 80;
         this.changeCat();
         this.setAttribute('catwidth', percent);
-      },
-      broadcast: function (e) {
-        this.emit(e)
       },
       editable: {
         photoStyle: {
@@ -45,6 +42,7 @@
         }
       },
       defaultListener: 'changeCat',
+      broadcasts: ['cat'],
       listeners: {
         changeCat: function () {
           var type = "";

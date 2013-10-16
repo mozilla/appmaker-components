@@ -56,7 +56,8 @@
         this._list = this.querySelector('.property-list');
 
         this.querySelector('.button').onclick = function (e) {
-          _this.broadcast(_this._data);
+          var v = new FormData(_this._data);
+          _this.broadcast('send', v);
         };
 
         Array.prototype.forEach.call(this.attributes, function (attr) {
@@ -76,6 +77,8 @@
         }
       },
       defaultListener: "setValue",
+      broadcasts: ['send'],
+      defaultBroadcasts: ['send'],
       listeners: {
         setValue: function (val, channel, type) {
           this._data[type] = val;
@@ -98,10 +101,6 @@
             this._list.removeChild(currentListItem);
           }
         }
-      },
-      broadcast: function (hash) {
-        var v = new FormData(hash);
-        this.emit(v);
       }
     });
   </script>

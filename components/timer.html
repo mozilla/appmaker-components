@@ -47,8 +47,8 @@
         if(this.mS <= 0) {
           this.mS = 0;
           this.mode == "up";
-          this.emit("Ding");
-          this.stopTheTimer(); 
+          this.broadcast('ding');
+          this.stopTheTimer();
           this.updateDisplay();
         }
       },
@@ -84,15 +84,17 @@
         this.updateDisplay();
       },
       broadcastCurrentTime : function() {
-        this.emit(this.currentTime);
+        this.broadcast('currentTime', this.currentTime);
       },
-    defaultListener : "start",
+      defaultListener : "start",
+      broadcasts: ['ding'],
+      defaultBroadcasts: ['ding'],
       listeners: {
         setTimer : function(listener, channel){
           this.mode = "down";
           this.mS = 1000 * parseInt(listener) || 10000;
           this.startTheTimer();
-        },   
+        },
         broadcastTime: function (listener,channel) {
           this.broadcastCurrentTime();
         },
