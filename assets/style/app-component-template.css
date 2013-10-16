@@ -1,14 +1,14 @@
 /* Component styles live here */
 /* Make sure to nest all styles within your app-component-name tag */
 
-app-remix-me {
-  padding: 1rem 1rem 1.8rem 1rem;
+app-component-template {
+  padding: 1rem 1rem 1.2rem 1rem;
   background: #333;
   text-align: left;
   cursor: pointer;
 }
 
-app-remix-me h1 {
+app-component-template h1 {
   font-size: 2rem;
   font-weight: normal;
   margin-bottom: 1.3rem;
@@ -18,20 +18,23 @@ app-remix-me h1 {
   border-bottom: solid 2px #666;
 }
 
-app-remix-me h2 {
+app-component-template h2 {
   padding: 0 0 .4rem 0;
-  margin: 0;
-  color: #EEE;
-  font-size: 1.5rem;
-  font-weight: normal;
-  line-height: 1.5rem;
-}
-
-app-remix-me p {
-  padding: 0;
   margin: 0;
   color: #AAA;
   font-size: 1.5rem;
   font-weight: normal;
   line-height: 1.5rem;
+}
+
+app-component-template p {
+  padding: 0;
+  margin: 0;
+  color: #666;
+  background: #EEE;
+  font-size: 1.5rem;
+  font-weight: normal;
+  line-height: 1.5rem;
+  padding: .5rem;
+  border-radius: .2rem;
 }
