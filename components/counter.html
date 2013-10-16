@@ -64,7 +64,7 @@
           min : 1,
           description: "Count up or down with this number",
           postset: function(v) {
-            this.setIncrement(v);
+            this.increment = parseInt(v) || 1;
           }
         }
       },
