@@ -48,12 +48,12 @@
         this.slider.slider("value",val);
         this.setAttribute("value", val);
         this.valueIndicator.innerHTML = val;
-        this.broadcasts('changeValue', new Scalar(val), "Slider value");
+        this.broadcast('changeValue', new Scalar(val), "Slider value");
       },
       changeValue: function(val) {
         this.setAttribute("value", val);
         this.valueIndicator.innerHTML = val;
-        this.broadcasts('changeValue', new Scalar(val), "Slider value");
+        this.broadcast('changeValue', new Scalar(val), "Slider value");
       },
       broadcasts: ['changeValue'],
       defaultBroadcasts: ['changeValue'],
