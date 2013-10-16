@@ -1,0 +1,104 @@
+<element name="app-remix-me">
+  <!-- Put all of your component HTML into the 'template' tag -->
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-remix-me.css"></link>
+    <h1>Component Template</h1>
+    <h2>Latest action</h2>
+    <p>I'm a component template!</p>
+  </template>
+  <!-- Friends are are components that work well together with this one. -->
+  <friends>app-fireworks,app-counter</friends>
+  <thumbnail>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0ODg2NDAxQzE4MEExMUUzQkQ3OEUxRDEyODNBNUUxMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0ODg2NDAxRDE4MEExMUUzQkQ3OEUxRDEyODNBNUUxMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjdBRUJDNkFEMTgwOTExRTNCRDc4RTFEMTI4M0E1RTExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjdBRUJDNkFFMTgwOTExRTNCRDc4RTFEMTI4M0E1RTExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+BSiwYwAABC5JREFUeNrEV01sG0UUfrPrbOufdfyn2I4LcWhL29QtrVBUBCpIlAPiWPVHQmoPcOGGuCAOVQ9VUFuVA0gc6KESQgIOcEHiABIIiUvVAyrlR6oU2rhtYoITO7Y3LrG9O4+Z9e4yccY/tdL2Sc+enXnzvjfvb2cBETXGHzEu4aOjsoOpEfbzIQC8DY+HLhJKsUwIRN+5/Gf111s13VmgjNEZo7BBnKPOWBXYXUNBhyLsNxk3Du2O3Lnwxp79bFz2cXC+wsBHBUGlj+VcMRH+RSKCYZ3kY7z12s3KHuc5pvQA6AcOEvBBaaTfSYkQCpHoEGC9DmO7RHayTgNRiCcKSnlMm4xbjq5ghw7sott79g1gueWMeUxbLz8Tb7y0L9bITYa1SGgkwGN6f80y8v/cX/j2WjH2/S9LGTandXgSh/UAdzlliaq89my8cexwmmbTeojNhUShkN+XymXDnOH4i+mVr37+G5khWo8ckXpAkeSBqipozZza3nxub5KfFtbqBpYLeTBKRdJcq9uCmj8I4XjSimcmW9vTweh7J3fA9K5IfeaLWb+jl3RL3l4hAJWJnT/9FExPJQNIKRT++gNKC3MEcL1HG3UDluqGunTvlprITBrpnTn/kQOJIBMz3v9yNuQASr3Rtd4VJn7yhQgDT2kcfO63q1Cavw2d4Osdi7A8f1ufu3GVsg5LXzmY0BmbPapM7gEOPhY04ejzSfu5MPs7rJaXvPXRsQxEU09AMBK3n+uVEqws3oNqccF+ZrIa20MzT++HE4fTrR+uL/u6VYHUAyMqwtFDEYgnYjzmwGPu0rbdB2EiNw3hRApU34jNfMzn+JpL5YU5hYWG7twWCrDKaXbrJ3IDFIQDO6JtRQwcHbePjo1DbHwC0GxB6ZOzkD+xF/LHp+wxn+Nr3Jh2NBBKhbx9Sla29W5NTOmwykZS2Ww6GbXHLNs9gWjqybZRV2ag+s0VoEYF6GrVHq98dqnd3MezHhCvFP4/NaFv7cBdkxngZSpLcysYCNhjt9Q4uTE3fvx6w0lq333uynixdvfGdM1P1ueAKjNAbLFAlLY8rwBvl6/9DuEn7yR3jsl4QO5eRSFcnWjAlm4GELcKNpsIQWkZKpJJJA/BAIoE+yWh4hmCm28AKwo6aCdEE+UusMxWe5Me2ajImXNlJG+fgVsxMS15f+Adj5N+5NiGtfCrr6+TGfRiIm3FDYtQ2Z1uZfGu3Whib56xfeqWIzcoevpdr3E9CEkNsKg8DavFAgO4Y3e8+FvnbBaJr9WWF6HPNa//hQTbXVEahvmb19EoF0mvl9GwHvi/DOVXak+OAw0BNngSPpxC7HLveMD5zTfAoljjg31ZHb33AUJziG+Bfl6rurpyWZ06zakCq/+al/ExUcukH8BPN5b9pVrzU/aw+qiA2QdxheF9zD/P/xNgADCsCSZNzfAlAAAAAElFTkSuQmCC">
+  </thumbnail>
+  <description>
+    Describe your component. It will appear when users are looking for components.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      // 'init' is fired when a component first loads on the page.
+      init: function (params) {
+        this.textDisplay = this.querySelector("p");
+
+        // User-configurable Properties
+        // A component's user-configurable properties are stored as attributes.
+        // Here they are set to a remembered value, or to a default starting.
+        // The attribute name must match the name of the editable property in the 'editables' section.
+        this.setAttribute("numberProperty", this.getAttribute("numberProperty") || 10);
+        this.setAttribute("textProperty", this.getAttribute("textProperty") || "Default Text");
+        this.setAttribute("checkboxProperty", this.getAttribute("checkboxProperty") || false);
+        this.setAttribute("selectProperty", this.getAttribute("selectProperty") || "Option 2");
+
+        this.onclick = function () {
+          this.broadcastMessage("Click");
+        };
+      },
+      broadcastMessage : function(val) {
+        // To broadcast a message, use the 'broadcast' function.
+        // The first argument is the name of the broadcast channel - it has to match one of the 
+        // broadcast channels specified below.
+        // The second argument is the value that is sent in the broadcast, which wil be visible in the
+        // broadcast bubble and received by other components.
+        this.broadcast("sendText", val);
+        this.textDisplay.innerHTML = "Broadcast message \"" + val + "\".";
+      },
+      updateProperty : function (val) {
+        this.textDisplay.innerHTML = "Property changed to: " + val;
+      },
+      updateText : function(value,channel){
+        this.textDisplay.innerHTML = "\"" +value + "\" received on channel " + channel + ".";
+      },
+      editable: {
+        // Editables are the user-configurable properties of your component.
+        // The configuration UI for each property will appear in the right-hand column when a component is selected.
+        // The 'postset' function is triggered anytime that property is changed.
+        numberProperty: {
+          type: "number",
+          min: 0,
+          max: 100,
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.updateProperty(val);
+          }
+        },
+        textProperty: {
+          type: "text",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.updateProperty(val);
+          }
+        },
+        checkboxProperty: {
+          type: "boolean",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.updateProperty(val);
+          }
+        },
+        selectProperty: {
+          options : ["Option 1","Option 2", "Option 3"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.updateProperty(val);
+          }
+        },
+      },
+      // These are the names of the broadcast channels.
+      // You can specify none or multiple.
+      // These appear on the right side of a component in the editor.
+      broadcasts: ['sendText'],
+      // Listeners are functions that are triggered when a signal is received by this component.
+      // The deftaultListener is the one listener that is on... by default.
+      // These appear on the left side of a component in the editor.
+      defaultListener: 'changeText',
+      listeners: {
+        // Value is the value of the incoming signal.
+        // Channel is the color of the channel.
+        changeText: function (value, channel) {
+          this.updateText(value,channel);
+        }
+      }
+    });
+  </script>
+</element>
