@@ -127,7 +127,7 @@
           // if the distance traveled, including velocities, is greater than the initial distance to the target, then the target has been reached
           if( this.distanceTraveled >= this.distanceToTarget ) {
 
-            element.emit(t.getAttribute('fireworkSound'));
+            element.broadcast('kaboom', t.getAttribute('fireworkSound'));
             createParticles( this.tx, this.ty, this.hue );
             // remove the firework, use the index passed into the update function to determine which to remove
             fireworks.splice( index, 1 );
@@ -254,6 +254,7 @@
         }
       },
       defaultListener: "shootRocket",
+      broadcasts: ['kaboom'],
       listeners: {
         shootRocket: function (count, channel) {
           this.log("launching rocket", channel);

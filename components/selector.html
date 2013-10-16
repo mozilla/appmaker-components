@@ -58,13 +58,14 @@
         }
       },
       choose : function (val){
-        this.emit(val);
+        this.emit('chosen', val);
       },
       listeners: {
         setValue: function (val) {
           this.querySelector('h1').innerHTML = val.toString();
         }
-      }
+      },
+      broadcasts: ['chosen']
     });
   </script>
 </element>

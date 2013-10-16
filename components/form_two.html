@@ -35,7 +35,6 @@
 
         $(this).find(".add-field").on("click",function(){
           $(t).find(".new-field").toggle();
-          
         });
 
         $(this).find(".new-field a").on("click",function(){
@@ -77,7 +76,7 @@
         var deleteMe = document.createElement("a");
         $(deleteMe).text("X");
         $(deleteMe).addClass("delete-me");
-        
+
         $(itemwrapper).addClass("input-wrapper");
         var item = document.createElement("input");
         item.setAttribute("type","text")
@@ -97,8 +96,10 @@
           item["value"] = $(this).val();
           sendData.push(item);
         });
-        this.broadcast(JSON.stringify(sendData));
+        this.broadcast('send', JSON.stringify(sendData));
       },
+      broadcasts: ['send'],
+      defaultBroadcasts: ['send'],
       editable: {
         formTitle: {
           type: "text",
@@ -147,9 +148,6 @@
       },
       setTextColor: function (val) {
         this.querySelector('button').style.color = val;
-      },
-      broadcast: function (e) {
-        this.emit(e)
       }
     });
   </script>

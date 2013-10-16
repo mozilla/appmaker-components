@@ -44,7 +44,7 @@
           return;
         }
         this.count++;
-        this.broadcast(this.count);
+        this.broadcast('tick', this.count);
 
         // Emitting Animation Beta
 
@@ -73,7 +73,9 @@
             this.period = parseInt(val);
           }
         }
-      }
+      },
+      broadcasts: ['tick'],
+      defaultBroadcasts: ['tick']
     });
   </script>
 </element>

@@ -48,22 +48,21 @@
         this.slider.slider("value",val);
         this.setAttribute("value", val);
         this.valueIndicator.innerHTML = val;
-        this.emit(new Scalar(val), "Slider value");
+        this.broadcasts('changeValue', new Scalar(val), "Slider value");
       },
       changeValue: function(val) {
         this.setAttribute("value", val);
         this.valueIndicator.innerHTML = val;
-        this.emit(new Scalar(val), "Slider value");
+        this.broadcasts('changeValue', new Scalar(val), "Slider value");
       },
-      broadcast: [ "changeValue" ],
-      defaultBroadcast: "changeValue",
+      broadcasts: ['changeValue'],
+      defaultBroadcasts: ['changeValue'],
       emitValue: function(val) {},
       editable: {
         startingValue: {
           type: "number",
           description: "Starting value for the slider.",
           postset: function(v) {
-            
           }
         },
         minValue: {
