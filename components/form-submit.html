@@ -78,6 +78,7 @@
       },
       defaultListener: "setValue",
       broadcasts: ['send'],
+      defaultBroadcasts: ['send'],
       listeners: {
         setValue: function (val, channel, type) {
           this._data[type] = val;

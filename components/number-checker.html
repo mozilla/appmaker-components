@@ -102,6 +102,7 @@
       },
       defaultListener: 'checkNumber',
       broadcasts: ['yes', 'no'],
+      defaultBroadcasts: ['yes'],
       listeners: {
         checkNumber: function (listener,channel) {
           this.incomingNumber = parseInt(listener) || false;
