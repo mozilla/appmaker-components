@@ -59,7 +59,7 @@
               Object.keys(_handlers).forEach(function (h) {_this._io.off(h, _handlers[h])});
               _this._ioConnected.off('value', onConnectionInfo);
             }
-            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this._settings.room + "/chat/1");
+            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this._settings.room + "/chat/1").limit(100);
             _this._ioConnected = new Firebase("https://appmaker.firebaseio.com/.info/connected");
             Object.keys(_handlers).forEach(function (h) {_this._io.on(h, _handlers[h])});
             _this._ioConnected.on('value', onConnectionInfo);
