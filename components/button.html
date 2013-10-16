@@ -15,21 +15,26 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        var button = this.querySelector('div')
+        var button = this.querySelector('.button');
         var t = this;
         button.onclick = function (e) {
           t.broadcast('click');
         };
         button.onmousedown = function (e) {
+          button.style.backgroundColor = t.getAttribute("buttonActiveColor");
           t.broadcast('mouseDown');
         };
         button.onmouseup = function (e) {
+          button.style.backgroundColor = t.getAttribute("buttonColor");
           t.broadcast('mouseUp');
         };
-
-        this.setLabel(this.getAttribute("buttonLabel") || 'Click Me');
-        this.setButtonColor(this.getAttribute("buttonColor") || '#4DB227');
-        this.setTextColor(this.getAttribute("textColor") || '#FFFFFF');
+        button.onmouseleave = function (e) {
+          button.style.backgroundColor = t.getAttribute("buttonColor");
+        };
+        this.setAttribute("buttonLabel", this.getAttribute("buttonLabel") || 'Click Me');
+        this.setAttribute("buttonColor", this.getAttribute("buttonColor") || '#4DB227');
+        this.setAttribute("buttonActiveColor", this.getAttribute("buttonActiveColor") || '#3d911f');
+        this.setAttribute("textColor", this.getAttribute("textColor") || '#FFFFFF');
       },
       editable: {
         buttonLabel: {
@@ -52,6 +57,10 @@
           postset: function(v) {
             this.setButtonColor(v);
           }
+        },
+        buttonActiveColor: {
+          type: "text",
+          description: "The color of your button"
         }
       },
       setLabel: function (val) {

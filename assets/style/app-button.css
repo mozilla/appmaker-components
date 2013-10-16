@@ -1,8 +1,5 @@
-app-button .button:active {
-  background-color: #3d911f;
-}
-
 app-button .button {
+  font-family: "FiraSans", sans-serif;
   cursor: pointer;
   position: relative;
   text-decoration: none;
@@ -26,10 +23,5 @@ app-button .button {
 }
 
 app-button button {
-  font-family: "FiraSans", sans-serif;
   border: none;
-  background: 0;
-  font-weight: 500;
-  font-size: 1.6rem;
-  position: relative;
 }
