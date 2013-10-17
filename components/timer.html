@@ -47,7 +47,7 @@
         if(this.mS <= 0) {
           this.mS = 0;
           this.mode == "up";
-          this.broadcast('ding');
+          this.broadcast("timerFinished","Ding!");
           this.stopTheTimer();
           this.updateDisplay();
         }
@@ -87,8 +87,8 @@
         this.broadcast('currentTime', this.currentTime);
       },
       defaultListener : "start",
-      broadcasts: ['ding'],
-      defaultBroadcasts: ['ding'],
+      broadcasts: ['timerFinished','currentTime'],
+      defaultBroadcasts: ['timerFinished'],
       listeners: {
         setTimer : function(listener, channel){
           this.mode = "down";

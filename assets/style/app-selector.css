@@ -1,9 +1,5 @@
 @import url("../style/fonts.css");
 
-app-selector * {
-  font-family: "FiraSans";
-}
-
 app-selector h1 {
   font-size: 1.6rem;
   line-height: 1rem;
