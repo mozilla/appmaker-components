@@ -1,0 +1,57 @@
+<element name="app-average-number">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-average-number.css">
+    <div class="average">
+      <span class="average-wrapper">Average: <span class="average-number">0</span></span>
+    </div>
+  </template>
+  <description>
+    Listens for integers and calculates average.
+  </description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-average-number.png" />
+  </thumbnail>
+
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.count = 0;
+        this.avrg = 0;
+        this.value = 0;
+      },
+      updateDisplay: function () {
+        this.querySelector('.average-number').innerHTML = Math.round(this.avrg*100)/100;
+        this.broadcast("averageValue", this.avrg);
+      },
+      broadcasts: ["averageValue"],
+      defaultBroadcasts: ["averageValue"],
+      defaultListener: 'calculateAverage',
+      listeners: {
+        calculateAverage: function (listener,channel) {
+          this.value = parseFloat(listener) || false;
+          if (this.value === false){
+            this.log("NOT counting up. " + listener + " is not a Float", channel);
+            return false;
+          }
+          if (this.count > 0){
+            this.avrg = ((this.avrg*(this.count)) + this.value) / (this.count+1);
+            this.count++;
+          }
+          else{
+            this.avrg = this.value; this.count++;
+          }
+          this.updateDisplay();
+        },
+        resetAverage: function (value, channel) {
+          this.count = parseInt(value);
+          if (isNaN(this.count)){
+            this.count = 0;
+            this.value = 0;
+            this.avrg = 0;
+          }
+          this.updateDisplay();
+        }
+      }
+    });
+  </script>
+</element>

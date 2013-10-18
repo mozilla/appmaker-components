@@ -1,0 +1,62 @@
+<element name="app-maximum-number">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-maximum-number.css">
+    <div class="max">
+      <span class="max-wrapper">Maximum: <span class="count">0</span><span></span>
+    </div>
+  </template>
+  <description>
+    Listens for Floats and displays the maximum received.
+  </description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-maximum-number.png" />
+  </thumbnail>
+  <friends>app-button</friends>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.count = 0;
+        this.MAX = '';
+        this.value = 0;
+      },
+      updateDisplay: function () {
+        this.querySelector('.count').innerHTML = this.MAX;
+        this.lookAtMe();
+        this.emit(this.count);
+      },
+    broadcasts: ["maxValue"],
+    defaultBroadcasts: ["maxValue"],
+    defaultListener: 'calculateMax',
+      listeners: {
+        calculateMax: function (listener,channel) {
+          this.value = parseFloat(listener) || false;
+          if (listener == 0) this.value = 0;
+            if (this.value === false){
+              this.log("NOT counting up. " + listener + " is not a Float", channel);
+              return false;
+            }
+            if (this.count > 0){
+              if (this.MAX < this.value){
+                this.MAX = this.value;
+              }
+            }
+            else{
+            this.MAX = this.value;
+          }
+          this.count++;
+          this.updateDisplay();
+          this.broadcast("maxValue",this.MAX);
+        },
+        resetMax: function (value, channel) {
+          this.count = parseInt(value);
+          if (isNaN(this.count)){
+            this.count = 0;
+            this.value = 0;
+            this.MAX = 'None';
+          }
+          this.updateDisplay();
+        }
+      }
+    });
+  </script>
+</element>

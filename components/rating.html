@@ -11,6 +11,7 @@
   <thumbnail>
     <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-star-rating.png" />
   </thumbnail>
+  <friends>app-button</friends>
   <script type="text/ceci">
     function Scalar(value) {
       this.value = value;
@@ -88,6 +89,7 @@
         this.emit('rating', new Scalar(this.rating), "Rating");
       },
       broadcasts: ['rating'],
+      defaultBroadcast: 'rating',
       listeners: {
         setRating : function (val) {
           var value = parseInt(val);

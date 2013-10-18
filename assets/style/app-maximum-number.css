@@ -1,16 +1,16 @@
 @import url("../style/fonts.css");
 
-app-counter .counter {
+app-maximum-number .max {
   line-height: 3.8rem;
   text-align: center;
   font-size: font-size: 1.6rem;
   font-family: "FiraSans", sans-serif;
   padding: .5rem 0rem;
-  background: #DDD;
   color: #666;
+  background: #DDD;
 }
 
-app-counter .counter .count-wrapper {
+app-maximum-number .max .max-wrapper {
   background: white;
   padding: .5rem 1rem;
   border-radius: .5rem;

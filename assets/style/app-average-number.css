@@ -1,14 +1,14 @@
-app-average .average {
+app-average-number .average {
   line-height: 3.8rem;
   text-align: center;
   font-size: font-size: 1.6rem;
   font-family: "FiraSans", sans-serif;
   padding: .5rem 0rem;
-  font-size: 1.8rem;
+  color: #666;
   background: #DDD;
 }
 
-app-average .average .average-wrapper {
+app-average-number .average .average-wrapper {
   background: white;
   padding: .5rem 1rem;
   border-radius: .5rem;
