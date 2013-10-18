@@ -1,0 +1,31 @@
+app-number-checker-deluxe .checker {
+  line-height: 3rem;
+  padding: 1rem 0 1rem 1rem;
+  text-align: left;
+  font-family: "FiraSans", sans-serif;
+  background: #DDD;
+  background-image: -webkit-linear-gradient(top, black, #555);
+  background-image: -moz-linear-gradient(top, black, #555);
+  border-bottom: solid 2px black;
+  position: relative;
+}
+
+app-number-checker-deluxe h2 {
+  padding:0;
+  margin: 0;
+  font-size: 1.4rem;
+  color: #999;
+  font-weight: normal;
+  line-height: 1.4rem;
+}
+
+app-number-checker-deluxe select {
+  background: #FFFFFE;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+app-number-checker-deluxe input[type=number] {
+  text-align: left;
+  width: 45px;
+}

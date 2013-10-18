@@ -3,14 +3,14 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-number-checker.css">
     <div class="checker">
       <select id="blah">
-        <option selected="selected" value="greater">Greater than</option>
+        <option value="greater">Greater than</option>
         <option value="greaterEqual">Greater than or equal to</option>
         <option value="equal">Equal to</option>
         <option value="notEqual">Not equal to</option>
         <option value="lessEqual">Less than or equal to</option>
         <option value="less">Less than </option>
       </select>
-      <input type="number" value="3" />
+      <input type="number" />
       <div class="check-indicator">
         <div class="check-light"></div>
         <div class="indicator-sheen"></div>
@@ -28,24 +28,39 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
+        this.setAttribute("checkAgainst", this.getAttribute("checkAgainst") || 5);
+        this.setAttribute("checkFor", this.getAttribute("checkFor") || "greater");
+
         this.count = 0;
         this.incomingNumber;
-        this.checkAgainst = 3;
-        var that = this;
+        this.checkAgainst = this.getAttribute("checkAgainst");
+        this.checkFor = this.getAttribute("checkFor");
         this.indicator = this.querySelector(".check-indicator");
+
+        var that = this;
 
         this.querySelector("input").onchange = function(e){
           that.checkAgainst = e.target.value;
+          that.setAttribute("checkAgainst", that.checkAgainst);
+          that.fakeSave();
         }
 
+        this.querySelector("input").value = this.checkAgainst;
+
         var checkOptions = this.querySelector("select");
-        this.checkFor = checkOptions.options[checkOptions.selectedIndex].value;
+
+        checkOptions.value = this.checkFor;
 
         checkOptions.onchange = function(e){
           if (!e)
           var e = window.event;
           that.checkFor = this.options[this.selectedIndex].value;
+          that.setAttribute("checkFor",that.checkFor);
+          that.fakeSave();
         }
+      },
+      fakeSave : function() {
+        this.setAttribute("countItem",this.getAttribute("countItem"));
       },
       checkTheNumber: function () {
         that = this;

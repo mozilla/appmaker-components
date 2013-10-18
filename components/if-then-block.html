@@ -1,0 +1,172 @@
+<element name="app-number-checker-deluxe">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-number-checker-deluxe.css">
+    <div class="checker">
+      <div class="checks">
+      <div class="check-item">
+        <select>
+          <option selected="selected" value="greaterThan">Greater than</option>
+          <option value="greaterEqual">Greater than or equal to</option>
+          <option value="equal">Equal to</option>
+          <option value="notEqual">Not equal to</option>
+          <option value="lessEqual">Less than or equal to</option>
+          <option value="lessThan">Less than </option>
+        </select>
+        <input class="check-against" type="number" value="3" />
+      </div>
+      <select class="boolean-type">
+        <option selected="selected" value="and">and</option>
+        <option value="or">or</option>
+      </select>
+      <div class="check-item">
+        <select>
+          <option selected="selected" value="greaterThan">Greater than</option>
+          <option value="greaterEqual">Greater than or equal to</option>
+          <option value="equal">Equal to</option>
+          <option value="notEqual">Not equal to</option>
+          <option value="lessEqual">Less than or equal to</option>
+          <option value="lessThan">Less than </option>
+        </select>
+        <input class="check-against" type="number" value="3" />
+      </div>
+    </div> 
+    </div>
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-fancy-number-checker.png" />
+  </thumbnail>
+  <description>
+    Checks if a number meets a certain criteria and send a custom succcess or failure message.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+
+        this.checkDefaults = [{"checkFor" : "greaterThan", "checkAgainst" :1},{"checkFor" : "lessThan", "checkAgainst" : 10}];
+
+        this.setAttribute("successMessage", this.getAttribute("successMessage") || "Yes");
+        this.setAttribute("failureMessage", this.getAttribute("failureMessage") || "No");
+        this.setAttribute("booleanType",  this.getAttribute("booleanType") || "and");
+        this.booleanType = this.getAttribute("booleanType");
+        
+        this.querySelector(".boolean-type").value = this.getAttribute("booleanType");
+
+        this.incomingNumber;
+
+        this.successMessage = this.getAttribute("successMessage");
+        this.checks = JSON.parse(this.getAttribute("checks")) || this.checkDefaults;
+
+        this.updateDisplay();
+
+        var t = this;
+        this.indicator = this.querySelector(".check-indicator");
+
+        var checkOptions = this.querySelector("select");
+        var checkAgainstInput = this.querySelector(".check-against");
+
+        this.querySelector(".boolean-type").onchange = function(e){
+          t.setAttribute("booleanType",this.value);
+          t.booleanType = this.value;
+          t.fakeSave();
+        }
+      },
+      fakeSave : function(){
+        this.setAttribute("successMessage",this.getAttribute("successMessage"));
+      },
+      updateDisplay: function() {
+        var t = this;
+        var checkItems = this.querySelectorAll(".check-item");
+        for(var i = 0; i < this.checks.length; i++){
+          var check = this.checks[i];
+          var item = checkItems[i];
+          item.querySelector("select").value = check["checkFor"];
+          item.querySelector("input").value = check["checkAgainst"];
+          item.querySelector("input").onchange = function(e){
+            t.scrapeValues();
+          }
+          item.querySelector("select").onchange = function(e){
+            t.scrapeValues();
+          }
+        }
+      },
+      scrapeValues : function() {
+        this.checks = []
+        var checks = this.querySelectorAll(".checks .check-item");
+        for(var i = 0; i < checks.length; i++){
+          var item = checks[i];
+          var checkFor = item.querySelector("select").value;
+          var checkAgainst = item.querySelector("input").value;
+          var newItem = {};
+          newItem["checkFor"] = checkFor;
+          newItem["checkAgainst"] = checkAgainst;
+          this.checks.push(newItem);
+        }
+        this.setAttribute("checks",JSON.stringify(this.checks));
+        this.fakeSave();
+      },
+      checkTheNumber: function () {
+        that = this;
+        var ok = 0;
+
+        for(var i = 0; i < this.checks.length; i++){
+
+          var check = this.checks[i];
+          var checkFor = check["checkFor"];
+          var checkAgainst = check["checkAgainst"];
+          
+          switch (checkFor) {
+            case 'greaterThan':
+              if(this.incomingNumber > checkAgainst){ ok++; }
+            break;
+            case 'greaterEqual':
+              if(this.incomingNumber >= checkAgainst){ ok++; }
+            break;
+            case 'lessThan':
+              if(this.incomingNumber < checkAgainst){ ok++; }
+            break;
+            case 'lessEqual':
+              if(this.incomingNumber <= checkAgainst){ ok++; }
+            break;
+            case 'equal':
+              if(this.incomingNumber == checkAgainst){ ok++; }
+            break;
+            case 'notEqual':
+              if(this.incomingNumber != checkAgainst){ ok++; }
+            break;
+          }
+        }
+
+        if(ok == 2 && this.booleanType == "and"){
+          this.broadcast('yes', this.successMessage);
+        } else if ((ok == 1 || ok == 2) && this.booleanType == "or") {
+          this.broadcast('yes', this.successMessage);
+        } else {
+          this.broadcast('no', this.failureMessage);
+        }
+      },
+      editable: {
+        successMessage: {
+          type: "text",
+          description: "Send when number passes the criteria.",
+          postset: function(v) {
+          }
+        },
+        failureMessage: {
+          type: "text",
+          description: "Message to send when number doesn't pass.",
+          postset: function(v) {
+          }
+        }
+      },
+      defaultListener: 'checkNumber',
+      broadcasts: ['yes', 'no'],
+      defaultBroadcasts: ['yes'],
+      listeners: {
+        checkNumber: function (listener,channel) {
+          this.incomingNumber = parseInt(listener) || false;
+          this.checkTheNumber();
+        }
+      }
+    });
+  </script>
+</element>
