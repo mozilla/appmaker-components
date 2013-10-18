@@ -89,7 +89,7 @@
         this.emit('rating', new Scalar(this.rating), "Rating");
       },
       broadcasts: ['rating'],
-      defaultBroadcast: 'rating',
+      defaultBroadcasts: ['rating'],
       listeners: {
         setRating : function (val) {
           var value = parseInt(val);
