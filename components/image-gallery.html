@@ -170,6 +170,7 @@
           });
 
           this.io.on('child_added', function(snapshot) {
+
             addItem(snapshot.val(),snapshot.name());
           });
 
@@ -202,25 +203,17 @@
           $(t).find(".photos").css("left", newLeft);
         },
         addPhoto : function(v){
-
           var image = {};
           var hasURL = false;
           var t = this;
 
+          if(typeof v == "object"){
+            v = v.toString();
+          }
+
           if(typeof v == "string"){
             image["url"] = v;
             hasURL = true;
-          } else {
-            var dataObj = JSON.parse(v.toString());
-            for (var key in dataObj){
-              if (dataObj[key]["name"] == "url") {
-                hasURL = true;
-                image["url"] =  dataObj[key]["value"]
-              }
-              if (dataObj[key]["name"] == "caption") {
-                image["caption"] =  dataObj[key]["value"]
-              }
-            }
           }
 
           if(hasURL){
@@ -234,7 +227,6 @@
         },
         setTitle : function(v){
           this.querySelector(".folder-name").innerHTML = v;
-          console.log(v);
         },
         setTitle : function(v){
           this.querySelector(".folder-name").innerHTML = v;
