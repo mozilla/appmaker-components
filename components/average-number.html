@@ -17,7 +17,6 @@
       init: function (params) {
         this.count = 0;
         this.avrg = 0;
-        this.value = 0;
       },
       updateDisplay: function () {
         this.querySelector('.average-number').innerHTML = Math.round(this.avrg*100)/100;
@@ -27,26 +26,23 @@
       defaultBroadcasts: ["averageValue"],
       defaultListener: 'calculateAverage',
       listeners: {
-        calculateAverage: function (listener,channel) {
-          this.value = parseFloat(listener) || false;
-          if (this.value === false){
-            this.log("NOT counting up. " + listener + " is not a Float", channel);
+        calculateAverage: function (listener, channel) {
+          console.log(listener.value);
+          newValue = parseFloat(listener.value);
+          if (isNaN(newValue)){
+            this.log("NOT counting up. " + listener.value + " was not a number", channel);
             return false;
           }
-          if (this.count > 0){
-            this.avrg = ((this.avrg*(this.count)) + this.value) / (this.count+1);
-            this.count++;
-          }
-          else{
-            this.avrg = this.value; this.count++;
-          }
+
+          this.avrg = (this.avrg * this.count + newValue) / (this.count + 1);
+          this.count++;
+
           this.updateDisplay();
         },
         resetAverage: function (value, channel) {
           this.count = parseInt(value);
           if (isNaN(this.count)){
             this.count = 0;
-            this.value = 0;
             this.avrg = 0;
           }
           this.updateDisplay();
