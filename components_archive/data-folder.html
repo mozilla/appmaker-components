@@ -46,16 +46,16 @@
         this.name = name;
         this.editor = editor;
       }
-      
+
       Editable.prototype.toString = function() {
         return this.value;
       }
 
       Ceci(element, {
         init: function (params) {
-          
+
           this.setAttribute('backgroundColor', this.getAttribute('backgroundColor') || '#333');
-          
+
           $(this).find(".data-view-toggle").on('click','a', function(evt) {
             var show = $(this).attr("show");
             $(this).parent().find("a").removeClass("selected-item");
@@ -63,10 +63,10 @@
             $(".show-wrapper").removeClass("show-all").removeClass("show-stats").addClass("show-" + show);
             return false;
           });
-          
+
           params = params ? params : {};
           var appId = params.appId || "app123";
-          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_folder/1");
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data-folder");
 
           var t = this;
           t.aggregate = {};
@@ -82,7 +82,7 @@
 
           // Emits all items based on selected keys
           $(this).find(".emit-items .emit-data").on("click",function(){
-            
+
             var checkedItems = $(t).find(".emit-wrapper input:checked");
             var getItems = [];
             checkedItems.each(function(){
@@ -90,19 +90,19 @@
             });
 
             var emit = [];
-            
+
             io.on('value', function(snapshot) {
               for ( var i in snapshot.val()){
                 var item = JSON.parse(snapshot.val()[i]["value"]);
-                
+
                 var emitItem = {};
                 for (var j in item){
                   var name = item[j]["name"];
                   var value = item[j]["value"];
                   if(getItems.indexOf(name) > -1){
-                    emitItem[name] =  value ;  
+                    emitItem[name] =  value ;
                   }
-                  
+
                 }
                 emit.push(emitItem);
               }
@@ -112,7 +112,7 @@
             return false;
           });
 
-          // This builds out the items in the list 
+          // This builds out the items in the list
           var addItem = function(item, name){
 
             try {
@@ -132,9 +132,9 @@
                 row.innerHTML = "<td>" + obj[key]["name"] + "</td><td>" + obj[key]["value"] + "</td>";
                 li.appendChild(row);
               }
-              
+
               li.setAttribute('firebasename', name);
-              
+
               $(li).on('click', function(evt) {
                 var elt = evt.currentTarget
                 var fireId = elt.getAttribute('firebasename');
@@ -200,19 +200,19 @@
               var v = obj[key]["name"];
 
               if(itemNames.indexOf(v) < 0){
-                itemNames.push(v);  
+                itemNames.push(v);
               }
 
               var k = obj[key]["name"];
               var v = obj[key]["value"];
 
               if(parseInt(v)){
-                t.aggregate["items"][k] = parseInt(v) + (t.aggregate["items"][k] || 0);                
+                t.aggregate["items"][k] = parseInt(v) + (t.aggregate["items"][k] || 0);
               } else {
                 if(typeof t.aggregate["items"][k] != "object"){
-                  t.aggregate["items"][k] = { };                    
+                  t.aggregate["items"][k] = { };
                 }
-                  t.aggregate["items"][k][v] = t.aggregate["items"][k][v] + 1 || 1;            
+                  t.aggregate["items"][k][v] = t.aggregate["items"][k][v] + 1 || 1;
                 }
               }
 
@@ -227,7 +227,7 @@
 
               var table = document.createElement("table");
               table.setAttribute("cellpadding","0");
-              table.setAttribute("cellspacing","0"); 
+              table.setAttribute("cellspacing","0");
 
               if(typeof t.aggregate["items"][key] == "object") {
 
@@ -252,16 +252,16 @@
                 row.innerHTML = "<td>Average</td><td>" + Math.round(t.aggregate["items"][key]/count*10)/10 + "</td>"
                 table.appendChild(row);
               }
-              
+
               statsWrapper.appendChild(table);
             }
 
             t.querySelector(".item-count").innerHTML = count + " items";
-            
+
             //Build the items emitter options
             $(".emit-items").find("label").remove("");
-            
-            
+
+
             $(itemNames).each(function(i,v){
               $(t).find(".emit-items").prepend("<label><input checked value='"+v+"'type='checkbox'>"+v+"</span></label>");
             });

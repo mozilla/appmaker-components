@@ -27,8 +27,8 @@
       Ceci(element, {
         init: function (params) {
           params = params ? params : {};
-          var appId = params.appId || "app123";
-          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_list/1");
+          var appId = params.appId;
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/data_list");
 
           var t = this;
 
