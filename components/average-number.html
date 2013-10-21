@@ -27,7 +27,6 @@
       defaultListener: 'calculateAverage',
       listeners: {
         calculateAverage: function (listener, channel) {
-          console.log(listener.value);
           newValue = parseFloat(listener.value);
           if (isNaN(newValue)){
             this.log("NOT counting up. " + listener.value + " was not a number", channel);
