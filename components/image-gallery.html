@@ -56,7 +56,7 @@
 
           params = params ? params : {};
           var appId = params.appId || "app123";
-          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/photo_folder/1");
+          var io = new Firebase("https://flathead.firebaseio.com/" + appId + "/image-gallery");
 
           var t = this;
           t.io = io;
@@ -218,7 +218,7 @@
 
           if(hasURL){
             var imgElement = document.createElement("img");
-            $(imgElement).load(function() { 
+            $(imgElement).load(function() {
               t.io.push(image);
             });
             $(imgElement).attr("src",v);

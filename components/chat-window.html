@@ -18,8 +18,10 @@
     var element = this;
     require(['https://cdn.firebase.com/v0/firebase.js'], function() {
       Ceci(element, {
-        init: function () {
+        init: function (params) {
+
           var _this = this;
+          this.appId = params.appId;
 
           _this._settings = {
             nick: _this.hasAttribute('nickname') ? _this.getAttribute('nickname') : 'Anonyfox' + Math.round(Math.random()*999),
@@ -54,7 +56,7 @@
               Object.keys(_handlers).forEach(function (h) {_this._io.off(h, _handlers[h])});
               _this._ioConnected.off('value', onConnectionInfo);
             }
-            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this._settings.room + "/chat/1");
+            _this._io = new Firebase("https://appmaker.firebaseio.com/" + _this.appId + '/chat-window/' + _this._settings.room);
             _this._ioConnected = new Firebase("https://appmaker.firebaseio.com/.info/connected");
 
             var handlers = {
