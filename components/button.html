@@ -31,10 +31,10 @@
         button.onmouseleave = function (e) {
           button.style.backgroundColor = t.getAttribute("buttonColor");
         };
-        this.setAttribute("buttonLabel", this.getAttribute("buttonLabel") || 'Click Me');
-        this.setAttribute("buttonColor", this.getAttribute("buttonColor") || '#4DB227');
+        this.setLabel(this.getAttribute("buttonLabel") || 'Click Me');
+        this.setButtonColor(this.getAttribute("buttonColor") || '#4DB227');
+        this.setTextColor(this.getAttribute("textColor") || '#FFFFFF');
         this.setAttribute("buttonActiveColor", this.getAttribute("buttonActiveColor") || '#3d911f');
-        this.setAttribute("textColor", this.getAttribute("textColor") || '#FFFFFF');
       },
       editable: {
         buttonLabel: {
