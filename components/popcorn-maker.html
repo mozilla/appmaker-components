@@ -23,9 +23,9 @@
 
         var eventMap = {
           loadedmetadata: function (data) { that.broadcast('ready'); },
-          play: function (data) { that.broadcast('play', data.currnetTime); },
-          pause: function (data) { that.broadcast('pause', data.currnetTime); },
-          timeupdate: function (data) { that.broadcast('time', data.currnetTime); },
+          play: function (data) { that.broadcast('play', data.currentTime); },
+          pause: function (data) { that.broadcast('pause', data.currentTime); },
+          timeupdate: function (data) { that.broadcast('time', data.currentTime); },
           trackstart: function (data) { that.broadcast('event'); }
         };
 
@@ -38,24 +38,43 @@
         window.addEventListener('message', onIframeMessage, false);
       },
       editable: {
-        project: {
+        PopcornMakeUrl: {
           type: "text",
-          description: "Popcorn Maker project URL to embed.",
+          description: "Popcorn Maker project URL (makes.org) to embed.",
           postset: function(v) {
             this.setProject(v);
           }
         },
       },
       setProject: function (val) {
-        var match = val.match(/https\:\/\/([a-zA-Z0-9_-]+)\.mywebmaker\.org\/popcorn\/([a-zA-Z0-9_-]+)/);
+        var match = val.match(/https\:\/\/([a-zA-Z0-9_-]+)\.mywebmaker\.org\/popcorn\/([a-zA-Z0-9-]+)_?/);
 
         if (match && match[1] && match[2]) {
           var iframe = this.querySelector('iframe.popcorn-iframe');
-          iframe.src = 'https://' + match[1] + '.mywebmaker.org/popcorn/' + match[2];
+          iframe.src = 'https://' + match[1] + '.mywebmaker.org/popcorn/' + match[2] + '_?details=hidden';
         }
       },
       broadcasts: ['ready', 'play', 'pause', 'event', 'time'],
-      defaultBroadcasts: ['event']
+      defaultBroadcasts: ['event'],
+      defaultListener: 'play',
+      listeners: {
+        play: function (v) {
+          this.querySelector('iframe').contentWindow &&
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'play' }, this.querySelector('iframe').src);
+        },
+        pause: function (v) {
+          this.querySelector('iframe').contentWindow &&
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'pause' }, this.querySelector('iframe').src);
+        },
+        rewind: function (v) {
+          this.querySelector('iframe').contentWindow &&
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'currentTime', currentTime: 0 }, this.querySelector('iframe').src);
+        },
+        time: function (v) {
+          this.querySelector('iframe').contentWindow &&
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'currentTime', currentTime: Number(v) }, this.querySelector('iframe').src);
+        }
+      }
     });
   </script>
 </element>
