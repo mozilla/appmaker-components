@@ -60,19 +60,19 @@
       listeners: {
         play: function (v) {
           this.querySelector('iframe').contentWindow &&
-            this.querySelector('iframe').contentWindow.postMessage({ type: 'play' }, '*');
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'play' }, this.querySelector('iframe').src);
         },
         pause: function (v) {
           this.querySelector('iframe').contentWindow &&
-            this.querySelector('iframe').contentWindow.postMessage({ type: 'pause' }, '*');
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'pause' }, this.querySelector('iframe').src);
         },
         rewind: function (v) {
           this.querySelector('iframe').contentWindow &&
-            this.querySelector('iframe').contentWindow.postMessage({ type: 'currentTime', currentTime: 0 }, '*');
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'currentTime', currentTime: 0 }, this.querySelector('iframe').src);
         },
         time: function (v) {
           this.querySelector('iframe').contentWindow &&
-            this.querySelector('iframe').contentWindow.postMessage({ type: 'currentTime', currentTime: Number(v) }, '*');
+            this.querySelector('iframe').contentWindow.postMessage({ type: 'currentTime', currentTime: Number(v) }, this.querySelector('iframe').src);
         }
       }
     });
