@@ -1,0 +1,61 @@
+<element name="app-popcorn-maker">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-popcorn-maker.css"></link>
+    <iframe class="popcorn-iframe" frameborder="0" mozallowfullscreen webkitallowfullscreen allowfullscreen></iframe>
+  </template>
+  <friends>app-button,app-counter</friends>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-popcorn-maker.png" />
+  </thumbnail>
+  <description>
+    Embeds a <a href="//popcorn.webmaker.org">Popcorn Maker</a> project.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        if (this.hasAttribute('project')) {
+          this.setProject(this.getAttribute('project'));
+        }
+
+        var iframe = this.querySelector('iframe.popcorn-iframe');
+
+        var that = this;
+
+        var eventMap = {
+          loadedmetadata: function (data) { that.broadcast('ready'); },
+          play: function (data) { that.broadcast('play', data.currnetTime); },
+          pause: function (data) { that.broadcast('pause', data.currnetTime); },
+          timeupdate: function (data) { that.broadcast('time', data.currnetTime); },
+          trackstart: function (data) { that.broadcast('event'); }
+        };
+
+        function onIframeMessage (e) {
+          if (e.source === iframe.contentWindow && e.data && eventMap[e.data.type]) {
+            eventMap[e.data.type](e.data);
+          }
+        }
+
+        window.addEventListener('message', onIframeMessage, false);
+      },
+      editable: {
+        project: {
+          type: "text",
+          description: "Popcorn Maker project URL to embed.",
+          postset: function(v) {
+            this.setProject(v);
+          }
+        },
+      },
+      setProject: function (val) {
+        var match = val.match(/https\:\/\/([a-zA-Z0-9_-]+)\.mywebmaker\.org\/popcorn\/([a-zA-Z0-9_-]+)/);
+
+        if (match && match[1] && match[2]) {
+          var iframe = this.querySelector('iframe.popcorn-iframe');
+          iframe.src = 'https://' + match[1] + '.mywebmaker.org/popcorn/' + match[2];
+        }
+      },
+      broadcasts: ['ready', 'play', 'pause', 'event', 'time'],
+      defaultBroadcasts: ['event']
+    });
+  </script>
+</element>
