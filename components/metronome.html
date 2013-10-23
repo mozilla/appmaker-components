@@ -19,18 +19,29 @@
       init: function() {
         this.period = this.getAttribute("period") || 1;
         this.count = 0;
-        this.tick();
+
+        var autoStart = this.getAttribute("autostart").toLowerCase() === "true";
+
+        if (autoStart){
+          this.start();
+        }
+        else {
+          this.stop();
+        }
+
         this.timeout = null;
-        this.setArrowSpeed(this.period);
+
       },
       setArrowSpeed : function(v){
-        var animDuration = v*2;
+        var animDuration = v * 2;
         var metronomeArrow = this.querySelector('.metronome-arrow');
-        metronomeArrow.classList.remove("metronome-animation");  
-        metronomeArrow.offsetWidth = metronomeArrow.offsetWidth;      
-        metronomeArrow.classList.add("metronome-animation");
-        metronomeArrow.style.webkitAnimationDuration = animDuration + "s";
-        metronomeArrow.style.animationDuration = animDuration + "s";
+        metronomeArrow.classList.remove("metronome-animation");
+        if (v > 0 && !this.stopped){
+          metronomeArrow.offsetWidth = metronomeArrow.offsetWidth;
+          metronomeArrow.classList.add("metronome-animation");
+          metronomeArrow.style.webkitAnimationDuration = animDuration + "s";
+          metronomeArrow.style.animationDuration = animDuration + "s";
+        }
       },
       broadcast: function (e) {
         this.emit(e);
@@ -39,7 +50,7 @@
         clearTimeout(this.timeout);
       },
       tick: function() {
-        if (this.unloaded){
+        if (this.unloaded || this.stopped){
           // This stops the setting of the next setTimeout
           return;
         }
@@ -64,6 +75,14 @@
           postset: function(v) {
             this.setArrowSpeed(v);
           }
+        },
+        "autoStart": {
+          title: "Start on Load",
+          type: "boolean",
+          description: "Optionally starts the metronome when the app loads.",
+          postset: function(v){
+            console.log(v);
+          }
         }
       },
       listeners: {
@@ -72,6 +91,15 @@
           if (val > 0) {
             this.period = parseInt(val);
           }
+        },
+        stop: function(){
+          this.stopped = true;
+          this.setArrowSpeed(0);
+        },
+        start: function(){
+          this.stopped = false;
+          this.setArrowSpeed(this.period);
+          this.tick();
         }
       },
       broadcasts: ['tick'],
