@@ -20,7 +20,11 @@
         this.period = this.getAttribute("period") || 1;
         this.count = 0;
 
-        var autoStart = this.getAttribute("autostart").toLowerCase() === "true";
+        var autoStart = this.getAttribute("autostart");
+        if (!autoStart){
+          autoStart = "true";
+        }
+        autoStart = autoStart.toLowerCase() === "true";
 
         if (autoStart){
           this.start();
@@ -81,7 +85,13 @@
           type: "boolean",
           description: "Optionally starts the metronome when the app loads.",
           postset: function(v){
-            console.log(v);
+            console.log("POST SET:", v);
+            if (v === "true"){
+              this.start();
+            }
+            else{
+              this.stop();
+            }
           }
         }
       },
