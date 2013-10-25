@@ -13,10 +13,6 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        if (this.hasAttribute('project')) {
-          this.setProject(this.getAttribute('project'));
-        }
-
         var iframe = this.querySelector('iframe.popcorn-iframe');
 
         var that = this;
@@ -36,6 +32,9 @@
         }
 
         window.addEventListener('message', onIframeMessage, false);
+
+        var projectURL = this.getAttribute('popcornmakeurl') || 'https://secretrobotron.mywebmaker.org/popcorn/14i9_';
+        this.setAttribute('popcornmakeurl', projectURL);
       },
       editable: {
         PopcornMakeUrl: {
@@ -47,11 +46,12 @@
         },
       },
       setProject: function (val) {
-        var match = val.match(/https\:\/\/([a-zA-Z0-9_-]+)\.mywebmaker\.org\/popcorn\/([a-zA-Z0-9-]+)_?/);
+        var match = val.match(/https\:\/\/([a-zA-Z0-9_-]+)\.(mywebmaker|makes)\.org\/popcorn\/([a-zA-Z0-9-]+)_?/);
 
-        if (match && match[1] && match[2]) {
+        if (match && match[1] && match[3]) {
           var iframe = this.querySelector('iframe.popcorn-iframe');
-          iframe.src = 'https://' + match[1] + '.mywebmaker.org/popcorn/' + match[2] + '_?details=hidden';
+          var src = 'https://' + match[1] + '.' + match[2] + '.org/popcorn/' + match[3] + '_?details=hidden';
+          iframe.src = src;
         }
       },
       broadcasts: ['ready', 'play', 'pause', 'event', 'time'],
