@@ -1,0 +1,69 @@
+<element name="donate-amount-selector">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/donate-amount-selector.css"></link>
+	<ul class="donate-amount-selector">
+		<li>
+			<input type="radio" name="donation-amount" value="10"/>
+			<label>10 CHF</label>
+		</li>
+	</ul>
+  </template>
+  <friends></friends>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-button.png" />
+  </thumbnail>
+  <description>
+    Lets a user choose an amount
+  </description>
+  <script type="text/ceci">
+    var currency = "USD",
+		amounts = [10]; 
+    Ceci(this, {
+      init: function (params) {
+        var amountList = this.querySelector('.donate-amount-selector');
+        var t = this;
+      },
+      editable: {
+          amounts: {
+            type: "text",
+            description: "List of amounts the user coul choose from",
+            postset: function(v) {
+              this.buildSelector(v);
+            }
+          },
+          currency: {
+            type: "text",
+            description: "Currency of the donation amount",
+            postset: function(v) {
+              this.setCurrency(v);
+            }
+          }
+      },
+	  buildSelector: function (amountString) {
+		  amounts = amountString.split(",");
+		  this.buildWidget(this);
+	  }, 
+	  buildWidget: function (context) {
+		  console.log("buildWidget");
+		  var list = context.querySelector(".donate-amount-selector"),
+		  	  buf = "";
+		  amounts.forEach(function (amount) {
+			  buf += "<li><input type='radio' name='donation-amount' value='";
+			  buf += amount;
+			  buf += "'/><label>";
+			  buf += amount;
+			  buf += "&nbsp;";
+			  buf += currency;
+			  buf += "</label></li>";
+		  });
+		  console.log(buf);
+		  list.innerHTML = buf;
+	  },
+	  setCurrency: function () {
+
+	  },
+      broadcasts: ['click', 'mouseDown', 'mouseUp'],
+      defaultBroadcasts: ['click']
+    });
+  </script>
+</element>

@@ -1,0 +1,56 @@
+<element name="donate-button">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/donate-button.css"></link>
+    <div>
+      <button class="button">Default</button>
+    </div>
+  </template>
+  <friends>app-fireworks,app-counter</friends>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-button.png" />
+  </thumbnail>
+  <description>
+    Broadcasts a "click" when clicked.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var button = this.querySelector('.button');
+        var t = this;
+        button.onclick = function (e) {
+          t.broadcast('click');
+        };
+        button.onmousedown = function (e) {
+          button.style.backgroundColor = t.getAttribute("buttonActiveColor");
+          t.broadcast('mouseDown');
+        };
+        button.onmouseup = function (e) {
+          button.style.backgroundColor = t.getAttribute("buttonColor");
+          t.broadcast('mouseUp');
+        };
+        button.onmouseleave = function (e) {
+          button.style.backgroundColor = t.getAttribute("buttonColor");
+        };
+        this.setAttribute("buttonLabel", this.getAttribute("buttonLabel") || 'Donate');
+        this.setAttribute("textColor", this.getAttribute("textColor") || '#fff');
+      },
+      editable: {
+        buttonLabel: {
+          type: "text",
+          description: "A text for your label to show up in your app",
+          postset: function(v) {
+            this.setLabel(v);
+          }
+        }
+      },
+      setLabel: function (val) {
+        this.querySelector('button').innerHTML = val;
+      },
+      setButtonColor: function (val) {
+        this.querySelector('button').style.backgroundColor = val;
+      },
+      broadcasts: ['click', 'mouseDown', 'mouseUp'],
+      defaultBroadcasts: ['click']
+    });
+  </script>
+</element>

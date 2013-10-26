@@ -1,0 +1,27 @@
+donate-button .button {
+  font-family: "FiraSans", sans-serif;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  border-top: 1px solid rgba(255,255,255,.3);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+  background-color: #3A74BC;
+  text-align: center;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  color: #000;
+  width: 100%;
+  margin: 0;
+}
+
+donate-button button {
+  border: none;
+}
