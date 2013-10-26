@@ -76,7 +76,7 @@
         this.emit('send', new Text(img.getAttribute("src")),"Image Url");
       },
       broadcasts: ['send'],
-      defaultListener : "newImage",
+      defaultListener : "setImageKeyword",
       listeners: {
         setImageKeyword: function(val, channel) {
           this.log("setting image keyword to: "+ val, channel);
