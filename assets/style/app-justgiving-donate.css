@@ -1,0 +1,42 @@
+app-justgiving-donate .button {
+  font-family: "FiraSans", sans-serif;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  border-top: 1px solid rgba(255,255,255,.3);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+  background-color: #4DB227;
+  text-align: center;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  color: #ffffff;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+app-justgiving-donate button {
+  border: none;
+}
+
+app-justgiving-donate h1 {
+  margin-bottom: 10px;
+}
+
+app-justgiving-donate p.logos {
+  text-align: center;
+  font-style: italic;
+}
+
+app-justgiving-donate p.logos img {
+  max-width: 95%;  
+}
+
