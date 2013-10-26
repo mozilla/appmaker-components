@@ -17,13 +17,15 @@
     };
     Ceci(this, {
       init: function (params) {
-        this.textDisplay = this.querySelector("p");
-        this.textDisplay.innerHTML = "Twilio";
-        this.setAttribute('to', "5511971899932");
+        this.textDisplay = this.querySelector("div");
+        this.textDisplay.className = 'twilioBanner';
+        this.textDisplay.innerHTML = "<img src='{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png'/><div>SMS powered by Twilio</div>";
         this.setAttribute('from', this.getAttribute('from') || "");
         this.setAttribute('accountSid', this.getAttribute('accountSid') || "");
         this.setAttribute('accountToken', this.getAttribute('accountToken') || "");
         this.setAttribute('defaultMessage', this.getAttribute('defaultMessage') || "This is a default message");
+      	this.phoneTo = "";
+      	this.message = this.getAttribute('defaultMessage') || "";
       },
       updateAccountSid : function (val) {
 
@@ -44,11 +46,6 @@
           description: "The from phone number",
           postset: function(v) {}
         },
-        to: {
-          type: "text",
-          description: "The destination phone number",
-          postset: function(v) {}
-        },
         defaultMessage: {
           type: "text",
           description: "The twilio SMS message",
@@ -57,17 +54,24 @@
       },
       defaultListener: 'sendSms',
       listeners: {
-        sendSms: function (val) 
+      	updateMessage: function (objValue, myChannel)
+      	{
+      		this.message = objValue.value;
+      	},
+      	sendMessageTo: function (objValue, myChannel)
+      	{
+      		this.phoneTo = objValue.value;
+      		this.sendSms();
+      	},
+        sendSms: function () 
         {
-
-
-          $.post("https://api.twilio.com/2010-04-01/", {
+          $.post("/proxy/twilio/", {
           	dataType:'json',
 			TWILIO_ACCOUNT_SID:this.getAttribute('accountSid'),
 			TWILIO_AUTH_TOKEN:this.getAttribute('accountToken'),
-			to:this.getAttribute('to'),
+			to:this.phoneTo,
 			from:this.getAttribute('from'),
-			body:this.getAttribute('defaultMessage')          		
+			body:this.message          		
 		  },
           function(data)
 		  {
