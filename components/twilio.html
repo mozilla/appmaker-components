@@ -1,0 +1,81 @@
+<element name="app-twilio">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-twilio.css">
+    <p></p>
+  </template>
+  <description>Listen for a message and send a SMS</description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png" />
+  </thumbnail>
+  <script type="text/ceci">
+    function Twilio(value) {
+      this.value = value;
+      this.editor = 'app-twilio';
+    };
+    Text.prototype.toString = function() {
+      return String(this.value);
+    };
+    Ceci(this, {
+      init: function (params) {
+        this.textDisplay = this.querySelector("p");
+        this.textDisplay.innerHTML = "Twilio";
+        this.setAttribute('to', "5511971899932");
+        this.setAttribute('from', this.getAttribute('from') || "");
+        this.setAttribute('accountSid', this.getAttribute('accountSid') || "");
+        this.setAttribute('accountToken', this.getAttribute('accountToken') || "");
+        this.setAttribute('defaultMessage', this.getAttribute('defaultMessage') || "This is a default message");
+      },
+      updateAccountSid : function (val) {
+
+      },
+      editable: {
+        accountSid: {
+          type: "text",
+          description: "The Account SID information",
+          postset: function(v) {}
+        },
+        accountToken: {
+          type: "text",
+          description: "The Account TOKEN information",
+          postset: function(v) {}
+        },
+        from: {
+          type: "text",
+          description: "The from phone number",
+          postset: function(v) {}
+        },
+        to: {
+          type: "text",
+          description: "The destination phone number",
+          postset: function(v) {}
+        },
+        defaultMessage: {
+          type: "text",
+          description: "The twilio SMS message",
+          postset: function(v) {}
+        }
+      },
+      defaultListener: 'sendSms',
+      listeners: {
+        sendSms: function (val) 
+        {
+
+
+          $.post("https://api.twilio.com/2010-04-01/", {
+          	dataType:'json',
+			TWILIO_ACCOUNT_SID:this.getAttribute('accountSid'),
+			TWILIO_AUTH_TOKEN:this.getAttribute('accountToken'),
+			to:this.getAttribute('to'),
+			from:this.getAttribute('from'),
+			body:this.getAttribute('defaultMessage')          		
+		  },
+          function(data)
+		  {
+		    console.log(data);
+		  });
+
+        }
+      }
+    });
+  </script>
+</element>
