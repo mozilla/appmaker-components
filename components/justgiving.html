@@ -1,0 +1,49 @@
+<element name="app-justgiving-basic">
+  <template>    
+    <!-- <div class="checker">
+      Just Giving Donation
+    </div> -->
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-number-checker.png" />
+  </thumbnail>
+  <description>
+    Checks if an incoming number meets a certain criteria.
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.incomingNumber;  
+        this.setAttribute("yourJustGivingPageName", this.getAttribute("yourJustGivingPageName") || 'page-name');                
+      },      
+      editable: {
+        yourJustGivingPageName: {
+          type: "text",
+          description: "You can get this from you Just Giving fundraising url justgiving.com/your-page-name-is-here",
+          postset: function(v) {
+          }
+        }
+      },
+      defaultListener: 'checkNumber',
+      listeners: {
+        checkNumber: function (listener,channel) {          
+
+          this.incomingNumber = parseInt(listener) || false;
+          if (this.incomingNumber) {
+            var jgURL = "http://www.justgiving.com/" + this.yourJustGivingPageName + "/donate?amount=" + this.incomingNumber;
+            if (confirm("This will take you to my fundraising page on JustGiving.com. Please give generously!")) {
+              window.location.replace(jgURL);
+            };           
+          } else {
+            console.log("no donation amount chosen");
+          }
+          // build url        
+          // confirm dialog
+          // redirect
+        }
+      }
+    });
+  </script>
+</element>
