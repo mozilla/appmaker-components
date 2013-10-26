@@ -1,8 +1,12 @@
 <element name="app-slider">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-slider.css">
-    <div class="value">123</div>
-    <div class="slider"></div>
+    <div>
+      <form>
+        <input type="range" name="slider" min="0" max="50"><br>
+      </form>
+      <p class="value"></p>
+    </div>
   </template>
   <description>
     A slider that broadcasts a value.
@@ -21,38 +25,35 @@
     };
     Ceci(this, {
       init: function (params) {
-        this.slider = $(this).find(".slider");
+        this.slider = this.querySelector("input");
         this.min = this.getAttribute('minValue') || 0;
         this.max = this.getAttribute('maxValue') || 50;
         this.setAttribute("minValue", this.min);
         this.setAttribute("maxValue", this.max);
         this.default = this.getAttribute("startingValue") || this.min;
         this.valueIndicator = this.querySelector(".value");
-        this.valueIndicator.innerHTML = this.default;
-        var element = this;
-        var t = this;
-        this.slider.slider({
-          range: "min",
-          value: this.default,
-          max : t.max,
-          min: t.min,
-          slide : function(event,ui){
-            element.changeValue(ui.value);
-          }
+        this.valueIndicator.innerText = parseInt(this.default);
+        var self = this;
+        this.slider.addEventListener('input', function(e){
+          self.changeValue(self.slider.value);
+        });
+        this.addEventListener('click', function(e){
+          self.broadcast('changeValue', self.slider.value, "Slider value");
         });
       },
       getCurrentValue: function() {
         return this.getAttribute("value");
       },
       updateValue: function(val) {
-        this.slider.slider("value",val);
+        this.slider.setAttribute("value", val);
         this.setAttribute("value", val);
-        this.valueIndicator.innerHTML = val;
+        console.log(val);
+        this.valueIndicator.innerText = val;
         this.broadcast('changeValue', new Scalar(val), "Slider value");
       },
       changeValue: function(val) {
         this.setAttribute("value", val);
-        this.valueIndicator.innerHTML = val;
+        this.valueIndicator.innerText = val;
         this.broadcast('changeValue', new Scalar(val), "Slider value");
       },
       broadcasts: ['changeValue'],
@@ -69,10 +70,12 @@
           type: "number",
           description: "The lowest possible value.",
           postset: function(v) {
-            if(parseInt(v) || parseInt(v) == 0){
+            if (parseInt(v) || parseInt(v) == 0){
               v = parseInt(v);
-              if(v >= this.max){ v = this.max - 1 };
-              this.slider.slider("option","min",v);
+              if (v >= this.max){
+                v = this.max - 1
+              };
+              this.slider.setAttribute('min', v);
             }
           }
         },
@@ -86,7 +89,7 @@
                 v = this.min + 1;
               }
               this.max = v;
-              this.slider.slider("option","max",v);
+              this.slider.setAttribute('max', v);
             }
           }
         }
