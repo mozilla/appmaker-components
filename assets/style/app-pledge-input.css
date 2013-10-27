@@ -1,0 +1,92 @@
+@import url("../style/fonts.css");
+
+app-pledge-input {
+  padding: 0;
+  height: 3.8rem;
+}
+
+app-pledge-input h1 {
+  margin-bottom: 10px;
+}
+
+app-pledge-input .prefix {
+  font-size: 3rem;
+  color: #666;
+  float: left;
+  width: 10%;
+  text-align: center;
+  line-height: 3.6rem;
+}
+
+app-pledge-input input[type=text]{
+  padding: 0;
+  height: 100%;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  font-size: 1.6rem;
+  background-color: #FFF;
+  background-size: auto 100%;
+  width: 90%;
+  border-radius: 0;
+  margin: 0;
+  float: left;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 0.1rem solid rgb(204, 204, 204);
+  border-right: none;
+  text-indent: 0.6rem;
+  outline: none;
+  font-weight: 400;
+  font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+}
+
+/*
+app-pledge-input.onchange input[type=text]{
+  width: 100%;
+}
+*/
+
+app-pledge-input .twitter {
+  margin-top: 2rem;
+}
+
+app-pledge-input button {
+  font-family: "FiraSans", sans-serif;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  border-top: 1px solid rgba(255,255,255,.3);
+  border-bottom: 2px solid rgba(0,0,0,.2);
+  background-color: #4DB227;
+  text-align: center;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  color: #ffffff;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+app-pledge-input button {
+  border: none;
+}
+
+app-pledge-input .pledge-container {
+  padding-top: 2rem;
+  clear: left;
+}
+
+app-pledge-input .pledge-container button {
+  background-color: #358CCE;
+}
+
