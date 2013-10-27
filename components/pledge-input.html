@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-pledge-input.css">
     <div class="prefix">@</div>
     <input type="hidden" name="pledge-amount" class="pledge-amount" value="0"/>
-    <input type="text"/><button data-foo="bar">Submit</button>
+    <input type="text"/><button data-foo="bar">Pledge</button>
   </template>
   <thumbnail>
     <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-pledge-input.png" />
@@ -48,9 +48,7 @@
           this.querySelector("button").innerHTML = this.getAttribute('buttontext');
         }
         else {
-        */
-          this.setAttribute("buttontext", "Submit");
-        /*
+          this.setAttribute("buttontext", "Pledge");
         }
         */
 
