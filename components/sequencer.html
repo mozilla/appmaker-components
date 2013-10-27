@@ -1,0 +1,120 @@
+<element name="app-sequencer">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-sequencer.css"></link>
+    <table id="sequencerTable" width="100%" height="100%">
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+      <tr height="20px">
+      </tr>
+    </table>
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-button.png" />
+  </thumbnail>
+  <description>
+    When user clicks on td, turns on or off sound
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var t = this;
+        var testFiles = [
+          "http://list.thestoke.ca/downloads/trumpet1.mp3",
+          "http://list.thestoke.ca/downloads/trumpet3.mp3",
+          "http://list.thestoke.ca/downloads/trumpet5.mp3",
+          "http://list.thestoke.ca/downloads/trumpet7.mp3",
+          "http://list.thestoke.ca/downloads/trumpet8.mp3"
+        ]
+
+        var newPitch = function (sound) {
+          var $tablerow = $('#sequencerTable').find('tr');
+          count = 0;
+          $tablerow.each(function(index, value){
+            count += 1;
+            var $listitem = $(this);
+            n = parseInt($listitem.index());
+            var $newRow = $('<td width="30px"><audio><source src="'+ sound +'"></audio></td>');
+            $("#sequencerTable tr:eq(" + n + ")").append($newRow);
+          });
+        }
+
+        var audioLoop = function () {
+          var fragments = t.querySelectorAll('tr');
+          var fragmentIndex = 0;
+          var currentFragment;
+
+          setInterval(function () {
+            if (currentFragment) {
+              currentFragment.classList.remove('playing');
+            }
+            currentFragment = fragments[fragmentIndex];
+
+            currentFragment.classList.add('playing');
+
+            var pitches = currentFragment.querySelectorAll('.on');
+
+            Array.prototype.forEach.call(pitches, function (pitch) {
+              var audio = pitch.querySelector('audio');
+              if (audio) {
+                audio.play();
+              }
+            });
+            fragmentIndex = (fragmentIndex + 1) % fragments.length;
+          }, 0.25);
+        }
+
+        $(document).on('click', 'td', function () {
+          if ( $(this).hasClass('on') ) {
+            $(this).removeClass('on');
+          } else {
+            $(this).addClass('on');
+          }
+        })
+
+        for (i in testFiles){
+          newPitch(testFiles[i]);
+        }
+        audioLoop();
+
+      },
+      defaultListener: 'addPitch',
+      listeners: {
+        addPitch: function (val) {
+          newPitch(val);
+        }
+      },
+      broadcasts: ['music'],
+      defaultBroadcasts: ['music']
+    });
+  </script>
+</element>
