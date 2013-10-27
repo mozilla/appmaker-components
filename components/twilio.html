@@ -1,30 +1,32 @@
 <element name="app-twilio">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-twilio.css">
-    <p></p>
+    <div class="twilioBanner">
+      <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png"/>
+      <div>SMS powered by Twilio</div>
+    </div>
   </template>
   <description>Listen for a message and send a SMS</description>
   <thumbnail>
     <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png" />
   </thumbnail>
+  <friends>app-open-badges</friends>
   <script type="text/ceci">
-    function Twilio(value) {
-      this.value = value;
-      this.editor = 'app-twilio';
+    function Twilio(mobilePhone, theMessage) 
+    {
+      this.phone   = mobilePhone;
+      this.message = theMessage;
     };
-    Text.prototype.toString = function() {
-      return String(this.value);
+    Twilio.prototype.toString = function() {
+      return String(this.message);
     };
     Ceci(this, {
       init: function (params) {
-        this.textDisplay = this.querySelector("div");
-        this.textDisplay.className = 'twilioBanner';
-        this.textDisplay.innerHTML = "<img src='{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png'/><div>SMS powered by Twilio</div>";
         this.setAttribute('from', this.getAttribute('from') || "");
         this.setAttribute('accountSid', this.getAttribute('accountSid') || "");
         this.setAttribute('accountToken', this.getAttribute('accountToken') || "");
         this.setAttribute('defaultMessage', this.getAttribute('defaultMessage') || "This is a default message");
-      	this.phoneTo = "";
+      	this.phone   = "";
       	this.message = this.getAttribute('defaultMessage') || "";
       },
       updateAccountSid : function (val) {
@@ -52,32 +54,37 @@
           postset: function(v) {}
         }
       },
-      defaultListener: 'sendSms',
+      defaultListener: 'sendMessage',
       listeners: {
       	updateMessage: function (objValue, myChannel)
       	{
-      		this.message = objValue.value;
+      		this.message = objValue.toString();
       	},
-      	sendMessageTo: function (objValue, myChannel)
-      	{
-      		this.phoneTo = objValue.value;
-      		this.sendSms();
-      	},
-        sendSms: function () 
+        updateTo: function (objValue, myChannel)
+        {
+          this.phone   = objValue.toString();
+        },
+        sendMessage: function (objTwilio, myChannel)
+        {
+          console.log(objTwilio);
+          this.phone   = objTwilio.phone;
+          this.message = objTwilio.message;
+          this.send();
+        },
+        send: function () 
         {
           $.post("/proxy/twilio/", {
           	dataType:'json',
-			TWILIO_ACCOUNT_SID:this.getAttribute('accountSid'),
-			TWILIO_AUTH_TOKEN:this.getAttribute('accountToken'),
-			to:this.phoneTo,
-			from:this.getAttribute('from'),
-			body:this.message          		
-		  },
+      			TWILIO_ACCOUNT_SID:this.getAttribute('accountSid'),
+      			TWILIO_AUTH_TOKEN:this.getAttribute('accountToken'),
+      			to:this.phone,
+      			from:this.getAttribute('from'),
+      			body:this.message          		
+      		},
           function(data)
-		  {
-		    console.log(data);
-		  });
-
+          {
+            console.log(data);
+          });
         }
       }
     });
