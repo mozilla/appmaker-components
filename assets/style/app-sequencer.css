@@ -1,0 +1,16 @@
+table {
+	margin: 0px;
+	padding: 0px;
+}
+
+td {
+	background-color: #333;
+}
+
+.on {
+	background-color: blue;
+}
+
+.playing {
+	outline: 4px solid red;
+}
