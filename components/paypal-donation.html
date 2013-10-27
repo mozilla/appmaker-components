@@ -21,11 +21,11 @@
           <button class="button" value=""></button>
         </div>
         
-        <button class="button" id="button04" value="0">Choose my amount</button>
+        <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
       </form>
          
       <p class="logos">
-        <img src="{{ASSET_HOST}}/assets/images/justgiving-with-pp-logo.jpg" /><br />
+        <img src="{{ASSET_HOST}}/assets/images/paypal-logo.jpg" /><br />
         Donating to PayPal account run by<br /><span id="pp_account_email"></span>
       </p>
     </div>
@@ -44,13 +44,15 @@
       init: function (params) {
         this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com'); 
         this.setAttribute("currency", this.getAttribute("currency") || 'USD'); 
-        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify(["2","5","10"]));
+        //this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify(["2","5","10"]));
+        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
+        this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
 
         this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");         
 
         var payPalEmailAddress = this.getAttribute("yourPayPalEmailAddress");
 
-        var button04 = this.querySelector('#button04');        
+        var buttonOwnAmount = this.querySelector('#buttonOwnAmount');        
 
         // $("#paypal_donation_form").submit(function( event ) {
         //   alert( "Handler for .submit() called." );
@@ -62,12 +64,14 @@
         var options = JSON.parse(v);        
         this.querySelector(".button-wrapper").innerHTML = "";
         for(var key in options) {
-          var item = document.createElement("button");
-          item.setAttribute("value",options[key]);
-          item.setAttribute("name", "amount");
-          item.classList.add("button");
-          item.innerHTML = options[key] + " " + this.getAttribute("currency");
-          this.querySelector(".button-wrapper").appendChild(item);
+          if (options[key]) {
+            var item = document.createElement("button");
+            item.setAttribute("value",options[key]);
+            item.setAttribute("name", "amount");
+            item.classList.add("button");
+            item.innerHTML = options[key] + " " + this.getAttribute("currency");
+            this.querySelector(".button-wrapper").appendChild(item);
+          }
         }
       },     
       editable: {
@@ -100,6 +104,20 @@
           description: "Set you own message asking for donations",
           postset: function(v) {
             this.querySelector("#donationAsk").innerHTML = v;            
+          }
+        },
+        "showOwnAmountButton": {
+          title: "Add 'Choose own amount' button",
+          type: "boolean",
+          description: "Switchs on an optional button",
+          postset: function(v){            
+            var item = this.querySelector("#buttonOwnAmount");
+            if (v === "true"){
+              item.setAttribute("style", "display:block;");
+            }
+            else{
+              item.setAttribute("style", "display:none;");
+            }
           }
         }
       }      
