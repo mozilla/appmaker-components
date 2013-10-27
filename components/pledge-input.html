@@ -50,8 +50,6 @@
             return;
           }
 
-          //new Pledge(twitterNameInput.value, pledgeAmountInput.value);
-
           var request = new XMLHttpRequest();
           request.open('POST', 'http://appmaker-pledge.herokuapp.com/api/pledge', true);
           request.onreadystatechange = function () {
@@ -74,16 +72,8 @@
           this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
         }
         else {
-          this.setAttribute("placeholdertext", "Placeholder");
+          this.setAttribute("placeholdertext", "your twitter name");
         }
-        /*
-        if (this.hasAttribute('buttontext')) {
-          this.querySelector("button").innerHTML = this.getAttribute('buttontext');
-        }
-        else {
-          this.setAttribute("buttontext", "Pledge");
-        }
-        */
 
       },
       broadcasts: ['success'],
@@ -96,11 +86,6 @@
           this.querySelector('input[type="hidden"]').value = val.toString();
         }
       },
-      /*
-      getCurrentValue: function() {
-        return new Pledge(this.querySelector('input').value);
-      },
-      */
       updateConfig: function() {
         if (this._fireonchange) {
           this.classList.add('onchange');
