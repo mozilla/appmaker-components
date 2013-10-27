@@ -45,8 +45,8 @@ app-pledge-input.onchange input[type=text]{
 */
 
 app-pledge-input button {
-  background: linear-gradient(to top, #f8f8f8, #ddd);
-  background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
+  background: linear-gradient(to top, #a8e4a5, #b7f3b4);
+  background: -webkit-linear-gradient(top, #a8e4a5, #b7f3b4);
   border: 0.1rem solid #a6a6a6;
   border-radius: 0 0.2rem 0.2rem 0;
   float: left;
@@ -59,6 +59,6 @@ app-pledge-input button {
 }
 
 app-pledge-input button:active {
-  background: linear-gradient(to top, #ddd, #ddd);
-  background: -webkit-linear-gradient(top, #ddd, #ddd);
+  background: linear-gradient(to top, #b7f3b4, #b7f3b4);
+  background: -webkit-linear-gradient(top, #b7f3b4, #b7f3b4);
 }

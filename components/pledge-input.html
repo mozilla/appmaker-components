@@ -43,24 +43,33 @@
         else {
           this.setAttribute("placeholdertext", "Placeholder");
         }
+        /*
         if (this.hasAttribute('buttontext')) {
           this.querySelector("button").innerHTML = this.getAttribute('buttontext');
         }
         else {
+        */
           this.setAttribute("buttontext", "Submit");
+        /*
         }
+        */
 
       },
       broadcasts: ['sendData'],
       defaultBroadcasts: ['sendData'],
       listeners: {
-        setValue: function (val) {
+        setTwitterValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
+        },
+        setPledgeAmountValue: function (val) {
+          this.querySelector('input[type="hidden"]').value = val.toString();
         }
       },
+      /*
       getCurrentValue: function() {
         return new Pledge(this.querySelector('input').value);
       },
+      */
       updateConfig: function() {
         if (this._fireonchange) {
           this.classList.add('onchange');
@@ -81,14 +90,6 @@
           description: "The text you want your input field to show by default.",
           postset: function(v) {
             this.querySelector("input").setAttribute("placeholder", v);
-          }
-        },
-        emitOnChange: {
-          type: "boolean",
-          description: "Emit on change",
-          postset: function(v) {
-            this._fireonchange = v == "true";
-            this.updateConfig();
           }
         }
       }
