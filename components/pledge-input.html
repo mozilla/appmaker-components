@@ -32,8 +32,24 @@
         this.querySelector('button').onclick = function (e) {
           var twitterNameInput = element.querySelector('input[type="text"]');
           var pledgeAmountInput = element.querySelector('input[type="hidden"]');
-          element.broadcast('sendData', new Pledge(twitterNameInput.value, pledgeAmountInput.value), this.getAttribute("inputName"));
+
+          //new Pledge(twitterNameInput.value, pledgeAmountInput.value);
+
+          var request = new XMLHttpRequest();
+          request.open('POST', 'api/pledge', true);
+          request.onreadystatechange = function () {
+              if (request.readyState != 4 || request.status != 200) {
+                // Fail
+                element.broadcast('success', false, this.getAttribute("inputName"));
+              } else {
+                // Success
+                element.broadcast('success', true, this.getAttribute("inputName"));
+              };
+          };
+          request.send('twitter_handle='+twitterNameInput.value+'&amount='+pledgeAmountInput.value+'&currency_code=GBP');
+
           twitterNameInput.value = "";
+
         };
         this.updateConfig();
 
@@ -53,8 +69,8 @@
         */
 
       },
-      broadcasts: ['sendData'],
-      defaultBroadcasts: ['sendData'],
+      broadcasts: ['success'],
+      defaultBroadcasts: ['success'],
       listeners: {
         setTwitterValue: function (val) {
           this.querySelector('input[type="text"]').value = val.toString();
