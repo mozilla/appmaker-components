@@ -6,12 +6,12 @@
       
       <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
       <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
-      <form id="paypal_donation_form" method="post" target="_blank" action="https://www.paypal.com/cgi-bin/webscr"> 
+      <form id="paypal_donation_form" method="post" action="https://www.paypal.com/cgi-bin/webscr"> 
         
         <!-- PayPal bits -->
         <input type="hidden" name="business" id="pp_business" value="" />  
         <input type="hidden" name="currency_code" id="pp_currency_code" value="" /> 
-        <input type="hidden" name="item_name" id="" value="payment_from_appmaker_app" />  
+        <input type="hidden" name="item_name" id="fundrasingCampaignName" value="Donation from AppMaker App" />  
         <input type="hidden" name="no_shipping" value="1"/>
         <input type="hidden" name="cmd" value="_donations" /> <!-- TODO - could switch between donation and payments -->
 
@@ -32,10 +32,10 @@
 
   </template>
   <thumbnail>
-    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-number-checker.png" />
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-paypal-donate.png" />
   </thumbnail>
   <description>
-    Checks if an incoming number meets a certain criteria.
+    Add your own PayPal donation buttons, and start raising funds.
   </description>
   <script type="text/flathead">
   </script>
@@ -44,7 +44,6 @@
       init: function (params) {
         this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com'); 
         this.setAttribute("currency", this.getAttribute("currency") || 'USD'); 
-        //this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify(["2","5","10"]));
         this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
         this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
 
@@ -119,14 +118,21 @@
               item.setAttribute("style", "display:none;");
             }
           }
-        }
+        },
+        "nameYourFundraisingCampaign": {
+          type: "text",
+          description: "This tells the organisation who raised the funds",
+          postset: function(v) {
+            this.querySelector("#fundrasingCampaignName").value = "AppMaker donation from " + v; 
+          }
+        },
       },
       listeners: {
         sendYourOwnDonationAmount: function (val) {
           val = parseInt(val);
           if (val > 0) {
             console.log("donate " + val);
-            // Creating a dummy button - there is a better solution to this I'm not thinking of right now
+            // Creating a dummy button - there is a better solution to this that I'm not thinking of right now
             var item = document.createElement("button");
             item.setAttribute("value",val);
             item.setAttribute("name", "amount");
