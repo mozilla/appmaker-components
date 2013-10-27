@@ -43,10 +43,12 @@
       listeners: {
       	updateMessage: function (obj, myChannel)
       	{
+          this.lookAtMe();
       		this.message = obj.toString();
       	},
         sendTweet: function (obj, myChannel)
         {
+          this.lookAtMe();
           this.message = obj.toString();
           this.tweet();
         },

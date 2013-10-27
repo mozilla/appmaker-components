@@ -58,15 +58,17 @@
       listeners: {
       	updateMessage: function (objValue, myChannel)
       	{
+          this.lookAtMe();
       		this.message = objValue.toString();
       	},
         updateTo: function (objValue, myChannel)
         {
+          this.lookAtMe();
           this.phone   = objValue.toString();
         },
         sendMessage: function (objTwilio, myChannel)
         {
-          console.log(objTwilio);
+          this.lookAtMe();
           this.phone   = objTwilio.phone;
           this.message = objTwilio.message;
           this.send();
@@ -83,7 +85,7 @@
       		},
           function(data)
           {
-            console.log(data);
+//            console.log(data);
           });
         }
       }

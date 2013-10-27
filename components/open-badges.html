@@ -78,21 +78,25 @@
       listeners: {
         updateIssuingEmail: function (obj, myChannel)
         {
+          this.lookAtMe();
           this.issuingEmail = obj.toString();
           this.claimButton.disabled = false;
         },
         updateIssuingPhone: function (obj, myChannel)
         {
+          this.lookAtMe();
           this.issuingPhone = obj.toString();
           this.claimButton.disabled = false;
         },
         updateClaimCode: function (obj, myChannel)
         {
+          this.lookAtMe();
           this.claimCode = obj.toString();
           this.claimButton.disabled = false;
         },
         updateIssuing: function (objOpenBadges, myChannel)
         {
+          this.lookAtMe();
           this.issuingEmail = objOpenBadges.email;
           this.issuingPhone = objOpenBadges.phone;
           this.claimCode    = objOpenBadges.code;
