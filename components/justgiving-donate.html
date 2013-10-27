@@ -33,15 +33,17 @@
         this.setAttribute("donationAmount02", this.getAttribute("donationAmount02") || 5); 
         this.setAttribute("donationAmount03", this.getAttribute("donationAmount03") || 10); 
 
+        var pagename = this.getAttribute("yourJustGivingPageName");
+
         //TODO Wrap this up so people can add more or less       
 
         var button01 = this.querySelector('#button01');
         var button02 = this.querySelector('#button02');
         var button03 = this.querySelector('#button03');
-        var button04 = this.querySelector('#button04');
+        var button04 = this.querySelector('#button04');        
         
-        function goToJustGiving(v) {
-          var jgURL = "http://www.justgiving.com/" + this.yourJustGivingPageName + "/donate?amount=" + v; //TODO - page name isn't working
+        function goToJustGiving(amount) { 
+          var jgURL = "http://www.justgiving.com/" + pagename + "/donate?amount=" + amount; //TODO - page name isn't working
           if (confirm("This will take you to my fundraising page on JustGiving.com. Please give generously!")) {
             //window.location.replace(jgURL);
             window.open(jgURL,'_blank');

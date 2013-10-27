@@ -1,0 +1,37 @@
+.share-twitter
+{
+  font-family: "FiraSans", sans-serif;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  border: 1px solid #b7cdda;
+  border-top: 1px solid #b7cdda;
+  border-bottom: 2px solid #b7cdda;
+  background-color: #dfeffc;
+  text-align: center;
+  display: block;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  color: #2479a2;
+  padding-right: 15px;
+  padding-left: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  background-image: url(../images/thumbnails/app-share-twitter.png);
+  background-repeat: no-repeat;  /* make the background image appear only once */
+  background-position: 15px 8px;  /* equivalent to 'top left' */
+}
+
+.share-twitter .logo
+{
+	float: left;
+	height: 20px;
+}

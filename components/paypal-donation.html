@@ -1,0 +1,167 @@
+<element name="app-paypal-donation">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-paypal-donation.css"></link>
+    <div>
+      <h1 id="donationAsk">I'm going to donate</h1>
+      <h2>Donation Amount: <span></span></h2>
+
+      <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
+      <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
+      <form name="paypal_donation_form" method="post" action="https://www.paypal.com/cgi-bin/webscr">
+
+        <!-- PayPal bits -->
+        <input type="hidden" name="amount" id="pp_amount" value="" />
+        <input type="hidden" name="business" id="pp_business" value="" />
+        <input type="hidden" name="currency_code" id="pp_currency_code" value="" />
+        <input type="hidden" name="item_name" id="fundrasingCampaignName" value="Donation to Mozilla Foundation (Appmaker)" />
+        <input type="hidden" name="no_shipping" value="1"/>
+        <input type="hidden" name="cmd" value="_donations" /> <!-- TODO - could switch between donation and payments -->
+
+        <div class="button-wrapper">
+          <button class="button" value=""></button>
+          <button class="button" value=""></button>
+          <button class="button" value=""></button>
+        </div>
+
+        <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
+      </form>
+      <p class="logos">
+        <img src="{{ASSET_HOST}}/assets/images/paypal-logo.jpg" /><br />
+        Donating to PayPal account run by<br /><span id="pp_account_email"></span>
+      </p>
+    </div>
+
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-paypal-donate.png" />
+  </thumbnail>
+  <description>
+    Add your own PayPal donation buttons, and start raising funds.
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com');
+        this.setAttribute("currency", this.getAttribute("currency") || 'USD');
+        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
+        this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
+
+        this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
+
+        if (this.hasAttribute('amount')) {
+          this.setAmount(this.getAttribute('amount'));
+        }
+      },
+      buildMenu : function(v){
+        var that = this;
+        var options = JSON.parse(v);
+        var buttonWrapper = this.querySelector(".button-wrapper");
+        var currency = this.getAttribute("currency");
+        buttonWrapper.innerHTML = "";
+
+        if (!options) return;
+
+        var valid = 0;
+        options.forEach(function (value, index) {
+          if (value) {
+            ++valid;
+            var item = document.createElement("button");
+            item.setAttribute("value", value);
+            // item.setAttribute("name", "amount");
+            item.classList.add("button");
+            item.innerHTML = value + " " + currency;
+            buttonWrapper.appendChild(item);
+            item.onclick = function (e) {
+              that.setAmount(value);
+            };
+          }
+        });
+        this._updateDonationLabel();
+      },
+      _updateDonationLabel: function () {
+        if (this.querySelector('input[name="amount"]').value) {
+          this.querySelector('h2').hidden = false;
+        }
+        else {
+          this.querySelector('h2').hidden = true;
+        }
+      },
+      editable: {
+        "yourPayPalEmailAddress": {
+          type: "text",
+          description: "You can get this from your PayPal account",
+          postset: function(v) {
+            this.querySelector("#pp_business").value = v; 
+            this.querySelector("#pp_account_email").innerHTML = v; 
+          }
+        },
+        "currency": {
+          options : ["GBP","USD", "CHF"],
+          type: "select",
+          description: "Pick your preferred donation currency.",
+          postset: function(v) {
+            this.buildMenu(this.donationAmounts);
+            this.querySelector("#pp_currency_code").value = v;
+          }
+        },
+        "donationAmounts": {
+          type: "multiple",
+          description: "Donation Amounts",
+          postset: function(v) {
+            this.buildMenu(v);
+          }
+        },
+        "donateMessage": {
+          type: "text",
+          description: "Set you own message asking for donations",
+          postset: function(v) {
+            this.querySelector("#donationAsk").innerHTML = v;
+          }
+        },
+        "showOwnAmountButton": {
+          title: "Add 'Choose own amount' button",
+          type: "boolean",
+          description: "Switchs on an optional button",
+          postset: function(v){
+            var item = this.querySelector("#buttonOwnAmount");
+            if (v === "true") {
+              item.setAttribute("style", "display:block;");
+            }
+            else {
+              item.setAttribute("style", "display:none;");
+            }
+          }
+        },
+        "nameYourFundraisingCampaign": {
+          type: "text",
+          description: "This tells the organisation who raised the funds",
+          postset: function(v) {
+            this.querySelector("#fundrasingCampaignName").value = "AppMaker donation from " + v; 
+          }
+        },
+      },
+      setAmount: function (val) {
+        val = Number(val);
+        this.querySelector('input[name="amount"]').value = val;
+        this.querySelector('h2 > span').innerHTML = '';
+        this.querySelector('h2 > span').appendChild(document.createTextNode(val));
+        this.setAttribute('amount', val);
+        this._updateDonationLabel();
+      },
+      listeners: {
+        submit: function () {
+          this.querySelector('form[name="paypal_donation_form"]').submit();
+        },
+        sendYourOwnDonationAmount: function (val, e, ee) {
+          val = parseInt(val);
+          if (val > 0) {
+            this.setAmount(val);
+          }
+        }
+      }
+
+    });
+  </script>
+</element>
