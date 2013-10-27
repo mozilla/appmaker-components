@@ -6,15 +6,14 @@
       
       <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
       <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
-      <form id="paypal_donation_form" target="_blank" action="https://www.paypal.com/cgi-bin/webscr"> 
+      <form id="paypal_donation_form" method="post" target="_blank" action="https://www.paypal.com/cgi-bin/webscr"> 
         
         <!-- PayPal bits -->
         <input type="hidden" name="business" id="pp_business" value="" />  
         <input type="hidden" name="currency_code" id="pp_currency_code" value="" /> 
         <input type="hidden" name="item_name" id="" value="payment_from_appmaker_app" />  
-        <input type='hidden' name='no_shipping' value='1'/>
-        <!-- <input type='hidden' name='item_number' value='" + this.paymentType + "'/> -->
-        <!-- <input type='hidden' name='return' value='" + this.returnUrl + "'/> -->
+        <input type="hidden" name="no_shipping" value="1"/>
+        <input type="hidden" name="cmd" value="_donations" /> <!-- TODO - could switch between donation and payments -->
 
         <div class="button-wrapper">
           <button class="button" value=""></button>
@@ -52,14 +51,11 @@
         var payPalEmailAddress = this.getAttribute("yourPayPalEmailAddress");
 
         var button04 = this.querySelector('#button04');        
-        
-        function goToJustGiving(amount) { 
-          var jgURL = "http://www.justgiving.com/" + pagename + "/donate?amount=" + amount; //TODO - page name isn't working
-          if (confirm("This will take you to my fundraising page on JustGiving.com. Please give generously!")) {
-            //window.location.replace(jgURL);
-            window.open(jgURL,'_blank');
-          };            
-        };        
+
+        // $("#paypal_donation_form").submit(function( event ) {
+        //   alert( "Handler for .submit() called." );
+        //   console.log($("#paypal_donation_form").serialize());
+        // });
         
       }, 
       buildMenu : function(v){
