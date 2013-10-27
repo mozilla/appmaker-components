@@ -48,13 +48,15 @@
     Ceci(this, {
       init: function (params) {
         var t = this;
-        var testFiles = [
+        this.pitchFiles = [
           "http://list.thestoke.ca/downloads/trumpet1.mp3",
           "http://list.thestoke.ca/downloads/trumpet3.mp3",
           "http://list.thestoke.ca/downloads/trumpet5.mp3",
           "http://list.thestoke.ca/downloads/trumpet7.mp3",
           "http://list.thestoke.ca/downloads/trumpet8.mp3"
-        ]
+        ];
+
+        this.label = "Trumpet";
 
         var newPitch = function (sound) {
           var $tablerow = $('#sequencerTable').find('tr');
@@ -69,28 +71,26 @@
         }
 
         var audioLoop = function () {
-          var fragments = t.querySelectorAll('tr');
-          var fragmentIndex = 0;
-          var currentFragment;
+          var beats = t.querySelectorAll('tr');
+          beats = Array.prototype.slice.call(beats);
 
-          setInterval(function () {
-            if (currentFragment) {
-              currentFragment.classList.remove('playing');
-            }
-            currentFragment = fragments[fragmentIndex];
-
-            currentFragment.classList.add('playing');
-
-            var pitches = currentFragment.querySelectorAll('.on');
-
-            Array.prototype.forEach.call(pitches, function (pitch) {
-              var audio = pitch.querySelector('audio');
+          var playBeat = function() {
+            var beat = beats.shift();
+            beat.classList.add('playing');
+            beat.querySelectorAll('.on');
+            Array.prototype.forEach.call(beat.querySelectorAll('.on'), function (note) {
+              var audio = note.querySelector('audio');
               if (audio) {
                 audio.play();
               }
             });
-            fragmentIndex = (fragmentIndex + 1) % fragments.length;
-          }, 0.25);
+            beat.classList.remove('playing');
+            beats.push(beat);
+          };
+
+          setInterval(function () {
+            playBeat();
+          }, 125);
         }
 
         $(document).on('click', 'td', function () {
@@ -101,8 +101,8 @@
           }
         })
 
-        for (i in testFiles){
-          newPitch(testFiles[i]);
+        for (i in this.pitchFiles){
+          newPitch(this.pitchFiles[i]);
         }
         audioLoop();
 
@@ -111,6 +111,60 @@
       listeners: {
         addPitch: function (val) {
           newPitch(val);
+        },
+        playBeat: function () {
+
+        },
+        post: function (){
+          var notes = [];
+          var pitchCount = this.pitchFiles.length;
+          var i = 0;
+          var pitch;
+          var row;
+          var onNotes;
+          var table = document.querySelector('#sequencerTable');
+
+          Array.prototype.forEach.call(table.querySelectorAll('td'), function(cell){
+            row = Math.floor(i / pitchCount);
+            pitch = i - (row * pitchCount);
+
+            if (pitch === 0){
+              notes.push(onNotes);
+              onNotes = [];
+            }
+
+            if (cell.classList.contains("on")){
+              onNotes.push(pitch);
+            }
+
+            i += 1;
+          });
+          var sequence = [
+            {
+              "label" : "Trumpet",
+              "notes" : notes,
+              "audioClips" : this.pitchFiles
+            }
+          ];
+
+          var data = JSON.stringify(sequence);
+
+          var url = "http://mozfest-funk-tracker.herokuapp.com/data";
+
+          var http = new XMLHttpRequest();
+          http.open("POST", url, true);
+
+          //Send the proper header information along with the request
+          // http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+          http.onreadystatechange = function() {//Call a function when the state changes.
+            if(http.readyState == 4 && http.status == 200) {
+              alert(http.responseText);
+            }
+          }
+          http.send(data);
+
+          return;
         }
       },
       broadcasts: ['music'],
