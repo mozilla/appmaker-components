@@ -1,0 +1,112 @@
+<element name="app-paypal-donation">
+  <template>    
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-paypal-donation.css"></link>
+    <div>
+      <h1 id="donationAsk">I'm going to donate</h1>    
+      
+      <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
+      <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
+      <form id="paypal_donation_form" target="_blank" action="https://www.paypal.com/cgi-bin/webscr"> 
+        
+        <!-- PayPal bits -->
+        <input type="hidden" name="business" id="pp_business" value="" />  
+        <input type="hidden" name="currency_code" id="pp_currency_code" value="" /> 
+        <input type="hidden" name="item_name" id="" value="payment_from_appmaker_app" />  
+        <input type='hidden' name='no_shipping' value='1'/>
+        <!-- <input type='hidden' name='item_number' value='" + this.paymentType + "'/> -->
+        <!-- <input type='hidden' name='return' value='" + this.returnUrl + "'/> -->
+
+        <div class="button-wrapper">
+          <button class="button" value=""></button>
+          <button class="button" value=""></button>
+          <button class="button" value=""></button>
+        </div>
+        
+        <button class="button" id="button04" value="0">Choose my amount</button>
+      </form>
+         
+      <p class="logos">
+        <img src="{{ASSET_HOST}}/assets/images/justgiving-with-pp-logo.jpg" /><br />
+        Donating to PayPal account run by<br /><span id="pp_account_email"></span>
+      </p>
+    </div>
+
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-number-checker.png" />
+  </thumbnail>
+  <description>
+    Checks if an incoming number meets a certain criteria.
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com'); 
+        this.setAttribute("currency", this.getAttribute("currency") || 'USD'); 
+        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify(["2","5","10"]));
+
+        this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");         
+
+        var payPalEmailAddress = this.getAttribute("yourPayPalEmailAddress");
+
+        var button04 = this.querySelector('#button04');        
+        
+        function goToJustGiving(amount) { 
+          var jgURL = "http://www.justgiving.com/" + pagename + "/donate?amount=" + amount; //TODO - page name isn't working
+          if (confirm("This will take you to my fundraising page on JustGiving.com. Please give generously!")) {
+            //window.location.replace(jgURL);
+            window.open(jgURL,'_blank');
+          };            
+        };        
+        
+      }, 
+      buildMenu : function(v){
+        var options = JSON.parse(v);        
+        this.querySelector(".button-wrapper").innerHTML = "";
+        for(var key in options) {
+          var item = document.createElement("button");
+          item.setAttribute("value",options[key]);
+          item.setAttribute("name", "amount");
+          item.classList.add("button");
+          item.innerHTML = options[key] + " " + this.getAttribute("currency");
+          this.querySelector(".button-wrapper").appendChild(item);
+        }
+      },     
+      editable: {
+        yourPayPalEmailAddress: {
+          type: "text",
+          description: "You can get this from your PayPal account",
+          postset: function(v) {
+            this.querySelector("#pp_business").value = v; 
+            this.querySelector("#pp_account_email").innerHTML = v; 
+          }
+        },
+        currency: {
+          options : ["GBP","USD", "CHF"],
+          type: "select",
+          description: "Pick your preferred donation currency.",
+          postset: function(v) {            
+            this.buildMenu(this.donationAmounts);
+            this.querySelector("#pp_currency_code").value = v; 
+          }
+        },
+        donationAmounts: {
+          type: "multiple",
+          description: "Donation Amounts",
+          postset: function(v) {
+            this.buildMenu(v);
+          }
+        },
+        donateMessage: {
+          type: "text",
+          description: "Set you own message asking for donations",
+          postset: function(v) {
+            this.querySelector("#donationAsk").innerHTML = v;            
+          }
+        }
+      }      
+    });
+  </script>
+</element>
