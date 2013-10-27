@@ -6,9 +6,6 @@
         <input type="hidden" name="pledge-amount" class="pledge-amount" value="0"/>
     </div>
     <input type="text"/>
-    <div class="pledge-container">
-        <button class="pledge">Pledge</button>
-    </div>
   </template>
   <thumbnail>
     <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-pledge-input.png" />
@@ -33,40 +30,10 @@
 
         var element = this;
 
-        this.button = this.querySelector('button');
         this.textInput = this.querySelector('input[type=text]');
         this.setAttribute('inputName',this.getAttribute('inputName') || "Pledge Input");
         this.textInput.setAttribute('placeholder', 'your twitter name');
 
-        this.querySelector('button').onclick = function (e) {
-
-          var twitterNameInput = element.querySelector('input[type="text"]');
-          var pledgeAmountInput = element.querySelector('input[type="hidden"]');
-
-          var twitterName = twitterNameInput.value;
-          var pledgeAmount = pledgeAmountInput.value;
-
-          if( !twitterName || !pledgeAmount ) {
-            return;
-          }
-
-          var request = new XMLHttpRequest();
-          request.open('POST', 'http://appmaker-pledge.herokuapp.com/pledge/paypal', true);
-          request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          request.onreadystatechange = function () {
-              if (request.readyState != 4 || request.status != 200) {
-                // Fail
-                element.broadcast('success', false, element.getAttribute("inputName"));
-              } else {
-                // Success
-                element.broadcast('success', true, element.getAttribute("inputName"));
-              };
-          };
-          request.send('twitter_handle='+twitterNameInput.value+'&amount='+pledgeAmountInput.value+'&currency_code=GBP');
-
-          twitterNameInput.value = "";
-
-        };
         this.updateConfig();
 
         if (this.hasAttribute('placeholdertext')) {
@@ -85,16 +52,46 @@
         },
         setPledgeAmountValue: function (val) {
           this.querySelector('input[type="hidden"]').value = val.toString();
+        },
+        submit: function () {
+          this.doSubmit();
         }
       },
       updateConfig: function() {
         if (this._fireonchange) {
           this.classList.add('onchange');
-          this.button.classList.add('hidden');
         } else {
           this.classList.remove('onchange');
-          this.button.classList.remove('hidden');
         }
+      },
+      doSubmit: function () {
+        var twitterNameInput = this.querySelector('input[type="text"]');
+        var pledgeAmountInput = this.querySelector('input[type="hidden"]');
+
+        var twitterName = twitterNameInput.value;
+        var pledgeAmount = pledgeAmountInput.value;
+
+        if( !twitterName || !pledgeAmount ) {
+          return;
+        }
+
+        var that = this;
+
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://appmaker-pledge.herokuapp.com/pledge/paypal', true);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.onreadystatechange = function () {
+            if (request.readyState != 4 || request.status != 200) {
+              // Fail
+              that.broadcast('success', false, that.getAttribute("inputName"));
+            } else {
+              // Success
+              that.broadcast('success', true, that.getAttribute("inputName"));
+            };
+        };
+        request.send('twitter_handle='+twitterNameInput.value+'&amount='+pledgeAmountInput.value+'&currency_code=GBP');
+
+        twitterNameInput.value = "";
       },
       editable: {
         inputName: {
