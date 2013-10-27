@@ -3,19 +3,19 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-paypal-donation.css"></link>
     <div>
       <h1 id="donationAsk">I'm going to donate</h1>
-      <h2>Donation Amount: <span></span></h2>
 
       <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
       <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
-      <form name="paypal_donation_form" method="post" action="https://www.paypal.com/cgi-bin/webscr">
+      <form id="paypal_donation_form" method="post" action="https://www.paypal.com/cgi-bin/webscr">
 
         <!-- PayPal bits -->
-        <input type="hidden" name="amount" id="pp_amount" value="" />
         <input type="hidden" name="business" id="pp_business" value="" />
         <input type="hidden" name="currency_code" id="pp_currency_code" value="" />
-        <input type="hidden" name="item_name" id="fundrasingCampaignName" value="Donation to Mozilla Foundation (Appmaker)" />
+        <input type="hidden" name="item_name" id="fundrasingCampaignName" value="Donation from AppMaker App" />
         <input type="hidden" name="no_shipping" value="1"/>
+        <input type="hidden" name="rm" value="1"/>
         <input type="hidden" name="cmd" value="_donations" /> <!-- TODO - could switch between donation and payments -->
+        <input type="hidden" name="return" value="" /> <!-- Return url is the current app url with query param to tell success -->
 
         <div class="button-wrapper">
           <button class="button" value=""></button>
@@ -25,6 +25,7 @@
 
         <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
       </form>
+
       <p class="logos">
         <img src="{{ASSET_HOST}}/assets/images/paypal-logo.jpg" /><br />
         Donating to PayPal account run by<br /><span id="pp_account_email"></span>
@@ -43,6 +44,15 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
+        // Make this true if testing with the sandbox.
+        // Note: For the return url to auto redirect back to the app
+        // Auto return needs to be enabled.
+        var sandbox = true;
+        // This param is used to send a broadcast event on
+        // return from the donation page.
+        var successParamKey = 'success';
+        var successParamValue = '1';
+
         this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com');
         this.setAttribute("currency", this.getAttribute("currency") || 'USD');
         this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
@@ -50,42 +60,52 @@
 
         this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
 
-        if (this.hasAttribute('amount')) {
-          this.setAmount(this.getAttribute('amount'));
+        var buttonOwnAmount = this.querySelector('#buttonOwnAmount');
+        var appUrl = this.addParamToCurrentURL(successParamKey, successParamValue);
+        var returnInput = this.querySelector('#paypal_donation_form input[name="return"]');
+        returnInput.setAttribute('value', appUrl);
+
+        if (this.getParamValue(successParamKey) === successParamValue) {
+          this.broadcast('donationSuccess', true);
         }
+
       },
-      buildMenu : function(v){
-        var that = this;
-        var options = JSON.parse(v);
-        var buttonWrapper = this.querySelector(".button-wrapper");
-        var currency = this.getAttribute("currency");
-        buttonWrapper.innerHTML = "";
-
-        if (!options) return;
-
-        var valid = 0;
-        options.forEach(function (value, index) {
-          if (value) {
-            ++valid;
-            var item = document.createElement("button");
-            item.setAttribute("value", value);
-            // item.setAttribute("name", "amount");
-            item.classList.add("button");
-            item.innerHTML = value + " " + currency;
-            buttonWrapper.appendChild(item);
-            item.onclick = function (e) {
-              that.setAmount(value);
-            };
+      broadcast: function (e) {
+        this.emit(e);
+      },
+      getParamValue: function(key) {
+        var queryString = window.location.search;
+        var paramList = queryString.substr(1).split('&');
+        for (var i=0, j=paramList.length; i<j; i++) {
+          var keyValue = paramList[i].split('=');
+          if (key === keyValue[0] && keyValue.length > 1) {
+            var value = keyValue[1];
+            break;
           }
-        });
-        this._updateDonationLabel();
-      },
-      _updateDonationLabel: function () {
-        if (this.querySelector('input[name="amount"]').value) {
-          this.querySelector('h2').hidden = false;
         }
-        else {
-          this.querySelector('h2').hidden = true;
+        return value;
+      },
+      addParamToCurrentURL: function(key, value) {
+        var qs = window.location.search || '?';
+        var param = key + '=' + window.encodeURIComponent(value);
+        var path = window.location.path || '';
+        if (qs !== '?') {
+            qs = qs + "&";
+        }
+        return window.location.origin + path + qs + param;
+      },
+      buildMenu: function(v){
+        var options = JSON.parse(v);
+        this.querySelector(".button-wrapper").innerHTML = "";
+        for(var key in options) {
+          if (options[key]) {
+            var item = document.createElement("button");
+            item.setAttribute("value",options[key]);
+            item.setAttribute("name", "amount");
+            item.classList.add("button");
+            item.innerHTML = options[key] + " " + this.getAttribute("currency");
+            this.querySelector(".button-wrapper").appendChild(item);
+          }
         }
       },
       editable: {
@@ -93,8 +113,8 @@
           type: "text",
           description: "You can get this from your PayPal account",
           postset: function(v) {
-            this.querySelector("#pp_business").value = v; 
-            this.querySelector("#pp_account_email").innerHTML = v; 
+            this.querySelector("#pp_business").value = v;
+            this.querySelector("#pp_account_email").innerHTML = v;
           }
         },
         "currency": {
@@ -138,30 +158,39 @@
           type: "text",
           description: "This tells the organisation who raised the funds",
           postset: function(v) {
-            this.querySelector("#fundrasingCampaignName").value = "AppMaker donation from " + v; 
+            this.querySelector("#fundrasingCampaignName").value = "AppMaker donation from " + v;
           }
         },
-      },
-      setAmount: function (val) {
-        val = Number(val);
-        this.querySelector('input[name="amount"]').value = val;
-        this.querySelector('h2 > span').innerHTML = '';
-        this.querySelector('h2 > span').appendChild(document.createTextNode(val));
-        this.setAttribute('amount', val);
-        this._updateDonationLabel();
+       "usePaypalSandbox": {
+          title: "Use Paypal Sandbox",
+          type: "boolean",
+          description: "",
+          postset: function(v){
+            var appForm = this.querySelector("#paypal_donation_form");
+            if (v === "true") {
+              appForm.setAttribute('action', 'https://www.sandbox.paypal.com/cgi-bin/webscr');
+            } else {
+              appForm.setAttribute('action', 'https://www.paypal.com/cgi-bin/webscr');
+            }
+          }
+        },
       },
       listeners: {
-        submit: function () {
-          this.querySelector('form[name="paypal_donation_form"]').submit();
-        },
-        sendYourOwnDonationAmount: function (val, e, ee) {
+        sendYourOwnDonationAmount: function (val) {
           val = parseInt(val);
           if (val > 0) {
-            this.setAmount(val);
+            console.log("donate " + val);
+            // Creating a dummy button - there is a better solution to this that I'm not thinking of right now
+            var item = document.createElement("button");
+            item.setAttribute("value",val);
+            item.setAttribute("name", "amount");
+            this.querySelector(".button-wrapper").appendChild(item);
+            item.click();
           }
         }
-      }
-
+      },
+      broadcasts: ['donationSuccess'],
+      defaultBroadcasts: ['donationSuccess'],
     });
   </script>
 </element>
