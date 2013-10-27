@@ -1,0 +1,13 @@
+.twilioBanner
+{
+	padding: 8px 0px 8px 0px;
+}
+
+.twilioBanner img
+{
+	clear: both;
+	height: 14px;
+	float: left;
+	padding-top: 2px;
+	padding-right: 4px;
+}

@@ -1,0 +1,94 @@
+<element name="app-twilio">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-twilio.css">
+    <div class="twilioBanner">
+      <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png"/>
+      <div>SMS powered by Twilio</div>
+    </div>
+  </template>
+  <description>Send SMS using a Twilio Account</description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-twilio.png" />
+  </thumbnail>
+  <friends>app-open-badges</friends>
+  <script type="text/ceci">
+    function Twilio(mobilePhone, theMessage) 
+    {
+      this.phone   = mobilePhone;
+      this.message = theMessage;
+    };
+    Twilio.prototype.toString = function() {
+      return String(this.message);
+    };
+    Ceci(this, {
+      init: function (params) {
+        this.setAttribute('from', this.getAttribute('from') || "");
+        this.setAttribute('accountSid', this.getAttribute('accountSid') || "");
+        this.setAttribute('accountToken', this.getAttribute('accountToken') || "");
+        this.setAttribute('defaultMessage', this.getAttribute('defaultMessage') || "This is a default message");
+      	this.phone   = "";
+      	this.message = this.getAttribute('defaultMessage') || "";
+      },
+      updateAccountSid : function (val) {
+
+      },
+      editable: {
+        accountSid: {
+          type: "text",
+          description: "The Account SID information",
+          postset: function(v) {}
+        },
+        accountToken: {
+          type: "text",
+          description: "The Account TOKEN information",
+          postset: function(v) {}
+        },
+        from: {
+          type: "text",
+          description: "The from phone number",
+          postset: function(v) {}
+        },
+        defaultMessage: {
+          type: "text",
+          description: "The twilio SMS message",
+          postset: function(v) {}
+        }
+      },
+      defaultListener: 'updateMessageAndSend',
+      listeners: {
+      	updateMessage: function (objValue, myChannel)
+      	{
+          this.lookAtMe();
+      		this.message = objValue.toString();
+      	},
+        updateTo: function (objValue, myChannel)
+        {
+          this.lookAtMe();
+          this.phone   = objValue.toString();
+        },
+        updateMessageAndSend: function (objTwilio, myChannel)
+        {
+          this.lookAtMe();
+          this.phone   = objTwilio.phone;
+          this.message = objTwilio.message;
+          this.send();
+        },
+        send: function () 
+        {
+          $.post("/proxy/twilio/", {
+          	dataType:'json',
+      			TWILIO_ACCOUNT_SID:this.getAttribute('accountSid'),
+      			TWILIO_AUTH_TOKEN:this.getAttribute('accountToken'),
+      			to:this.phone,
+      			from:this.getAttribute('from'),
+      			body:this.message          		
+      		},
+          function(data)
+          {
+//            console.log(data);
+          });
+        }
+      }
+    });
+  </script>
+</element>

@@ -1,0 +1,112 @@
+<element name="app-pledge-input">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-pledge-input.css">
+    <div class="twitter">
+        <div class="prefix">@</div>
+        <input type="hidden" name="pledge-amount" class="pledge-amount" value="0"/>
+    </div>
+    <input type="text"/>
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-pledge-input.png" />
+  </thumbnail>
+  <description>
+    An input for pledging with a Twitter handle and a separate amount.
+  </description>
+  <script type="text/ceci">
+    function Pledge(twitterName, pledgeAmount) {
+      this.twitterName = twitterName;
+      this.pledgeAmount = pledgeAmount;
+      this.editor = 'app-pledge-input';
+    };
+    Pledge.prototype.toString = function() {
+      return String(this.twitterName + ' pledges ' + this.pledgeAmount);
+    };
+    Ceci(this, {
+      init: function (params) {
+
+        var twitterName = this.getAttribute('twitterName'); // 'value'
+        this.querySelector("input").value = twitterName;
+
+        var element = this;
+
+        this.textInput = this.querySelector('input[type=text]');
+        this.setAttribute('inputName',this.getAttribute('inputName') || "Pledge Input");
+        this.textInput.setAttribute('placeholder', 'your twitter name');
+
+        this.updateConfig();
+
+        if (this.hasAttribute('placeholdertext')) {
+          this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
+        }
+        else {
+          this.setAttribute("placeholdertext", "your twitter name");
+        }
+
+      },
+      broadcasts: ['success'],
+      defaultBroadcasts: ['success'],
+      listeners: {
+        setTwitterValue: function (val) {
+          this.querySelector('input[type="text"]').value = val.toString();
+        },
+        setPledgeAmountValue: function (val) {
+          this.querySelector('input[type="hidden"]').value = val.toString();
+        },
+        submit: function () {
+          this.doSubmit();
+        }
+      },
+      updateConfig: function() {
+        if (this._fireonchange) {
+          this.classList.add('onchange');
+        } else {
+          this.classList.remove('onchange');
+        }
+      },
+      doSubmit: function () {
+        var twitterNameInput = this.querySelector('input[type="text"]');
+        var pledgeAmountInput = this.querySelector('input[type="hidden"]');
+
+        var twitterName = twitterNameInput.value;
+        var pledgeAmount = pledgeAmountInput.value;
+
+        if( !twitterName || !pledgeAmount ) {
+          return;
+        }
+
+        var that = this;
+
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://appmaker-pledge.herokuapp.com/pledge/paypal', true);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.onreadystatechange = function () {
+            if (request.readyState != 4 || request.status != 200) {
+              // Fail
+              that.broadcast('success', false, that.getAttribute("inputName"));
+            } else {
+              // Success
+              that.broadcast('success', true, that.getAttribute("inputName"));
+            };
+        };
+        request.send('twitter_handle='+twitterNameInput.value+'&amount='+pledgeAmountInput.value+'&currency_code=GBP');
+
+        twitterNameInput.value = "";
+      },
+      editable: {
+        inputName: {
+          type: "text",
+          description: "The name of this field, helpful when saving data.",
+          postset: function(v) {}
+        },
+        placeholderText: {
+          type: "text",
+          description: "The text you want your input field to show by default.",
+          postset: function(v) {
+            this.querySelector("input").setAttribute("placeholder", v);
+          }
+        }
+      }
+    });
+  </script>
+</element>
