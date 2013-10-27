@@ -39,19 +39,24 @@
           }
         }
       },
-      defaultListener: 'updateMessage',
+      defaultListener: 'sendTweet',
       listeners: {
       	updateMessage: function (obj, myChannel)
       	{
           this.lookAtMe();
       		this.message = obj.toString();
       	},
-        sendTweet: function (obj, myChannel)
+        updateMessageAndSendTweet: function (obj, myChannel)
         {
           this.lookAtMe();
           this.message = obj.toString();
           this.tweet();
         },
+        sendTweet: function (obj, myChannel)
+        {
+          this.lookAtMe();
+          this.tweet();
+        }
       }
     });
   </script>
