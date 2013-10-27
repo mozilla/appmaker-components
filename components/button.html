@@ -18,7 +18,7 @@
         var button = this.querySelector('.button');
         var t = this;
         button.onclick = function (e) {
-          t.broadcast('click');
+          t.emit('click', t.__value, t.__value);
         };
         button.onmousedown = function (e) {
           button.style.backgroundColor = t.getAttribute("buttonActiveColor");
@@ -35,6 +35,8 @@
         this.setAttribute("buttonColor", this.getAttribute("buttonColor") || '#4DB227');
         this.setAttribute("buttonActiveColor", this.getAttribute("buttonActiveColor") || '#3d911f');
         this.setAttribute("textColor", this.getAttribute("textColor") || '#FFFFFF');
+
+        this.__value = this.getAttribute('value');
       },
       editable: {
         buttonLabel: {
@@ -61,6 +63,13 @@
         buttonActiveColor: {
           type: "text",
           description: "The color of your button"
+        },
+        value: {
+          type: "text",
+          description: "Value to be sent with a click.",
+          postset: function (v) {
+            this.__value = v;
+          }
         }
       },
       setLabel: function (val) {
