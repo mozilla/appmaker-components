@@ -3,12 +3,14 @@
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-paypal-donation.css"></link>
     <div>
       <h1 id="donationAsk">I'm going to donate</h1>
+      <h2>Donation Amount: <span></span></h2>
 
       <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
       <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
       <form id="paypal_donation_form" method="post" action="https://www.paypal.com/cgi-bin/webscr">
 
         <!-- PayPal bits -->
+        <input type="hidden" name="amount" id="pp_amount" value="" />
         <input type="hidden" name="business" id="pp_business" value="" />
         <input type="hidden" name="currency_code" id="pp_currency_code" value="" />
         <input type="hidden" name="item_name" id="fundrasingCampaignName" value="Donation from AppMaker App" />
@@ -69,9 +71,9 @@
           this.broadcast('donationSuccess', true);
         }
 
-      },
-      broadcast: function (e) {
-        this.emit(e);
+        if (this.hasAttribute('amount')) {
+          this.setAmount(this.getAttribute('amount'));
+        }
       },
       getParamValue: function(key) {
         var queryString = window.location.search;
@@ -95,18 +97,25 @@
         return window.location.origin + path + qs + param;
       },
       buildMenu: function(v){
+        var that = this;
         var options = JSON.parse(v);
-        this.querySelector(".button-wrapper").innerHTML = "";
-        for(var key in options) {
-          if (options[key]) {
-            var item = document.createElement("button");
-            item.setAttribute("value",options[key]);
-            item.setAttribute("name", "amount");
-            item.classList.add("button");
-            item.innerHTML = options[key] + " " + this.getAttribute("currency");
-            this.querySelector(".button-wrapper").appendChild(item);
-          }
-        }
+        var buttonWrapper = this.querySelector(".button-wrapper");
+        var currency = this.getAttribute("currency");
+        buttonWrapper.innerHTML = "";
+
+        if (!options) return;
+
+        options.forEach(function (value, index) {
+          var item = document.createElement("button");
+          item.setAttribute("value", value);
+          item.innerHTML = value + " " + currency;
+          buttonWrapper.appendChild(item);
+          item.onclick = function (e) {
+            that.setAmount(value);
+          };
+        });
+
+        this._updateDonationLabel();
       },
       editable: {
         "yourPayPalEmailAddress": {
@@ -161,7 +170,7 @@
             this.querySelector("#fundrasingCampaignName").value = "AppMaker donation from " + v;
           }
         },
-       "usePaypalSandbox": {
+        "usePaypalSandbox": {
           title: "Use Paypal Sandbox",
           type: "boolean",
           description: "",
@@ -179,15 +188,28 @@
         sendYourOwnDonationAmount: function (val) {
           val = parseInt(val);
           if (val > 0) {
-            console.log("donate " + val);
-            // Creating a dummy button - there is a better solution to this that I'm not thinking of right now
-            var item = document.createElement("button");
-            item.setAttribute("value",val);
-            item.setAttribute("name", "amount");
-            this.querySelector(".button-wrapper").appendChild(item);
-            item.click();
+            this.setAmount(val);
           }
+        },
+        submit: function () {
+          this.querySelector('#paypal_donation_form').submit();
         }
+      },
+      _updateDonationLabel: function () {
+        if (this.querySelector('input[name="amount"]').value) {
+          this.querySelector('h2').hidden = false;
+        }
+        else {
+          this.querySelector('h2').hidden = true;
+        }
+      },
+      setAmount: function (val) {
+        val = Number(val);
+        this.querySelector('input[name="amount"]').value = val;
+        this.querySelector('h2 > span').innerHTML = '';
+        this.querySelector('h2 > span').appendChild(document.createTextNode(val));
+        this.setAttribute('amount', val);
+        this._updateDonationLabel();
       },
       broadcasts: ['donationSuccess'],
       defaultBroadcasts: ['donationSuccess'],
