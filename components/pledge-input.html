@@ -1,9 +1,14 @@
 <element name="app-pledge-input">
   <template>
     <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-pledge-input.css">
-    <div class="prefix">@</div>
-    <input type="hidden" name="pledge-amount" class="pledge-amount" value="0"/>
-    <input type="text"/><button data-foo="bar">Pledge</button>
+    <div class="twitter">
+        <div class="prefix">@</div>
+        <input type="hidden" name="pledge-amount" class="pledge-amount" value="0"/>
+    </div>
+    <input type="text"/>
+    <div class="pledge-container">
+        <button class="pledge">Pledge</button>
+    </div>
   </template>
   <thumbnail>
     <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-pledge-input.png" />
@@ -22,28 +27,40 @@
     };
     Ceci(this, {
       init: function (params) {
+
         var twitterName = this.getAttribute('twitterName'); // 'value'
         this.querySelector("input").value = twitterName;
+
         var element = this;
+
         this.button = this.querySelector('button');
         this.textInput = this.querySelector('input[type=text]');
         this.setAttribute('inputName',this.getAttribute('inputName') || "Pledge Input");
         this.textInput.setAttribute('placeholder', 'your twitter name');
+
         this.querySelector('button').onclick = function (e) {
+
           var twitterNameInput = element.querySelector('input[type="text"]');
           var pledgeAmountInput = element.querySelector('input[type="hidden"]');
+
+          var twitterName = twitterNameInput.value;
+          var pledgeAmount = pledgeAmountInput.value;
+
+          if( !twitterName || !pledgeAmount ) {
+            return;
+          }
 
           //new Pledge(twitterNameInput.value, pledgeAmountInput.value);
 
           var request = new XMLHttpRequest();
-          request.open('POST', 'api/pledge', true);
+          request.open('POST', 'http://appmaker-pledge.herokuapp.com/api/pledge', true);
           request.onreadystatechange = function () {
               if (request.readyState != 4 || request.status != 200) {
                 // Fail
-                element.broadcast('success', false, this.getAttribute("inputName"));
+                element.broadcast('success', false, element.getAttribute("inputName"));
               } else {
                 // Success
-                element.broadcast('success', true, this.getAttribute("inputName"));
+                element.broadcast('success', true, element.getAttribute("inputName"));
               };
           };
           request.send('twitter_handle='+twitterNameInput.value+'&amount='+pledgeAmountInput.value+'&currency_code=GBP');
