@@ -1,0 +1,67 @@
+<element name="quneo">
+  <description>
+    Broadcasts QuNeo controller events to other components
+  </description>
+
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-chat-window.png" />
+  </thumbnail>
+
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/quneo.css" />
+    <div>
+      Quneo event emitter
+    </div>
+  </template>
+
+  <script type="text/ceci">
+    /*
+    For server setup: https://github.com/kumar303/quneo-exp
+    */
+    var element = this;
+    // How did I get this from .env?
+    var host = 'http://0.0.0.0:5000';
+    require([host + '/socket.io/socket.io.js'], function() {
+      Ceci(element, {
+        init: function (params) {
+          try {
+            var self = this;
+            console.log('loading...');
+            var socket = io.connect(host);
+
+            socket.on('server', function (msg) {
+              console.log('server: ' + msg);
+            });
+
+            socket.on('play', function (evt) {
+              self.broadcast('quneo_play', evt);
+              if (evt.type === 'drum') {
+                console.log(evt.type, evt.data.id, evt.data.velocity);
+              } else if (evt.type === 'vslider') {
+                console.log(evt.type, evt.data.id, evt.data.location);
+              } else if (evt.type === 'longSlider') {
+                console.log(evt.type, evt.data.location);
+              } else if (evt.type === 'upButton') {
+                console.log(evt.type, evt.data.id, evt.data.velocity);
+              } else if (evt.type === 'downButton') {
+                console.log(evt.type, evt.data.id, evt.data.velocity);
+              } else {
+                console.log('unknown', evt.type, evt.data);
+              }
+            });
+          } catch(e) {
+            console.error(e.name);
+            throw e;
+          }
+        },
+        broadcast: function (e) {
+          this.emit(e);
+        },
+        broadcasts: ['quneo_play'],
+        defaultBroadcasts: ['quneo_play']
+      });
+
+      callback();
+    });
+  </script>
+</element>
