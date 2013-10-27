@@ -1,0 +1,109 @@
+<element name="app-open-badges">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-open-badges.css">
+    <div class="openBadgesBanner">
+      <img src='{{ASSET_HOST}}/assets/images/thumbnails/app-open-badges.png' class="openBadgesImage"/>
+      <button class="openBadgesButton">Claim Badge</button>
+    </div>
+  </template>
+  <description>Open Badges Issuer</description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-open-badges.png" />
+  </thumbnail>
+  <friends>app-twilio</friends>
+  <script type="text/ceci">
+    function OpenBadges(claimCode, claimEmail, claimPhone, claimMessage) 
+    {
+      this.code  = claimCode;
+      this.email = claimEmail;
+      this.phone = claimPhone;
+      this.message = claimMessage;
+    };
+    OpenBadges.prototype.toString = function() {
+      return String(this.message);
+    };
+
+    Ceci(this, {
+      init: function (params) {
+        this.setAttribute('openBadgeClaimMessage', this.getAttribute('openBadgeClaimMessage') || "Claim your badge at");
+        this.setAttribute('openBadgeClaimUrl', this.getAttribute('openBadgeClaimUrl') || "http://badges.openbadges.org/claim?code=");
+        this.setAttribute('openBadgeDefaultClaimCode', this.getAttribute('openBadgeDefaultClaimCode') || "im-a-mozillian");
+        this.claimMessage = this.getAttribute("openBadgeClaimMessage");
+        this.claimCode    = this.getAttribute('openBadgeDefaultClaimCode');
+        this.claimUrl     = this.getAttribute('openBadgeClaimUrl');
+
+        this.issuingEmail = "";
+        this.issuingPhone = "";
+
+        var t = this;
+        this.claimedBadge = this.querySelector(".openBadgesImage");
+        this.claimButton  = this.querySelector(".openBadgesButton");
+
+        this.claimButton.onclick = function (e) {
+          t.claimBadge();
+        };
+
+      	this.message = this.getAttribute('defaultMessage') || "";
+      },
+      claimBadge: function (objValue, myChannel)
+      {
+        var theClaimMessage = this.claimMessage + " " + this.claimUrl + this.claimCode;
+        this.broadcast("badgeClaimed", new OpenBadges(this.claimCode, this.issuingEmail, this.issuingPhone, theClaimMessage));
+      },
+      editable: {
+        openBadgeClaimMessage: {
+          type: "text",
+          description: "The message",
+          postset: function(v) {
+            this.claimMessage = v;
+          }
+        },
+        openBadgeClaimUrl: {
+          type: "text",
+          description: "The Open Badge claim url",
+          postset: function(v) {
+            this.claimUrl = v;
+          }
+        },
+        openBadgeDefaultClaimCode: {
+          type: "text",
+          description: "The Open Badge default claim code",
+          postset: function(v) {
+            this.claimCode;
+          }
+        }
+      },
+      broadcasts: ['badgeClaimed'],
+      defaultBroadcasts: ['badgeClaimed'],
+      listeners: {
+        updateIssuingEmail: function (obj, myChannel)
+        {
+          this.lookAtMe();
+          this.issuingEmail = obj.toString();
+          this.claimButton.disabled = false;
+        },
+        updateIssuingPhone: function (obj, myChannel)
+        {
+          this.lookAtMe();
+          this.issuingPhone = obj.toString();
+          this.claimButton.disabled = false;
+        },
+        updateClaimCode: function (obj, myChannel)
+        {
+          this.lookAtMe();
+          this.claimCode = obj.toString();
+          this.claimButton.disabled = false;
+        },
+        updateIssuing: function (objOpenBadges, myChannel)
+        {
+          this.lookAtMe();
+          this.issuingEmail = objOpenBadges.email;
+          this.issuingPhone = objOpenBadges.phone;
+          this.claimCode    = objOpenBadges.code;
+          this.claimButton.disabled = false;
+        }
+      },
+      defaultListener: 'updateIssuingPhone',
+    });
+  </script>
+</element>

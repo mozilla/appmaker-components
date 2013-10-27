@@ -1,6 +1,6 @@
-<element name="app-button">
+<element name="donate-button">
   <template>
-    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-button.css"></link>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/donate-button.css"></link>
     <div>
       <button class="button">Default</button>
     </div>
@@ -18,7 +18,7 @@
         var button = this.querySelector('.button');
         var t = this;
         button.onclick = function (e) {
-          t.emit('click', t.__value, t.__value);
+          t.broadcast('click');
         };
         button.onmousedown = function (e) {
           button.style.backgroundColor = t.getAttribute("buttonActiveColor");
@@ -31,12 +31,8 @@
         button.onmouseleave = function (e) {
           button.style.backgroundColor = t.getAttribute("buttonColor");
         };
-        this.setAttribute("buttonLabel", this.getAttribute("buttonLabel") || 'Click Me');
-        this.setAttribute("buttonColor", this.getAttribute("buttonColor") || '#4DB227');
-        this.setAttribute("buttonActiveColor", this.getAttribute("buttonActiveColor") || '#3d911f');
-        this.setAttribute("textColor", this.getAttribute("textColor") || '#FFFFFF');
-
-        this.__value = this.getAttribute('value');
+        this.setAttribute("buttonLabel", this.getAttribute("buttonLabel") || 'Donate');
+        this.setAttribute("textColor", this.getAttribute("textColor") || '#fff');
       },
       editable: {
         buttonLabel: {
@@ -45,31 +41,6 @@
           postset: function(v) {
             this.setLabel(v);
           }
-        },
-        textColor: {
-          type: "text",
-          description: "The color of the button label",
-          postset: function(v) {
-            this.setTextColor(v);
-          }
-        },
-        buttonColor: {
-          type: "text",
-          description: "The color of your button",
-          postset: function(v) {
-            this.setButtonColor(v);
-          }
-        },
-        buttonActiveColor: {
-          type: "text",
-          description: "The color of your button"
-        },
-        value: {
-          type: "text",
-          description: "Value to be sent with a click.",
-          postset: function (v) {
-            this.__value = v;
-          }
         }
       },
       setLabel: function (val) {
@@ -77,9 +48,6 @@
       },
       setButtonColor: function (val) {
         this.querySelector('button').style.backgroundColor = val;
-      },
-      setTextColor: function (val) {
-        this.querySelector('button').style.color = val;
       },
       broadcasts: ['click', 'mouseDown', 'mouseUp'],
       defaultBroadcasts: ['click']
