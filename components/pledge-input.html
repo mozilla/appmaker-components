@@ -1,0 +1,97 @@
+<element name="app-pledge-input">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-pledge-input.css">
+    <div class="prefix">@</div>
+    <input type="hidden" name="pledge-amount" class="pledge-amount" value="0"/>
+    <input type="text"/><button data-foo="bar">Submit</button>
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-pledge-input.png" />
+  </thumbnail>
+  <description>
+    An input for pledging with a Twitter handle and a separate amount.
+  </description>
+  <script type="text/ceci">
+    function Pledge(twitterName, pledgeAmount) {
+      this.twitterName = twitterName;
+      this.pledgeAmount = pledgeAmount;
+      this.editor = 'app-pledge-input';
+    };
+    Pledge.prototype.toString = function() {
+      return String(this.twitterName + ' pledges ' + this.pledgeAmount);
+    };
+    Ceci(this, {
+      init: function (params) {
+        var twitterName = this.getAttribute('twitterName'); // 'value'
+        this.querySelector("input").value = twitterName;
+        var element = this;
+        this.button = this.querySelector('button');
+        this.textInput = this.querySelector('input[type=text]');
+        this.setAttribute('inputName',this.getAttribute('inputName') || "Pledge Input");
+        this.textInput.setAttribute('placeholder', 'your twitter name');
+        this.querySelector('button').onclick = function (e) {
+          var twitterNameInput = element.querySelector('input[type="text"]');
+          var pledgeAmountInput = element.querySelector('input[type="hidden"]');
+          element.broadcast('sendData', new Pledge(twitterNameInput.value, pledgeAmountInput.value), this.getAttribute("inputName"));
+          twitterNameInput.value = "";
+        };
+        this.updateConfig();
+
+        if (this.hasAttribute('placeholdertext')) {
+          this.querySelector("input").setAttribute("placeholder", this.getAttribute('placeholdertext'));
+        }
+        else {
+          this.setAttribute("placeholdertext", "Placeholder");
+        }
+        if (this.hasAttribute('buttontext')) {
+          this.querySelector("button").innerHTML = this.getAttribute('buttontext');
+        }
+        else {
+          this.setAttribute("buttontext", "Submit");
+        }
+
+      },
+      broadcasts: ['sendData'],
+      defaultBroadcasts: ['sendData'],
+      listeners: {
+        setValue: function (val) {
+          this.querySelector('input[type="text"]').value = val.toString();
+        }
+      },
+      getCurrentValue: function() {
+        return new Pledge(this.querySelector('input').value);
+      },
+      updateConfig: function() {
+        if (this._fireonchange) {
+          this.classList.add('onchange');
+          this.button.classList.add('hidden');
+        } else {
+          this.classList.remove('onchange');
+          this.button.classList.remove('hidden');
+        }
+      },
+      editable: {
+        inputName: {
+          type: "text",
+          description: "The name of this field, helpful when saving data.",
+          postset: function(v) {}
+        },
+        placeholderText: {
+          type: "text",
+          description: "The text you want your input field to show by default.",
+          postset: function(v) {
+            this.querySelector("input").setAttribute("placeholder", v);
+          }
+        },
+        emitOnChange: {
+          type: "boolean",
+          description: "Emit on change",
+          postset: function(v) {
+            this._fireonchange = v == "true";
+            this.updateConfig();
+          }
+        }
+      }
+    });
+  </script>
+</element>

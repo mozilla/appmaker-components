@@ -1,0 +1,64 @@
+@import url("../style/fonts.css");
+
+app-pledge-input {
+  padding: 0;
+  height: 3.8rem;
+}
+
+app-pledge-input .prefix {
+  font-size: 3rem;
+  color: #666;
+  float: left;
+  width: 10%;
+  text-align: center;
+  line-height: 3.6rem;
+}
+
+app-pledge-input input[type=text]{
+  padding: 0;
+  height: 100%;
+  border: none;
+  color: #000;
+  font-weight: 500;
+  font-size: 1.6rem;
+  background-color: #FFF;
+  background-size: auto 100%;
+  width: 60%;
+  border-radius: 0;
+  margin: 0;
+  float: left;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 0.1rem solid rgb(204, 204, 204);
+  border-right: none;
+  text-indent: 0.6rem;
+  outline: none;
+  font-weight: 400;
+  font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+}
+
+/*
+app-pledge-input.onchange input[type=text]{
+  width: 100%;
+}
+*/
+
+app-pledge-input button {
+  background: linear-gradient(to top, #f8f8f8, #ddd);
+  background: -webkit-linear-gradient(top, #f8f8f8, #ddd);
+  border: 0.1rem solid #a6a6a6;
+  border-radius: 0 0.2rem 0.2rem 0;
+  float: left;
+  width: 30%;
+  padding: 0;
+  height: 100%;
+  font-weight: 500;
+  font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+}
+
+app-pledge-input button:active {
+  background: linear-gradient(to top, #ddd, #ddd);
+  background: -webkit-linear-gradient(top, #ddd, #ddd);
+}
