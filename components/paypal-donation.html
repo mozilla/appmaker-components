@@ -1,0 +1,141 @@
+<element name="app-paypal-donation">
+  <template>    
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-paypal-donation.css"></link>
+    <div>
+      <h1 id="donationAsk">I'm going to donate</h1>    
+      
+      <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
+      <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
+      <form id="paypal_donation_form" method="post" target="_blank" action="https://www.paypal.com/cgi-bin/webscr"> 
+        
+        <!-- PayPal bits -->
+        <input type="hidden" name="business" id="pp_business" value="" />  
+        <input type="hidden" name="currency_code" id="pp_currency_code" value="" /> 
+        <input type="hidden" name="item_name" id="" value="payment_from_appmaker_app" />  
+        <input type="hidden" name="no_shipping" value="1"/>
+        <input type="hidden" name="cmd" value="_donations" /> <!-- TODO - could switch between donation and payments -->
+
+        <div class="button-wrapper">
+          <button class="button" value=""></button>
+          <button class="button" value=""></button>
+          <button class="button" value=""></button>
+        </div>        
+        
+        <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
+      </form>
+         
+      <p class="logos">
+        <img src="{{ASSET_HOST}}/assets/images/paypal-logo.jpg" /><br />
+        Donating to PayPal account run by<br /><span id="pp_account_email"></span>
+      </p>
+    </div>
+
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-number-checker.png" />
+  </thumbnail>
+  <description>
+    Checks if an incoming number meets a certain criteria.
+  </description>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com'); 
+        this.setAttribute("currency", this.getAttribute("currency") || 'USD'); 
+        //this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify(["2","5","10"]));
+        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
+        this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
+
+        this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");         
+
+        var payPalEmailAddress = this.getAttribute("yourPayPalEmailAddress");
+
+        var buttonOwnAmount = this.querySelector('#buttonOwnAmount');        
+
+        // $("#paypal_donation_form").submit(function( event ) {
+        //   alert( "Handler for .submit() called." );
+        //   console.log($("#paypal_donation_form").serialize());
+        // });
+        
+      }, 
+      buildMenu : function(v){
+        var options = JSON.parse(v);        
+        this.querySelector(".button-wrapper").innerHTML = "";
+        for(var key in options) {
+          if (options[key]) {
+            var item = document.createElement("button");
+            item.setAttribute("value",options[key]);
+            item.setAttribute("name", "amount");
+            item.classList.add("button");
+            item.innerHTML = options[key] + " " + this.getAttribute("currency");
+            this.querySelector(".button-wrapper").appendChild(item);
+          }
+        }
+      },     
+      editable: {
+        "yourPayPalEmailAddress": {
+          type: "text",
+          description: "You can get this from your PayPal account",
+          postset: function(v) {
+            this.querySelector("#pp_business").value = v; 
+            this.querySelector("#pp_account_email").innerHTML = v; 
+          }
+        },
+        "currency": {
+          options : ["GBP","USD", "CHF"],
+          type: "select",
+          description: "Pick your preferred donation currency.",
+          postset: function(v) {            
+            this.buildMenu(this.donationAmounts);
+            this.querySelector("#pp_currency_code").value = v; 
+          }
+        },
+        "donationAmounts": {
+          type: "multiple",
+          description: "Donation Amounts",
+          postset: function(v) {
+            this.buildMenu(v);
+          }
+        },
+        "donateMessage": {
+          type: "text",
+          description: "Set you own message asking for donations",
+          postset: function(v) {
+            this.querySelector("#donationAsk").innerHTML = v;            
+          }
+        },
+        "showOwnAmountButton": {
+          title: "Add 'Choose own amount' button",
+          type: "boolean",
+          description: "Switchs on an optional button",
+          postset: function(v){            
+            var item = this.querySelector("#buttonOwnAmount");
+            if (v === "true") {
+              item.setAttribute("style", "display:block;");
+            }
+            else {
+              item.setAttribute("style", "display:none;");
+            }
+          }
+        }
+      },
+      listeners: {
+        sendYourOwnDonationAmount: function (val) {
+          val = parseInt(val);
+          if (val > 0) {
+            console.log("donate " + val);
+            // Creating a dummy button - there is a better solution to this I'm not thinking of right now
+            var item = document.createElement("button");
+            item.setAttribute("value",val);
+            item.setAttribute("name", "amount");
+            this.querySelector(".button-wrapper").appendChild(item);
+            item.click();
+          }
+        }
+      }
+
+    });
+  </script>
+</element>
