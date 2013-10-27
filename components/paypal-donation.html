@@ -54,6 +54,7 @@
         // return from the donation page.
         var successParamKey = 'success';
         var successParamValue = '1';
+        var that = this;
 
         this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com');
         this.setAttribute("currency", this.getAttribute("currency") || 'USD');
@@ -68,7 +69,9 @@
         returnInput.setAttribute('value', appUrl);
 
         if (this.getParamValue(successParamKey) === successParamValue) {
-          this.broadcast('donationSuccess', true);
+          setTimeout(function() {
+            that.broadcast('donationSuccess', true);
+          }, 500);
         }
 
         if (this.hasAttribute('amount')) {
@@ -90,7 +93,7 @@
       addParamToCurrentURL: function(key, value) {
         var qs = window.location.search || '?';
         var param = key + '=' + window.encodeURIComponent(value);
-        var path = window.location.path || '';
+        var path = window.location.pathname || 'index.html';
         if (qs !== '?') {
             qs = qs + "&";
         }
