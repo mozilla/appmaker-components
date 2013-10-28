@@ -58,8 +58,8 @@
 
         this.setAttribute("yourPayPalEmailAddress", this.getAttribute("yourPayPalEmailAddress") || 'you@example.com');
         this.setAttribute("currency", this.getAttribute("currency") || 'USD');
-        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
-        this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
+        this.setAttribute("donationAmounts", this.getAttribute("donationAmounts") || JSON.stringify([""]));
+        this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton") || false);
 
         this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
 
@@ -77,6 +77,16 @@
         if (this.hasAttribute('amount')) {
           this.setAmount(this.getAttribute('amount'));
         }
+
+        this.setFormAction(this.getAttribute('usePaypalSandbox') == 'true');
+      },
+      setFormAction: function(value) {
+        var appForm = this.querySelector("#paypal_donation_form");
+        if (value === true) {
+          appForm.setAttribute('action', 'https://www.sandbox.paypal.com/cgi-bin/webscr');
+        } else {
+          appForm.setAttribute('action', 'https://www.paypal.com/cgi-bin/webscr');
+        }
       },
       getParamValue: function(key) {
         var queryString = window.location.search;
@@ -93,7 +103,7 @@
       addParamToCurrentURL: function(key, value) {
         var qs = window.location.search || '?';
         var param = key + '=' + window.encodeURIComponent(value);
-        var path = window.location.pathname || 'index.html';
+        var path = window.location.pathname || '/index.html';
         if (qs !== '?') {
             qs = qs + "&";
         }
@@ -176,14 +186,9 @@
         "usePaypalSandbox": {
           title: "Use Paypal Sandbox",
           type: "boolean",
-          description: "",
+          description: "Use paypal sandbox for testing",
           postset: function(v){
-            var appForm = this.querySelector("#paypal_donation_form");
-            if (v === "true") {
-              appForm.setAttribute('action', 'https://www.sandbox.paypal.com/cgi-bin/webscr');
-            } else {
-              appForm.setAttribute('action', 'https://www.paypal.com/cgi-bin/webscr');
-            }
+            this.setFormAction(v == 'true');
           }
         },
       },
