@@ -1,0 +1,60 @@
+<element name="app-random-number">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random-number.css">
+    <div class="random">
+      <span class="random-wrapper">Random: <span class="random-number">0</span></span>
+    </div>
+  </template>
+  <description>
+    Listens for calculates the random.
+  </description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-random-number.png" />
+  </thumbnail>
+
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.range = 100;
+        this.rand = 0;
+      },
+      updateDisplay: function () {
+        console.log("randome conponent: this.rand = " + this.rand);
+        this.querySelector('.random-number').innerHTML = this.rand;
+        this.broadcast("randomValue", this.rand);
+      },
+      broadcasts: ["randomValue"],
+      defaultBroadcasts: ["randomValue"],
+      defaultListener: 'calculaterandom',
+      listeners: {
+        calculaterandom: function (listener, channel) {
+          this.rand = Math.floor(Math.random() * this.range);
+
+          this.updateDisplay();
+        },
+        resetrandom: function (value, channel) {
+          this.range = parseInt(value);
+          if (isNaN(this.range)){
+            this.range = 100;
+            this.rand = 0;
+          }
+          this.updateDisplay();
+        }
+      },
+      editable: {
+          "Range": {
+              title: "Range",
+              min: 1,
+              type: "number",
+              description: "Return value range",
+              postset: function(v) {
+                  this.setRange(v);
+              }
+          }
+      },
+      setRange: function(v) {
+          this.range = parseInt(v);
+      },
+    });
+  </script>
+</element>
