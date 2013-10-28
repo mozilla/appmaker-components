@@ -5,8 +5,6 @@
       <h1 id="donationAsk">I'm going to donate</h1>
       <h2>Donation Amount: <span></span></h2>
 
-      <!-- Sandbox URL https://www.sandbox.paypal.com/cgi-bin/webscr -->
-      <!-- Live URL https://www.paypal.com/cgi-bin/webscr -->
       <form id="paypal_donation_form" method="post" action="https://www.paypal.com/cgi-bin/webscr">
 
         <!-- PayPal bits -->
@@ -111,6 +109,7 @@
         options.forEach(function (value, index) {
           var item = document.createElement("button");
           item.setAttribute("value", value);
+          item.setAttribute("class", "button");
           item.innerHTML = value + " " + currency;
           buttonWrapper.appendChild(item);
           item.onclick = function (e) {
