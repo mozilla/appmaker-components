@@ -25,6 +25,38 @@
         this.instruments = [];
         this.playhead = 0;
 
+        this.resetInstruments = function(){
+          // TODO: use teoria library to populate instruments
+          // https://github.com/saebekassebil/teoria
+
+
+          this.grid.clear();
+          this.instruments.clear();
+
+          // For now, fake it.
+          if ((this.getAttribute("instrument") == "Trumpet")){
+
+            // These aren't even the right positions, we need new instruments
+            Array.prototype.forEach.call([1,2,3,5,6], function(n){
+              sequencer.addInstrument("{{ASSET_HOST}}/assets/app-sequencer/sounds/trumpet" + n + ".mp3");
+            });
+          }
+        }
+
+        this.grid.clear = function(){
+          console.log(this);
+          while (this.hasChildNodes()){
+            this.removeChild(this.lastChild);
+          }
+        };
+        this.instruments.clear = function(){
+          var instruments = sequencer.querySelector(".sequencer-instruments");
+          while (instruments.hasChildNodes()){
+            instruments.removeChild(instruments.lastChild);
+          }
+          this.length = 0;
+        };
+
         this.grid.addRow = function(player){
           var row = document.createElement('div')
           row.classList.add('row');
@@ -54,7 +86,7 @@
             //
             cell.addEventListener("click", function(e){
               setTimeout(function(){
-                player.play();
+                this.play();
               }, 0);
               e.target.toggle();
             });
@@ -80,19 +112,6 @@
           return audio;
         };
 
-        var testFiles = [
-          "http://list.thestoke.ca/downloads/trumpet1.mp3",
-          "http://list.thestoke.ca/downloads/trumpet3.mp3",
-          "http://list.thestoke.ca/downloads/trumpet5.mp3",
-          "http://list.thestoke.ca/downloads/trumpet7.mp3",
-          "http://list.thestoke.ca/downloads/trumpet8.mp3"
-        ];
-
-
-        for (i in testFiles){
-          this.addInstrument(testFiles[i]);
-        }
-
         /**
         * Call function (fn) for each cell on the grid
         * fn should have signature:
@@ -109,6 +128,34 @@
             });
           }
         };
+
+        this.resetInstruments();
+      },
+      editable: {
+        key: {
+          options : ["D"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.resetInstruments();
+          }
+        },
+        instrument: {
+          options : ["None", "Trumpet"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.resetInstruments();
+          }
+        },
+        scale: {
+          options : ["Pentatonic"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.resetInstruments();
+          }
+        },
       },
       defaultListener: 'playNextBeat',
       listeners: {
