@@ -103,7 +103,7 @@
         var that = this;
         var options = JSON.parse(v);
         var buttonWrapper = this.querySelector(".button-wrapper");
-        var currency = this.getAttribute("currency");
+        var currency = this.getCurrencySymbol(this.getAttribute("currency"));
         buttonWrapper.innerHTML = "";
 
         if (!options) return;
@@ -111,7 +111,8 @@
         options.forEach(function (value, index) {
           var item = document.createElement("button");
           item.setAttribute("value", value);
-          item.innerHTML = value + " " + currency;
+          item.setAttribute("class", "button");
+          item.innerHTML = currency + " " + value;
           buttonWrapper.appendChild(item);
           item.onclick = function (e) {
             that.setAmount(value);
@@ -130,7 +131,27 @@
           }
         },
         "currency": {
-          options : ["GBP","USD", "CHF"],
+          options : [ "AUD", 
+                      "CAD",
+                      "CHF", 
+                      "CZK", 
+                      "DKK", 
+                      "EUR",
+                      "GBP", 
+                      "HKD", 
+                      "ILS", 
+                      "JPY", 
+                      "MXN", 
+                      "NOK", 
+                      "NZD", 
+                      "PHP", 
+                      "PLN",                        
+                      "SGD", 
+                      "SEK",                        
+                      "TWD", 
+                      "THB", 
+                      "USD"
+                    ],
           type: "select",
           description: "Pick your preferred donation currency.",
           postset: function(v) {
@@ -205,6 +226,55 @@
         else {
           this.querySelector('h2').hidden = true;
         }
+      },
+      getCurrencySymbol: function(s) {
+        var CurrencyInfo = {
+          'AED': 'dh',
+          'AUD': '$',
+          'BDT': '\u09F3',
+          'BRL': 'R$',
+          'CAD': '$',
+          'CHF': 'CHF',
+          'CLP': '$',
+          'CNY': '¥',
+          'COP': '$',
+          'CRC': '\u20a1',
+          'CZK': 'K\u010d',
+          'DKK': 'kr',
+          'DOP': '$',
+          'EGP': '£',
+          'EUR': '€',
+          'GBP': '£',
+          'HKD': '$',
+          'ILS': '\u20AA',
+          'INR': '\u20B9',
+          'ISK': 'kr',
+          'JMD': '$',
+          'JPY': '¥',
+          'KRW': '\u20A9',
+          'LKR': 'Rs',
+          'MNT': '\u20AE',
+          'MXN': '$',
+          'MYR': 'RM',
+          'NOK': 'kr',
+          'PAB': 'B/.',
+          'PEN': 'S/.',
+          'PHP': '\u20B1',
+          'PKR': 'Rs',
+          'RUB': 'руб.',
+          'SAR': 'Rial',
+          'SEK': 'kr',
+          'SGD': '$',
+          'THB': '\u0e3f',
+          'TRY': 'TL',
+          'TWD': 'NT$',
+          'USD': '$',
+          'UYU': '$',
+          'VND': '\u20AB',
+          'YER': 'Rial',
+          'ZAR': 'R'
+          };
+          return CurrencyInfo[s] || s;
       },
       setAmount: function (val) {
         val = Number(val);
