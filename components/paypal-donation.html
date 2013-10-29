@@ -60,7 +60,6 @@
         this.setAttribute("currency", this.getAttribute("currency") || 'USD');
         this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
         this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
-
         this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
 
         var buttonOwnAmount = this.querySelector('#buttonOwnAmount');
@@ -109,14 +108,22 @@
         if (!options) return;
 
         options.forEach(function (value, index) {
-          var item = document.createElement("button");
-          item.setAttribute("value", value);
-          item.setAttribute("class", "button");
-          item.innerHTML = currency + " " + value;
-          buttonWrapper.appendChild(item);
-          item.onclick = function (e) {
-            that.setAmount(value);
-          };
+          if (value) {
+            var item = document.createElement("button");
+            item.setAttribute("value", value);
+            item.setAttribute("class", "button");
+            item.innerHTML = currency + " " + value;
+            buttonWrapper.appendChild(item);
+            item.onclick = function (e) {
+              var email = that.getAttribute("yourPayPalEmailAddress");
+              if ((email === 'you@example.com') || (email === '')) {
+                console.debug("here");
+                alert("You must your PayPal Email Address to take donations.")
+                e.preventDefault();
+              }
+              that.setHiddenAmount(value);
+            };
+          }
         });
 
         this._updateDonationLabel();
@@ -278,11 +285,15 @@
       },
       setAmount: function (val) {
         val = Number(val);
-        this.querySelector('input[name="amount"]').value = val;
+        this.setHiddenAmount(val);
         this.querySelector('h2 > span').innerHTML = '';
         this.querySelector('h2 > span').appendChild(document.createTextNode(val));
         this.setAttribute('amount', val);
         this._updateDonationLabel();
+      },
+      setHiddenAmount: function (val) {
+        val = Number(val);
+        this.querySelector('input[name="amount"]').value = val;
       },
       broadcasts: ['donationSuccess'],
       defaultBroadcasts: ['donationSuccess'],
