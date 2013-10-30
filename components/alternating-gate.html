@@ -1,0 +1,58 @@
+<element name="app-alternating-gate">
+  <!-- Put all of your component HTML into the 'template' tag -->
+  <template>
+    <style>
+      app-alternating-gate {
+        min-height: 3rem;
+      }
+    </style>
+    <div>
+
+    </div>
+  </template>
+  <!-- Friends are are components that work well together with this one. -->
+  <friends>app-camera,app-simple-image</friends>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-component-template.png" />
+  </thumbnail>
+  <description>
+    A component template to get you started remixing your own components.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      // 'init' is fired when a component first loads on the page.
+      init: function (params) {
+        this.lastBroadcast = null;
+      },
+      editable: {
+      },
+      // These are the names of the broadcast channels.
+      // You can specify none or multiple.
+      // These appear on the right side of a component in the editor.
+      broadcasts: ["A", "B", "C", "D", "E"],
+      // Listeners are functions that are triggered when a signal is received by this component.
+      // The deftaultListener is the one listener that is on... by default.
+      // These appear on the left side of a component in the editor.
+      defaultListener: "input",
+      defaultBroadcasts: ["A"],
+      listeners: {
+        // Value is the value of the incoming signal.
+        // Channel is the color of the channel.
+        input: function (value, channel) {
+          var activeBroadcasts = [];
+          Array.prototype.forEach.call(this.querySelectorAll("broadcast"), function(broadcast) {
+            activeBroadcasts.push(broadcast.getAttribute("from"));
+          });
+
+          var nextBroadcast = activeBroadcasts.indexOf(this.lastBroadcast) + 1;
+          nextBroadcast %= activeBroadcasts.length;
+
+          nextBroadcast = activeBroadcasts[nextBroadcast];
+
+          this.broadcast(nextBroadcast, value);
+          this.lastBroadcast = nextBroadcast
+        }
+      }
+    });
+  </script>
+</element>
