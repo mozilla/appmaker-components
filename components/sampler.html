@@ -1,0 +1,295 @@
+<element name="app-sampler">
+  <template>
+    <!-- TODO: Get our own CSS file. -->
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-sampler.css">
+    <div class="sampler">
+      <div id="audio-control-wrapper">
+      </div>
+      <button id="record-button" onclick="toggleRecording(this)" type="button">Record</button>
+      <button id="send-button" type="button">Send</button>
+    </div>
+  </template>
+  <description>
+    Samples sound from your device.
+  </description>
+  <thumbnail>
+    <!-- TODO: Get our own picture. -->
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-button.png" />
+  </thumbnail>
+  <script type="text/flathead">
+  </script>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var t = this,
+            send = this.querySelector("#send-button");
+        send.onclick = function(e) {
+          t.broadcast("sampler", recordingBlob);
+        };
+      },
+      broadcasts: ['sampler'],
+      listeners: {}
+    });
+
+    /* Copyright 2013 Chris Wilson
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+    */
+
+    var audioContext = new AudioContext();
+    var audioInput = null,
+        realAudioInput = null,
+        inputPoint = null,
+        audioRecorder = null;
+    var rafID = null;
+    var analyserContext = null;
+    var recIndex = 0;
+
+    var recordingBlob = null;
+
+    /* TODO:
+
+    - offer mono option
+    - "Monitor input" switch
+    */
+
+    function saveAudio() {
+        audioRecorder.exportWAV( doneEncoding );
+        // could get mono instead by saying
+        // audioRecorder.exportMonoWAV( doneEncoding );
+    }
+
+    function doneEncoding( blob ) {
+        Recorder.forceDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+        recIndex++;
+    }
+
+    window.toggleRecording = function( e ) {
+        if (e.classList.contains("recording")) {
+            e.textContent = "Record";
+            // stop recording
+            audioRecorder.stop();
+            e.classList.remove("recording");
+            audioRecorder.exportWAV(function(blob) {
+              var audio = document.createElement("audio");
+              audio.controls = true;
+              audio.loop = true;
+              audio.autoplay = true;
+              audio.id = "sampler-audio";
+              audio.classList = "sampler-audio";
+              audio.src = URL.createObjectURL(blob);
+              recordingBlob = blob;
+              $("#audio-control-wrapper").append(audio);
+            });
+        } else {
+            // start recording
+            if (!audioRecorder)
+                return;
+            e.textContent = "Stop Recording";
+            e.classList.add("recording");
+            $("#sampler-audio").stop();
+            $("#sampler-audio").remove();
+            audioRecorder.clear();
+            audioRecorder.record();
+        }
+    }
+
+    function convertToMono( input ) {
+        var splitter = audioContext.createChannelSplitter(2);
+        var merger = audioContext.createChannelMerger(2);
+
+        input.connect( splitter );
+        splitter.connect( merger, 0, 0 );
+        splitter.connect( merger, 0, 1 );
+        return merger;
+    }
+
+    function cancelAnalyserUpdates() {
+        window.cancelAnimationFrame( rafID );
+        rafID = null;
+    }
+
+    function toggleMono() {
+        if (audioInput != realAudioInput) {
+            audioInput.disconnect();
+            realAudioInput.disconnect();
+            audioInput = realAudioInput;
+        } else {
+            realAudioInput.disconnect();
+            audioInput = convertToMono( realAudioInput );
+        }
+
+        audioInput.connect(inputPoint);
+    }
+
+    function gotStream(stream) {
+        inputPoint = audioContext.createGain();
+
+        // Create an AudioNode from the stream.
+        realAudioInput = audioContext.createMediaStreamSource(stream);
+        audioInput = realAudioInput;
+        audioInput.connect(inputPoint);
+
+    //    audioInput = convertToMono( input );
+
+        analyserNode = audioContext.createAnalyser();
+        analyserNode.fftSize = 2048;
+        inputPoint.connect( analyserNode );
+
+        audioRecorder = new Recorder( inputPoint );
+
+        zeroGain = audioContext.createGain();
+        zeroGain.gain.value = 0.0;
+        inputPoint.connect( zeroGain );
+        zeroGain.connect( audioContext.destination );
+    }
+
+    function initAudio() {
+            if (!navigator.getUserMedia)
+                navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            if (!navigator.cancelAnimationFrame)
+                navigator.cancelAnimationFrame = navigator.webkitCancelAnimationFrame || navigator.mozCancelAnimationFrame;
+            if (!navigator.requestAnimationFrame)
+                navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
+
+        navigator.getUserMedia({audio:true}, gotStream, function(e) {
+                alert('Error getting audio');
+                console.log(e);
+            });
+    }
+
+    window.addEventListener('load', initAudio );
+
+    /*License (MIT)
+
+    Copyright © 2013 Matt Diamond
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+    documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+    the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+    to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of 
+    the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
+    THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+    DEALINGS IN THE SOFTWARE.
+    */
+
+    (function(window){
+
+      var WORKER_PATH = 'javascripts/recorderWorker.js';
+
+      var Recorder = function(source, cfg){
+        var config = cfg || {};
+        var bufferLen = config.bufferLen || 4096;
+        this.context = source.context;
+        if(!this.context.createScriptProcessor){
+           this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
+        } else {
+           this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
+        }
+       
+        var worker = new Worker(config.workerPath || WORKER_PATH);
+        worker.postMessage({
+          command: 'init',
+          config: {
+            sampleRate: this.context.sampleRate
+          }
+        });
+        var recording = false,
+          currCallback;
+
+        this.node.onaudioprocess = function(e){
+          if (!recording) return;
+          worker.postMessage({
+            command: 'record',
+            buffer: [
+              e.inputBuffer.getChannelData(0),
+              e.inputBuffer.getChannelData(1)
+            ]
+          });
+        }
+
+        this.configure = function(cfg){
+          for (var prop in cfg){
+            if (cfg.hasOwnProperty(prop)){
+              config[prop] = cfg[prop];
+            }
+          }
+        }
+
+        this.record = function(){
+          recording = true;
+        }
+
+        this.stop = function(){
+          recording = false;
+        }
+
+        this.clear = function(){
+          worker.postMessage({ command: 'clear' });
+        }
+
+        this.getBuffers = function(cb) {
+          currCallback = cb || config.callback;
+          worker.postMessage({ command: 'getBuffers' })
+        }
+
+        this.exportWAV = function(cb, type){
+          currCallback = cb || config.callback;
+          type = type || config.type || 'audio/wav';
+          if (!currCallback) throw new Error('Callback not set');
+          worker.postMessage({
+            command: 'exportWAV',
+            type: type
+          });
+        }
+
+        this.exportMonoWAV = function(cb, type){
+          currCallback = cb || config.callback;
+          type = type || config.type || 'audio/wav';
+          if (!currCallback) throw new Error('Callback not set');
+          worker.postMessage({
+            command: 'exportMonoWAV',
+            type: type
+          });
+        }
+
+        worker.onmessage = function(e){
+          var blob = e.data;
+          currCallback(blob);
+        }
+
+        source.connect(this.node);
+        this.node.connect(this.context.destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
+      };
+
+      Recorder.forceDownload = function(blob, filename){
+        var url = (window.URL || window.webkitURL).createObjectURL(blob);
+        var link = window.document.createElement('a');
+        link.href = url;
+        link.download = filename || 'output.wav';
+        var click = document.createEvent("Event");
+        click.initEvent("click", true, true);
+        link.dispatchEvent(click);
+      }
+
+      window.Recorder = Recorder;
+
+    })(window);
+  </script>
+</element>
