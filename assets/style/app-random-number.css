@@ -1,0 +1,17 @@
+app-random-number .random {
+  line-height: 3.8rem;
+  text-align: center;
+  font-size: font-size: 1.6rem;
+  font-family: "FiraSans", sans-serif;
+  padding: .5rem 0rem;
+  color: #666;
+  background: #DDD;
+}
+
+app-random-number .random .random-wrapper {
+  background: white;
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  -moz-border-radius: .5rem;
+  border-bottom: solid 1px #CCC;
+}
