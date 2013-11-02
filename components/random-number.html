@@ -17,9 +17,9 @@
       init: function (params) {
         this.range = 100;
         this.rand = 0;
+        this.isInteger = true;
       },
       updateDisplay: function () {
-        console.log("randome conponent: this.rand = " + this.rand);
         this.querySelector('.random-number').innerHTML = this.rand;
         this.broadcast("randomValue", this.rand);
       },
@@ -28,15 +28,19 @@
       defaultListener: 'calculaterandom',
       listeners: {
         calculaterandom: function (listener, channel) {
-          this.rand = Math.floor(Math.random() * this.range);
+          this.rand = Math.random() * this.range;
+          if (this.isInteger == true || this.isInteger == "true") {
+            this.rand = Math.floor(this.rand);
+          }
 
           this.updateDisplay();
         },
         resetrandom: function (value, channel) {
           this.range = parseInt(value);
-          if (isNaN(this.range)){
+          if (isNaN(this.range)) {
             this.range = 100;
             this.rand = 0;
+            this.isInteger = true;
           }
           this.updateDisplay();
         }
@@ -50,10 +54,25 @@
               postset: function(v) {
                   this.setRange(v);
               }
+          },
+          "IsInteger": {
+              title: "IsInteger",
+              type: "boolean",
+              description: "Return value type",
+              postset: function(v) {
+                  this.setIsInteger(v);
+              }
           }
       },
       setRange: function(v) {
-          this.range = parseInt(v);
+          if (this.isInteger == true) {
+              this.range = parseInt(v);
+          } else {
+              this.range = parseFloat(v);
+          }
+      },
+      setIsInteger: function(v) {
+          this.isInteger = v;
       },
     });
   </script>
