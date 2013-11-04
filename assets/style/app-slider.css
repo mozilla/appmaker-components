@@ -1,12 +1,25 @@
 app-slider {
-  padding: 2rem;
   background-color: #474d57;
 }
+app-slider {
+ text-align: center;
+}
 
-app-slider .slider {
+app-slider div {
+  width: 100%;
+  text-align: center;
+}
+app-slider p {
+  width: 100%;
+  text-align: center;
+}
+
+app-slider input {
+  width: 100%;
   background: #212429;
   position: relative;
-  height: .3rem;
+  height: 1em;
+  padding: 2rem;
   margin-right: 6rem;
 }
 

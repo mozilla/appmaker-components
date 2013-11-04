@@ -1,0 +1,17 @@
+donate-amount-selector ul {
+	margin: 0;
+	padding: 0;
+}
+
+donate-amount-selector li {
+	list-style: none;
+	border-bottom: solid #999 1px;
+	padding: 8px;
+	font-size: 2rem;
+	line-height: 20px;
+}
+
+
+donate-amount-selector li input {
+	margin-right: 1rem;
+}

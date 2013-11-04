@@ -1,0 +1,230 @@
+<element name="app-sequencer">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-sequencer.css"></link>
+    <ul class="sequencer-instruments">
+    </ul>
+    <div class="sequencer-grid">
+    </div>
+    <br style="clear:both;">
+  </template>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-component-template.png" />
+  </thumbnail>
+  <description>
+    When user clicks on cell, turns on or off sound
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        var sequencer = this;
+
+        this.time = [4, 4];
+        this.beatsPerMeasure = this.time[0] * this.time[1];
+
+        this.grid = this.querySelector(".sequencer-grid");
+        this.instruments = [];
+        this.playhead = 0;
+
+        this.resetInstruments = function(){
+          // TODO: use teoria library to populate instruments
+          // https://github.com/saebekassebil/teoria
+
+
+          this.grid.clear();
+          this.instruments.clear();
+
+          // For now, fake it.
+          if ((this.getAttribute("instrument") == "Trumpet")){
+
+            // These aren't even the right positions, we need new instruments
+            Array.prototype.forEach.call([1,2,3,5,6], function(n){
+              sequencer.addInstrument("{{ASSET_HOST}}/assets/app-sequencer/sounds/trumpet" + n + ".mp3");
+            });
+          }
+        }
+
+        this.grid.clear = function(){
+          console.log(this);
+          while (this.hasChildNodes()){
+            this.removeChild(this.lastChild);
+          }
+        };
+        this.instruments.clear = function(){
+          var instruments = sequencer.querySelector(".sequencer-instruments");
+          while (instruments.hasChildNodes()){
+            instruments.removeChild(instruments.lastChild);
+          }
+          this.length = 0;
+        };
+
+        this.grid.addRow = function(player){
+          var row = document.createElement('div')
+          row.classList.add('row');
+
+          for (var i=0; i<sequencer.beatsPerMeasure; i++){
+            var cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.classList.add('beat' + i);
+
+            cell.isOn = function(){
+              return this.classList.hasClass('on');
+            };
+
+            cell.play = function(){
+              player.pause();
+              player.currentTime = 0;;
+              player.play();
+            };
+
+            cell.toggle = function(){
+              this.classList.toggle('on');
+            };
+
+            row.appendChild(cell);
+
+            // Toggle the "on" state of each cell
+            //
+            cell.addEventListener("click", function(e){
+              setTimeout(function(){
+                this.play();
+              }, 0);
+              e.target.toggle();
+            });
+          }
+
+          var instrumentCount = sequencer.instruments.length;
+
+          sequencer.grid.classList.remove("instruments" + (instrumentCount - 1));
+          sequencer.grid.classList.add("instruments" + instrumentCount);
+
+          this.appendChild(row);
+        };
+
+        this.instruments.add = function(source){
+          var li = document.createElement('li');
+          var audio = document.createElement('audio');
+          var sourceElement = document.createElement('source');
+          sourceElement.setAttribute('src', source);
+          audio.appendChild(sourceElement);
+          li.appendChild(audio);
+          sequencer.querySelector(".sequencer-instruments").appendChild(li);
+          sequencer.instruments.push(audio);
+          return audio;
+        };
+
+        /**
+        * Call function (fn) for each cell on the grid
+        * fn should have signature:
+        *   function(beatIndex, noteIndex, on, element)
+        */
+        this.collect = function(fn){
+          if (typeof fn !== 'function'){
+            return;
+          }
+
+          for (var beat=0; beat<=this.beatsPerMeasure; beat++){
+            Array.prototype.forEach.call(this.grid.querySelectorAll("div.cell.beat" + beat), function(cell, note){
+              fn(beat, note, cell.classList.contains("on"), cell);
+            });
+          }
+        };
+
+        this.resetInstruments();
+      },
+      editable: {
+        key: {
+          options : ["D"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.resetInstruments();
+          }
+        },
+        instrument: {
+          options : ["None", "Trumpet"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.resetInstruments();
+          }
+        },
+        scale: {
+          options : ["Pentatonic"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.resetInstruments();
+          }
+        },
+      },
+      defaultListener: 'playNextBeat',
+      listeners: {
+        addInstrument: function(source) {
+          var player = this.instruments.add(source);
+          this.grid.addRow(player);
+        },
+        playNextBeat: function () {
+          this.grid.classList.add("playhead" + this.playhead);
+
+          if (typeof this.clearPlayhead === 'function'){
+            this.clearPlayhead();
+          }
+          var i = this.playhead;
+          var cl = this.grid.classList;
+          this.clearPlayhead = function(){
+            cl.remove("playhead" + i);
+          };
+          var activeNotes = this.grid.querySelectorAll("div.cell.on.beat" + this.playhead);
+          Array.prototype.forEach.call(activeNotes, function(note){
+            setTimeout(function(){
+              note.play();
+            }, 0);
+          });
+
+          this.playhead ++;
+          if (this.playhead >= this.beatsPerMeasure){
+            this.playhead = 0;
+          }
+        },
+        post: function(){
+          var currentBeat, notes;
+          var sequence = [];
+          this.collect(function(beat, note, on, element){
+            if (currentBeat != beat){
+              currentBeat = beat;
+              if (notes){
+                sequence.push(notes);
+              }
+              notes = [];
+            }
+
+            if (on){
+              notes.push(note);
+            }
+          });
+          sequence.push(notes);
+
+          var data = JSON.stringify(sequence);
+
+          var url = "http://mozfest-funk-tracker.herokuapp.com/data";
+
+          var http = new XMLHttpRequest();
+          http.open("POST", url, true);
+
+          //Send the proper header information along with the request
+          http.setRequestHeader("Content-type", "application/json");
+
+          http.onreadystatechange = function() {
+            if(http.readyState == 4 && http.status == 200) {
+              console.log(http.responseText);
+            }
+          }
+          http.send(data);
+        }
+      },
+      broadcasts: ['music'],
+      defaultBroadcasts: ['music']
+    });
+
+  </script>
+</element>

@@ -1,0 +1,55 @@
+div.sequencer-grid {
+  width: 100%;
+  min-height: 30px;
+}
+
+ul.sequencer-instruments {
+  display: none;
+}
+
+div.sequencer-grid.instruments1 div.row { width: calc(100% / 1);}
+div.sequencer-grid.instruments2 div.row { width: calc(100% / 2);}
+div.sequencer-grid.instruments3 div.row { width: calc(100% / 3);}
+div.sequencer-grid.instruments4 div.row { width: calc(100% / 4);}
+div.sequencer-grid.instruments5 div.row { width: calc(100% / 5);}
+div.sequencer-grid.instruments6 div.row { width: calc(100% / 6);}
+div.sequencer-grid.instruments7 div.row { width: calc(100% / 7);}
+div.sequencer-grid.instruments8 div.row { width: calc(100% / 8);}
+div.sequencer-grid.instruments9 div.row { width: calc(100% / 9);}
+
+div.row {
+  float: left;
+}
+div.cell {
+  /*display: inline;*/
+  height: 2.5rem;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  background-color: #31353C;
+}
+
+div.sequencer-grid.playhead0  div.beat0  { background-color: #b5bac2; }
+div.sequencer-grid.playhead1  div.beat1  { background-color: #b5bac2; }
+div.sequencer-grid.playhead2  div.beat2  { background-color: #b5bac2; }
+div.sequencer-grid.playhead3  div.beat3  { background-color: #b5bac2; }
+div.sequencer-grid.playhead4  div.beat4  { background-color: #b5bac2; }
+div.sequencer-grid.playhead5  div.beat5  { background-color: #b5bac2; }
+div.sequencer-grid.playhead6  div.beat6  { background-color: #b5bac2; }
+div.sequencer-grid.playhead7  div.beat7  { background-color: #b5bac2; }
+div.sequencer-grid.playhead8  div.beat8  { background-color: #b5bac2; }
+div.sequencer-grid.playhead9  div.beat9  { background-color: #b5bac2; }
+div.sequencer-grid.playhead10 div.beat10 { background-color: #b5bac2; }
+div.sequencer-grid.playhead11 div.beat11 { background-color: #b5bac2; }
+div.sequencer-grid.playhead12 div.beat12 { background-color: #b5bac2; }
+div.sequencer-grid.playhead13 div.beat13 { background-color: #b5bac2; }
+div.sequencer-grid.playhead14 div.beat14 { background-color: #b5bac2; }
+div.sequencer-grid.playhead15 div.beat15 { background-color: #b5bac2; }
+
+
+div.on {
+	background-color: rgb(77, 178, 39);
+}
+
+.playing {
+	outline: 4px solid red;
+}

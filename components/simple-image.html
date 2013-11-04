@@ -1,0 +1,67 @@
+<element name="app-simple-image">
+  <!-- Put all of your component HTML into the 'template' tag -->
+  <template>
+    <style>
+      app-simple-image {
+        text-align: center;
+      }
+    </style>
+    <img src="">
+  </template>
+  <!-- Friends are are components that work well together with this one. -->
+  <friends>app-image-gallery,app-shutter</friends>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-component-template.png" />
+  </thumbnail>
+  <description>
+    Shows a simple image.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      // 'init' is fired when a component first loads on the page.
+      init: function (params) {
+        this.textDisplay = this.querySelector("p");
+
+        // User-configurable Properties
+        // A component's user-configurable properties are stored as attributes.
+        // Here they are set to a remembered value, or to a default starting.
+        // The attribute name must match the name of the editable property in the 'editables' section.
+        this.setAttribute("imageUrl", this.getAttribute("imageUrl") || "");
+        this.img = this.querySelector('img');
+
+        this.onclick = function () {
+          this.broadcastMessage("Click");
+        };
+      },
+      broadcastMessage : function(val) {
+        // To broadcast a message, use the 'broadcast' function.
+        // The first argument is the name of the broadcast channel - it has to match one of the
+        // broadcast channels specified below.
+        // The second argument is the value that is sent in the broadcast, which wil be visible in the
+        // broadcast bubble and received by other components.
+        this.broadcast("sendText", val);
+        this.textDisplay.innerHTML = "Broadcast message \"" + val + "\".";
+      },
+      setImage : function (val) {
+        this.img.setAttribute('src', val);
+      },
+      editable: {
+      },
+      // These are the names of the broadcast channels.
+      // You can specify none or multiple.
+      // These appear on the right side of a component in the editor.
+      broadcasts: ['sendSrc'],
+      // Listeners are functions that are triggered when a signal is received by this component.
+      // The deftaultListener is the one listener that is on... by default.
+      // These appear on the left side of a component in the editor.
+      defaultListener: 'updateImage',
+      listeners: {
+        // Value is the value of the incoming signal.
+        // Channel is the color of the channel.
+        updateImage: function (value, channel) {
+          this.setImage(value, channel);
+        }
+      }
+    });
+  </script>
+</element>

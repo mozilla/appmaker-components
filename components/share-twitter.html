@@ -1,0 +1,63 @@
+<element name="app-share-twitter">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-share-twitter.css">
+    <div>
+      <button class="share-twitter">Share on Twitter</button>
+    </div>
+  </template>
+  <description>Share a message on Twitter</description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-share-twitter.png" />
+  </thumbnail>
+  <script type="text/ceci">
+    function ShareTwitter(theMessage) 
+    {
+      this.message = theMessage;
+    };
+    ShareTwitter.prototype.toString = function() {
+      return String(this.message);
+    };
+    Ceci(this, {
+      init: function (params) {
+        var t = this;
+        this.button = this.querySelector(".share-twitter");
+      	this.message = this.getAttribute('defaultMessage') || "";
+        this.button.onclick = function (e) {
+          t.tweet();
+        };
+      },
+      tweet : function (obj) 
+      {
+          window.open("https://twitter.com/intent/tweet?text=" + this.message);
+      },
+      editable: {
+        defaultMessage: {
+          type: "text",
+          description: "The default tweet message",
+          postset: function(v) {
+            this.message = v;
+          }
+        }
+      },
+      defaultListener: 'sendTweet',
+      listeners: {
+      	updateMessage: function (obj, myChannel)
+      	{
+          this.lookAtMe();
+      		this.message = obj.toString();
+      	},
+        updateMessageAndSendTweet: function (obj, myChannel)
+        {
+          this.lookAtMe();
+          this.message = obj.toString();
+          this.tweet();
+        },
+        sendTweet: function (obj, myChannel)
+        {
+          this.lookAtMe();
+          this.tweet();
+        }
+      }
+    });
+  </script>
+</element>

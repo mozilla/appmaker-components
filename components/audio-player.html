@@ -1,0 +1,87 @@
+<element name="app-audio-player">
+  <!-- Put all of your component HTML into the 'template' tag -->
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-audio-player.css"></link>
+    <audio controls>
+    </audio>
+  </template>
+  <!-- Friends are are components that work well together with this one. -->
+  <friends>app-fireworks,app-counter</friends>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-audio-player.png" />
+  </thumbnail>
+  <description>
+    A component that plays sounds and music.
+  </description>
+  <script type="text/ceci">
+    Ceci(this, {
+      // 'init' is fired when a component first loads on the page.
+      init: function (params) {
+        this.audio = this.querySelector("audio");
+        this.audio.setAttribute('src', this.getAttribute('src'));
+        this.playing = false;
+      },
+      editable: {
+        src: {
+          type: "text",
+          description: "The media source to play.",
+          postset: function(val) {
+            this.audio.setAttribute('src', val);
+            if (this.autoplay){
+              this.play();
+            }
+          }
+        },
+        autoplay: {
+          type: "boolean",
+          description: "When set to true, player will start as soon as src is set.",
+          postset: function(val) {
+          }
+        },
+        selectProperty: {
+          options : ["Option 1","Option 2", "Option 3"],
+          type: "select",
+          description: "Describe the property that is changing.",
+          postset: function(val) {
+            this.updateProperty(val);
+          }
+        },
+      },
+      // These are the names of the broadcast channels.
+      // You can specify none or multiple.
+      // These appear on the right side of a component in the editor.
+      broadcasts: [],
+      // Listeners are functions that are triggered when a signal is received by this component.
+      // The deftaultListener is the one listener that is on... by default.
+      // These appear on the left side of a component in the editor.
+      defaultListener: 'playOrPause',
+      listeners: {
+        // Value is the value of the incoming signal.
+        // Channel is the color of the channel.
+        setSrc: function (val) {
+          this.src = val;
+        },
+        play: function(value, channel){
+          if (!this.audio.paused){
+            this.stop();
+          }
+          this.audio.play();
+        },
+        playOrPause: function(value, channel){
+          if (this.audio.paused){
+            this.play();
+          }
+          else{
+            this.audio.pause();
+          }
+        },
+        stop: function(value, channel){
+          if (!this.audio.paused){
+            this.audio.pause();
+          }
+          this.audio.currentTime = 0;
+        },
+      }
+    });
+  </script>
+</element>
