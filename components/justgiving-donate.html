@@ -1,129 +1,189 @@
-<element name="app-justgiving-donate">
-  <template>    
-    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-justgiving-donate.css"></link>
+<element name="app-justgiving-donation">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-justgiving-donation.css"></link>
     <div>
-      <h1 id="donationAsk">I'm going to donate</h1>          
-      <button class="button" id="button01" value=""></button>
-      <button class="button" id="button02" value=""></button>
-      <button class="button" id="button03" value=""></button>
-      <button class="button" id="button04" value="0">Choose my amount</button>
-      
-      <p>You will be taken to JustGiving.com, where you can donate securely to my fundraising appeal.</p>      
+      <h1 id="donationAsk">I'm going to donate</h1>
+      <h2>Donation Amount: <span></span></h2>
+
+      <div class="button-wrapper">
+        <button class="button" value=""></button>
+        <button class="button" value=""></button>
+        <button class="button" value=""></button>
+      </div>
+
+      <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
+
       <p class="logos">
         <img src="{{ASSET_HOST}}/assets/images/justgiving-with-pp-logo.jpg" /><br />
-        Please give all you can.
+        Donating to JustGiving page run by<br /><span id="jg_pagename"></span>
       </p>
     </div>
 
   </template>
   <thumbnail>
-    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-number-checker.png" />
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-justgiving-donate.png" />
   </thumbnail>
   <description>
-    Checks if an incoming number meets a certain criteria.
+    Add your own JustGiving donation buttons, and start raising funds for your JustGiving page.
   </description>
   <script type="text/flathead">
   </script>
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        this.setAttribute("yourJustGivingPageName", this.getAttribute("yourJustGivingPageName") || 'page-name'); 
-        this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate"); 
-        this.setAttribute("donationAmount01", this.getAttribute("donationAmount01") || 2); 
-        this.setAttribute("donationAmount02", this.getAttribute("donationAmount02") || 5); 
-        this.setAttribute("donationAmount03", this.getAttribute("donationAmount03") || 10); 
+        // This param is used to send a broadcast event on
+        // return from the donation page.
+        var successParamKey = 'success';
+        var successParamValue = '1';
 
-        var pagename = this.getAttribute("yourJustGivingPageName");
+        this.targetURL = 'http://www.justgiving.com';
+        this.customAmount = 0;
 
-        //TODO Wrap this up so people can add more or less       
+        var that = this;
 
-        var button01 = this.querySelector('#button01');
-        var button02 = this.querySelector('#button02');
-        var button03 = this.querySelector('#button03');
-        var button04 = this.querySelector('#button04');        
-        
-        function goToJustGiving(amount) { 
-          var jgURL = "http://www.justgiving.com/" + pagename + "/donate?amount=" + amount; //TODO - page name isn't working
-          if (confirm("This will take you to my fundraising page on JustGiving.com. Please give generously!")) {
-            //window.location.replace(jgURL);
-            window.open(jgURL,'_blank');
-          };            
+        this.setAttribute("yourJustGivingPageName", this.getAttribute("yourJustGivingPageName") || 'yourpagename');
+        this.setAttribute("donationAmountButtons", this.getAttribute("donationAmountButtons")|| JSON.stringify([""]));
+        this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
+        this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
+
+        var buttonOwnAmount = this.querySelector("#buttonOwnAmount");
+        buttonOwnAmount.onclick = function () {
+          that.submitToJustGiving(0);              
         };
 
-        button01.onclick = function (e) {
-          goToJustGiving(button01.value);
-        };
+        this.appUrl = this.addParamToCurrentURL(successParamKey, successParamValue);
 
-        button02.onclick = function (e) {
-          goToJustGiving(button02.value);
-        };      
+        if (this.getParamValue(successParamKey) === successParamValue) {
+          setTimeout(function() {
+            that.broadcast('donationSuccess', true);
+          }, 500);
+        }
 
-        button03.onclick = function (e) {
-          goToJustGiving(button03.value);
-        }; 
+      },
+      getParamValue: function(key) {
+        var queryString = window.location.search;
+        var paramList = queryString.substr(1).split('&');
+        for (var i=0, j=paramList.length; i<j; i++) {
+          var keyValue = paramList[i].split('=');
+          if (key === keyValue[0] && keyValue.length > 1) {
+            var value = keyValue[1];
+            break;
+          }
+        }
+        return value;
+      },
+      addParamToCurrentURL: function(key, value) {
+        var qs = window.location.search || '?';
+        var param = key + '=' + window.encodeURIComponent(value);
+        var path = window.location.pathname || 'index.html';
+        if (qs !== '?') {
+            qs = qs + "&";
+        }
+        return window.location.origin + path + qs + param;
+      },
+      buildMenu: function(v){
+        var that = this;
+        var options = JSON.parse(v);
+        var buttonWrapper = this.querySelector(".button-wrapper");
+        buttonWrapper.innerHTML = "";
 
-        button04.onclick = function (e) {
-          goToJustGiving(button04.value);
-        };  
-        
-      },      
+        if (!options) return;
+
+        options.forEach(function (value, index) {
+          if (value) {
+            var item = document.createElement("button");
+            item.setAttribute("value", value);
+            item.setAttribute("class", "button");
+            item.innerHTML = "£" + value;
+            buttonWrapper.appendChild(item);
+            item.onclick = function () {
+              that.submitToJustGiving(value);              
+            };
+          }
+        });
+
+        this._updateDonationLabel();
+      },
+      submitToJustGiving: function(amount) {
+        var jgURL = this.targetURL + '/' + this.getAttribute('yourJustGivingPageName') + '/donate/?amount=' + amount + '&exitUrl=' + this.appUrl;
+        console.debug(jgURL);
+      },
       editable: {
-        yourJustGivingPageName: {
+        "yourJustGivingPageName": {
           type: "text",
-          description: "You can get this from you Just Giving fundraising url justgiving.com/your-page-name-is-here",
+          description: "The name of your fundraising page e.g. justgiving.com/your-page-name",
           postset: function(v) {
+            this.querySelector("#jg_pagename").innerHTML = v;
           }
         },
-        donateMessage: {
+        "donationAmountButtons": {
+          type: "multiple",
+          description: "Donation Amount Buttons",
+          postset: function(v) {
+            this.buildMenu(v);
+          }
+        },
+        "donateMessage": {
           type: "text",
           description: "Set you own message asking for donations",
           postset: function(v) {
-            this.querySelector("#donationAsk").innerHTML = v;            
+            this.querySelector("#donationAsk").innerHTML = v;
           }
         },
-        donationAmount01: {
-          type: "number",
-          description: "Lowest suggested donation amount",
-          postset: function(v) {
-            this.querySelector("#button01").innerHTML = "£" + v;            
-            this.querySelector("#button01").value = v; 
+        "showOwnAmountButton": {
+          title: "Add 'Choose own amount' button",
+          type: "boolean",
+          description: "Switchs on an optional button",
+          postset: function(v){
+            var item = this.querySelector("#buttonOwnAmount");
+            if (v === "true") {
+              item.setAttribute("style", "display:block;");
+            }
+            else {
+              item.setAttribute("style", "display:none;");
+            }
           }
         },
-        donationAmount02: {
-          type: "number",
-          description: "Middle suggested donation amount",
-          postset: function(v) {
-            this.querySelector("#button02").innerHTML = "£" + v;            
-            this.querySelector("#button02").value = v; 
+        "useTestingSandbox": {
+          title: "Use Testing Sandbox",
+          type: "boolean",
+          description: "",
+          postset: function(v){
+            if (v === "true") {
+              this.targetURL = 'http://v3-sandbox.justgiving.com';
+            } else {
+              this.targetURL = 'http://www.justgiving.com';
+            }
           }
         },
-        donationAmount03: {
-          type: "number",
-          description: "Stretch goal suggested donation amount",
-          postset: function(v) {
-            this.querySelector("#button03").innerHTML = "£" + v;            
-            this.querySelector("#button03").value = v; 
+      },
+      listeners: {
+        sendYourOwnDonationAmount: function (val) {
+          val = parseInt(val);
+          if (val > 0) {
+            this.setAmount(val);
           }
+        },
+        submit: function () {
+          this.submitToJustGiving(this.customAmount);
         }
-      }
-      // defaultListener: 'checkNumber',
-      // listeners: {
-      //   checkNumber: function (listener,channel) {          
-
-      //     this.incomingNumber = parseInt(listener) || false;
-      //     if (this.incomingNumber) {
-      //       var jgURL = "http://www.justgiving.com/" + this.yourJustGivingPageName + "/donate?amount=" + this.incomingNumber;
-      //       if (confirm("This will take you to my fundraising page on JustGiving.com. Please give generously!")) {
-      //         window.location.replace(jgURL);
-      //       };           
-      //     } else {
-      //       console.log("no donation amount chosen");
-      //     }
-      //     // build url        
-      //     // confirm dialog
-      //     // redirect
-      //   }
-      // }
+      },
+      _updateDonationLabel: function () {
+        if (this.customAmount) {
+          this.querySelector('h2').hidden = false;
+        } else {
+          this.querySelector('h2').hidden = true;
+        }
+      },
+      setAmount: function (val) {
+        val = Number(val);
+        this.querySelector('h2 > span').innerHTML = '';
+        this.querySelector('h2 > span').appendChild(document.createTextNode("£"+val));
+        this.customAmount = val;
+        this._updateDonationLabel();
+      },
+      broadcasts: ['donationSuccess'],
+      defaultBroadcasts: ['donationSuccess'],
     });
   </script>
 </element>

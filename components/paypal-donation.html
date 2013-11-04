@@ -60,7 +60,6 @@
         this.setAttribute("currency", this.getAttribute("currency") || 'USD');
         this.setAttribute("donationAmounts", this.getAttribute("donationAmounts")|| JSON.stringify([""]));
         this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
-
         this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
 
         var buttonOwnAmount = this.querySelector('#buttonOwnAmount');
@@ -103,19 +102,28 @@
         var that = this;
         var options = JSON.parse(v);
         var buttonWrapper = this.querySelector(".button-wrapper");
-        var currency = this.getAttribute("currency");
+        var currency = this.getCurrencySymbol(this.getAttribute("currency"));
         buttonWrapper.innerHTML = "";
 
         if (!options) return;
 
         options.forEach(function (value, index) {
-          var item = document.createElement("button");
-          item.setAttribute("value", value);
-          item.innerHTML = value + " " + currency;
-          buttonWrapper.appendChild(item);
-          item.onclick = function (e) {
-            that.setAmount(value);
-          };
+          if (value) {
+            var item = document.createElement("button");
+            item.setAttribute("value", value);
+            item.setAttribute("class", "button");
+            item.innerHTML = currency + " " + value;
+            buttonWrapper.appendChild(item);
+            item.onclick = function (e) {
+              var email = that.getAttribute("yourPayPalEmailAddress");
+              if ((email === 'you@example.com') || (email === '')) {
+                console.debug("here");
+                alert("You must your PayPal Email Address to take donations.")
+                e.preventDefault();
+              }
+              that.setHiddenAmount(value);
+            };
+          }
         });
 
         this._updateDonationLabel();
@@ -130,7 +138,27 @@
           }
         },
         "currency": {
-          options : ["GBP","USD", "CHF"],
+          options : [ "AUD", 
+                      "CAD",
+                      "CHF", 
+                      "CZK", 
+                      "DKK", 
+                      "EUR",
+                      "GBP", 
+                      "HKD", 
+                      "ILS", 
+                      "JPY", 
+                      "MXN", 
+                      "NOK", 
+                      "NZD", 
+                      "PHP", 
+                      "PLN",                        
+                      "SGD", 
+                      "SEK",                        
+                      "TWD", 
+                      "THB", 
+                      "USD"
+                    ],
           type: "select",
           description: "Pick your preferred donation currency.",
           postset: function(v) {
@@ -206,13 +234,66 @@
           this.querySelector('h2').hidden = true;
         }
       },
+      getCurrencySymbol: function(s) {
+        var CurrencyInfo = {
+          'AED': 'dh',
+          'AUD': '$',
+          'BDT': '\u09F3',
+          'BRL': 'R$',
+          'CAD': '$',
+          'CHF': 'CHF',
+          'CLP': '$',
+          'CNY': '¥',
+          'COP': '$',
+          'CRC': '\u20a1',
+          'CZK': 'K\u010d',
+          'DKK': 'kr',
+          'DOP': '$',
+          'EGP': '£',
+          'EUR': '€',
+          'GBP': '£',
+          'HKD': '$',
+          'ILS': '\u20AA',
+          'INR': '\u20B9',
+          'ISK': 'kr',
+          'JMD': '$',
+          'JPY': '¥',
+          'KRW': '\u20A9',
+          'LKR': 'Rs',
+          'MNT': '\u20AE',
+          'MXN': '$',
+          'MYR': 'RM',
+          'NOK': 'kr',
+          'PAB': 'B/.',
+          'PEN': 'S/.',
+          'PHP': '\u20B1',
+          'PKR': 'Rs',
+          'RUB': 'руб.',
+          'SAR': 'Rial',
+          'SEK': 'kr',
+          'SGD': '$',
+          'THB': '\u0e3f',
+          'TRY': 'TL',
+          'TWD': 'NT$',
+          'USD': '$',
+          'UYU': '$',
+          'VND': '\u20AB',
+          'YER': 'Rial',
+          'ZAR': 'R'
+          };
+          return CurrencyInfo[s] || s;
+      },
       setAmount: function (val) {
         val = Number(val);
-        this.querySelector('input[name="amount"]').value = val;
+        this.setHiddenAmount(val);
         this.querySelector('h2 > span').innerHTML = '';
         this.querySelector('h2 > span').appendChild(document.createTextNode(val));
         this.setAttribute('amount', val);
         this._updateDonationLabel();
+      },
+      setHiddenAmount: function (val) {
+        val = Number(val);
+        this.querySelector('input[name="amount"]').value = val;
       },
       broadcasts: ['donationSuccess'],
       defaultBroadcasts: ['donationSuccess'],
