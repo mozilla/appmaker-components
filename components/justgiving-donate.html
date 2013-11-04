@@ -5,22 +5,13 @@
       <h1 id="donationAsk">I'm going to donate</h1>
       <h2>Donation Amount: <span></span></h2>
 
-      <!-- Sandbox URL http://v3-sandbox.justgiving.com -->
-      <!-- Live URL http://www.justgiving.com/ -->
-      <form id="justgiving_donation_form" method="get" action="http://www.justgiving.com/">
+      <div class="button-wrapper">
+        <button class="button" value=""></button>
+        <button class="button" value=""></button>
+        <button class="button" value=""></button>
+      </div>
 
-        <!-- PayPal bits -->
-        <input type="hidden" name="amount" id="pp_amount" value="" />
-        <input type="hidden" name="return" value="" /> <!-- Return url is the current app url with query param to tell success -->
-
-        <div class="button-wrapper">
-          <button class="button" value=""></button>
-          <button class="button" value=""></button>
-          <button class="button" value=""></button>
-        </div>
-
-        <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
-      </form>
+      <button class="button" id="buttonOwnAmount" value="0">Choose my own amount</button>
 
       <p class="logos">
         <img src="{{ASSET_HOST}}/assets/images/justgiving-with-pp-logo.jpg" /><br />
@@ -30,7 +21,7 @@
 
   </template>
   <thumbnail>
-    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-paypal-donate.png" />
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-justgiving-donate.png" />
   </thumbnail>
   <description>
     Add your own JustGiving donation buttons, and start raising funds for your JustGiving page.
@@ -40,14 +31,14 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
-        
-        this.targetURL = 'http://www.justgiving.com';
-        this.customAmount = 0;
-
         // This param is used to send a broadcast event on
         // return from the donation page.
         var successParamKey = 'success';
         var successParamValue = '1';
+
+        this.targetURL = 'http://www.justgiving.com';
+        this.customAmount = 0;
+
         var that = this;
 
         this.setAttribute("yourJustGivingPageName", this.getAttribute("yourJustGivingPageName") || 'yourpagename');
@@ -55,10 +46,12 @@
         this.setAttribute("showOwnAmountButton", this.getAttribute("showOwnAmountButton")|| false);
         this.setAttribute("donateMessage", this.getAttribute("donateMessage") || "I'm going to donate");
 
-        var buttonOwnAmount = this.querySelector('#buttonOwnAmount');
-        var appUrl = this.addParamToCurrentURL(successParamKey, successParamValue);
-        var returnInput = this.querySelector('#justgiving_donation_form input[name="return"]');
-        returnInput.setAttribute('value', appUrl);
+        var buttonOwnAmount = this.querySelector("#buttonOwnAmount");
+        buttonOwnAmount.onclick = function () {
+          that.submitToJustGiving(0);              
+        };
+
+        this.appUrl = this.addParamToCurrentURL(successParamKey, successParamValue);
 
         if (this.getParamValue(successParamKey) === successParamValue) {
           setTimeout(function() {
@@ -103,9 +96,8 @@
             item.setAttribute("class", "button");
             item.innerHTML = "£" + value;
             buttonWrapper.appendChild(item);
-            item.onclick = function (e) {              
-              that.submitToJustGiving(value);
-              e.preventDefault();
+            item.onclick = function () {
+              that.submitToJustGiving(value);              
             };
           }
         });
@@ -113,11 +105,7 @@
         this._updateDonationLabel();
       },
       submitToJustGiving: function(amount) {
-        // get baseURL
-        // append username
-        // sppend donate
-        // add return URL
-        var jgURL = this.targetURL + '/' + this.getAttribute('yourJustGivingPageName') + '/donate/?amount=' + amount;
+        var jgURL = this.targetURL + '/' + this.getAttribute('yourJustGivingPageName') + '/donate/?amount=' + amount + '&exitUrl=' + this.appUrl;
         console.debug(jgURL);
       },
       editable: {
@@ -127,7 +115,7 @@
           postset: function(v) {
             this.querySelector("#jg_pagename").innerHTML = v;
           }
-        },        
+        },
         "donationAmountButtons": {
           type: "multiple",
           description: "Donation Amount Buttons",
@@ -161,7 +149,6 @@
           type: "boolean",
           description: "",
           postset: function(v){
-            var appForm = this.querySelector("#justgiving_donation_form");
             if (v === "true") {
               this.targetURL = 'http://v3-sandbox.justgiving.com';
             } else {
@@ -191,7 +178,7 @@
       setAmount: function (val) {
         val = Number(val);
         this.querySelector('h2 > span').innerHTML = '';
-        this.querySelector('h2 > span').appendChild(document.createTextNode(val));
+        this.querySelector('h2 > span').appendChild(document.createTextNode("£"+val));
         this.customAmount = val;
         this._updateDonationLabel();
       },
