@@ -109,6 +109,7 @@
         if (!options) return;
 
         options.forEach(function (value, index) {
+          if (!value) return;
           var item = document.createElement("button");
           item.setAttribute("value", value);
           item.innerHTML = value + " " + currency;
