@@ -49,14 +49,11 @@
         this.querySelector("input").value = this.checkAgainst;
 
         var checkOptions = this.querySelector("select");
-
         checkOptions.value = this.checkFor;
 
         checkOptions.onchange = function(e){
-          if (!e)
-          var e = window.event;
           that.checkFor = this.options[this.selectedIndex].value;
-          that.setAttribute("checkFor",that.checkFor);
+          that.setAttribute("checkFor", that.checkFor);
           that.fakeSave();
         }
       },
@@ -64,8 +61,8 @@
         this.setAttribute("countItem",this.getAttribute("countItem"));
       },
       checkTheNumber: function () {
-        that = this;
         var ok = false;
+        var that = this;
 
         switch (this.checkFor) {
           case 'greater':
@@ -87,10 +84,8 @@
             if(this.incomingNumber != this.checkAgainst){ ok = true; }
           break;
         }
-        if(this.incomingNumber == false){
-          ok = false;
-        }
-        if(ok == true){
+
+        if(ok === true) {
           this.indicator.setAttribute("light","good");
           this.broadcast('yes', this.incomingNumber);
         } else {
@@ -120,9 +115,21 @@
       broadcasts: ['yes', 'no'],
       defaultBroadcasts: ['yes'],
       listeners: {
-        checkNumber: function (listener,channel) {
-          this.incomingNumber = parseInt(listener) || false;
-          this.checkTheNumber();
+        checkNumber: function (listener, channel) {
+          var nr = parseInt(listener, 10);
+          if ($.isNumeric(nr)) {
+            this.incomingNumber = nr;
+            this.checkTheNumber();
+          }
+        },
+        inputNumber: function (listener, channel) {
+          var nr = parseInt(listener, 10);
+          if ($.isNumeric(nr)) {
+            this.querySelector("input").value = nr;
+            this.checkAgainst = nr;
+            this.setAttribute("checkAgainst", this.checkAgainst);
+            this.fakeSave();
+          }
         }
       }
     });
