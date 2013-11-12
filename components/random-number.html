@@ -1,0 +1,79 @@
+<element name="app-random-number">
+  <template>
+    <link rel="stylesheet" href="{{ASSET_HOST}}/assets/style/app-random-number.css">
+    <div class="random">
+      <span class="random-wrapper">Random: <span class="random-number">0</span></span>
+    </div>
+  </template>
+  <description>
+    Listens for calculates the random.
+  </description>
+  <thumbnail>
+    <img src="{{ASSET_HOST}}/assets/images/thumbnails/app-random-number.png" />
+  </thumbnail>
+
+  <script type="text/ceci">
+    Ceci(this, {
+      init: function (params) {
+        this.range = 100;
+        this.rand = 0;
+        this.isInteger = true;
+      },
+      updateDisplay: function () {
+        this.querySelector('.random-number').innerHTML = this.rand;
+        this.broadcast("randomValue", this.rand);
+      },
+      broadcasts: ["randomValue"],
+      defaultBroadcasts: ["randomValue"],
+      defaultListener: 'calculaterandom',
+      listeners: {
+        calculaterandom: function (listener, channel) {
+          this.rand = Math.random() * this.range;
+          if (this.isInteger == true || this.isInteger == "true") {
+            this.rand = Math.floor(this.rand);
+          }
+
+          this.updateDisplay();
+        },
+        resetrandom: function (value, channel) {
+          this.range = parseInt(value);
+          if (isNaN(this.range)) {
+            this.range = 100;
+            this.rand = 0;
+            this.isInteger = true;
+          }
+          this.updateDisplay();
+        }
+      },
+      editable: {
+          "Range": {
+              title: "Range",
+              min: 1,
+              type: "number",
+              description: "Return value range",
+              postset: function(v) {
+                  this.setRange(v);
+              }
+          },
+          "IsInteger": {
+              title: "IsInteger",
+              type: "boolean",
+              description: "Return value type",
+              postset: function(v) {
+                  this.setIsInteger(v);
+              }
+          }
+      },
+      setRange: function(v) {
+          if (this.isInteger == true) {
+              this.range = parseInt(v);
+          } else {
+              this.range = parseFloat(v);
+          }
+      },
+      setIsInteger: function(v) {
+          this.isInteger = v;
+      },
+    });
+  </script>
+</element>
