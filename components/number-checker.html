@@ -29,87 +29,77 @@
   <script type="text/ceci">
     Ceci(this, {
       init: function (params) {
+        var that = this;
+        var inputField = this.querySelector("input");
+        var selectField = this.querySelector("select");
+
         this.setAttribute("checkAgainst", this.getAttribute("checkAgainst") || 5);
         this.setAttribute("checkFor", this.getAttribute("checkFor") || "greater");
 
-        this.count = 0;
-        this.incomingNumber;
-        this.checkAgainst = this.getAttribute("checkAgainst");
+        this.incomingNumber = 0;
         this.checkFor = this.getAttribute("checkFor");
+        this.checkAgainst = this.getAttribute("checkAgainst");
         this.indicator = this.querySelector(".check-indicator");
 
-        var that = this;
-
-        this.querySelector("input").onchange = function(e){
+        inputField.onchange = function(e) {
           that.checkAgainst = e.target.value;
           that.setAttribute("checkAgainst", that.checkAgainst);
-          that.fakeSave();
-        }
+        };
 
-        this.querySelector("input").value = this.checkAgainst;
+        inputField.value = this.checkAgainst;
+        selectField.value = this.checkFor;
 
-        var checkOptions = this.querySelector("select");
-        checkOptions.value = this.checkFor;
-
-        checkOptions.onchange = function(e){
+        selectField.onchange = function(e) {
           that.checkFor = this.options[this.selectedIndex].value;
           that.setAttribute("checkFor", that.checkFor);
-          that.fakeSave();
-        }
+        };
       },
-      fakeSave : function() {
-        this.setAttribute("countItem",this.getAttribute("countItem"));
-      },
+
       checkTheNumber: function () {
         var ok = false;
         var that = this;
+        var checkLight = this.querySelector(".check-light");
 
         switch (this.checkFor) {
           case 'greater':
-            if(this.incomingNumber > this.checkAgainst){ ok = true; }
+            if (this.incomingNumber > this.checkAgainst) { ok = true; }
           break;
           case 'greaterEqual':
-            if(this.incomingNumber >= this.checkAgainst){ ok = true; }
+            if (this.incomingNumber >= this.checkAgainst) { ok = true; }
           break;
           case 'less':
-            if(this.incomingNumber < this.checkAgainst){ ok = true; }
+            if (this.incomingNumber < this.checkAgainst) { ok = true; }
           break;
           case 'lessEqual':
-            if(this.incomingNumber <= this.checkAgainst){ ok = true; }
+            if (this.incomingNumber <= this.checkAgainst) { ok = true; }
           break;
           case 'equal':
-            if(this.incomingNumber == this.checkAgainst){ ok = true; }
+            if (this.incomingNumber == this.checkAgainst) { ok = true; }
           break;
           case 'notEqual':
-            if(this.incomingNumber != this.checkAgainst){ ok = true; }
+            if (this.incomingNumber != this.checkAgainst) { ok = true; }
           break;
         }
 
         if(ok === true) {
-          this.indicator.setAttribute("light","good");
+          this.indicator.setAttribute("light", "good");
           this.broadcast('yes', this.incomingNumber);
         } else {
-          this.indicator.setAttribute("light","bad");
+          this.indicator.setAttribute("light", "bad");
           this.broadcast('no', this.incomingNumber);
         }
-        el = this.querySelector(".check-light");
-        el.classList.remove("check-strobe");
-        el.offsetWidth = el.offsetWidth;
-        el.addEventListener('webkitAnimationEnd', function(){
-          el.classList.remove("check-strobe");
+
+        checkLight.classList.remove("check-strobe");
+        checkLight.offsetWidth = checkLight.offsetWidth;
+
+        checkLight.addEventListener('webkitAnimationEnd', function() {
+          checkLight.classList.remove("check-strobe");
         });
-        el.addEventListener('animationend', function(){
-          el.classList.remove("check-strobe");
+        checkLight.addEventListener('animationend', function() {
+          checkLight.classList.remove("check-strobe");
         });
-        el.classList.add("check-strobe");
-      },
-      editable: {
-        countItem: {
-          type: "text",
-          description: "Name for what you're counting",
-          postset: function(v) {
-          }
-        }
+
+        checkLight.classList.add("check-strobe");
       },
       defaultListener: 'checkNumber',
       broadcasts: ['yes', 'no'],
@@ -122,13 +112,12 @@
             this.checkTheNumber();
           }
         },
-        inputNumber: function (listener, channel) {
+        setNumber: function (listener, channel) {
           var nr = parseInt(listener, 10);
           if ($.isNumeric(nr)) {
             this.querySelector("input").value = nr;
             this.checkAgainst = nr;
             this.setAttribute("checkAgainst", this.checkAgainst);
-            this.fakeSave();
           }
         }
       }
